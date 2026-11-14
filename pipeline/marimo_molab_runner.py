@@ -27,7 +27,15 @@ def __():
     if not os.path.exists(REPO_DIR):
         subprocess.run(["git", "clone", REPO_URL, REPO_DIR], check=True)
     else:
-        subprocess.run(["git", "-C", REPO_DIR, "pull"], check=True)
+        # Try to pull; if it fails (e.g. dirty state, bad remote, partial clone),
+        # wipe and re-clone from scratch.
+        _pull = subprocess.run(
+            ["git", "-C", REPO_DIR, "pull"],
+            capture_output=True, text=True,
+        )
+        if _pull.returncode != 0:
+            shutil.rmtree(REPO_DIR, ignore_errors=True)
+            subprocess.run(["git", "clone", REPO_URL, REPO_DIR], check=True)
 
     # 2. Add repo to Python path so we can import `pipeline.*` directly
     if os.path.abspath(REPO_DIR) not in sys.path:

@@ -81,11 +81,13 @@ class PrithviMorphologyExtractor:
                 def forward(self, x):
                     return self.stem(x)
 
-            self.model = MultiSpectralEncoder().to(self.device)
+            self.model = MultiSpectralEncoder()
+            # If on CUDA and bfloat16 is supported, convert all model parameters to bfloat16
+            target_dtype = torch.bfloat16 if (self.device == "cuda" and torch.cuda.is_bf16_supported()) else torch.float32
+            self.model = self.model.to(device=self.device, dtype=target_dtype)
             self.model.eval()
-        except Exception:
-            self.model = None
-        except Exception:
+        except Exception as e:
+            print(f"[GPU] MultiSpectralEncoder initialization error: {e}")
             self.model = None
 
     def extract_from_tensor(self, tensor_6band: np.ndarray) -> List[float]:
@@ -93,8 +95,9 @@ class PrithviMorphologyExtractor:
         if not HAS_TORCH or self.model is None:
             return generate_fast_morphology_embedding({"mean_slope_deg": 12.0, "terrain_ruggedness_tri": 35.0})
         
-        dtype = torch.bfloat16 if self.device == "cuda" else torch.float32
-        inp = torch.from_numpy(tensor_6band).unsqueeze(0).to(self.device, dtype=dtype)
+        # Dynamically match input tensor dtype to the exact dtype of model parameters
+        model_dtype = next(self.model.parameters()).dtype
+        inp = torch.from_numpy(tensor_6band).unsqueeze(0).to(device=self.device, dtype=model_dtype)
         with torch.no_grad():
             emb = self.model(inp).cpu().float().numpy().flatten()
             norm = np.linalg.norm(emb) + 1e-8

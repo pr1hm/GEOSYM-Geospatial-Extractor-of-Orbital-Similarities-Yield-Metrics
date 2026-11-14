@@ -23,3 +23,4 @@ We refactored `pipeline/export_artifacts.py` and `pipeline/marimo_molab_runner.p
 Artifacts now carry `"pipeline_mode": "live_stac_gpu"` and `"data_source": "Microsoft_Planetary_Computer_Live_COG"`. Downloading the zip in Cell 3 gives you the exact satellite measurements and GPU-calculated embeddings ready to power our client-side Next.js web application.
 
 Onward to the stars! 🛰️🌕🔴
+

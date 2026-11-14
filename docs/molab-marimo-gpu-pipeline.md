@@ -46,3 +46,9 @@ The TAVME Molab Marimo pipeline runs on cloud workstations powered by the NVIDIA
 4. **Cell 4 - Interactive Data Explorer & Real-Time Planetary Matcher:**
    - Renders a live `mo.ui.table` displaying site names, country, live data source, slope, TRI, SAR roughness, and assigned cluster.
    - Computes real-time Cosine Similarity between primary target (e.g. Moon Shackleton Rim) and all 63 Earth sites, displaying the Top 5 Terrestrial Analogs directly inside the Marimo notebook.
+
+## 4. Hardware Precision & BFloat16 Coexistence
+On Blackwell server architecture (`NVIDIA RTX PRO 6000 Blackwell Server Edition`), tensor cores utilize native `torch.bfloat16`. 
+`PrithviMorphologyExtractor` casts all weights, biases, and running parameters to `target_dtype = torch.bfloat16 if (cuda and is_bf16_supported) else torch.float32`. Input tensors dynamically match `next(self.model.parameters()).dtype`, guaranteeing full precision synchronization without `RuntimeError: Input type (c10::BFloat16) and bias type (float) should be the same`.
+
+
