@@ -74,3 +74,14 @@ Powered by `llama-3.3-70b-versatile` with `response_format: { type: "json_object
   - Atmospheric pressure ($1.013\text{ bar}$ Earth vs $10^{-15}\text{ bar}$ Moon / $0.006\text{ bar}$ Mars) and lack of moisture-induced soil cohesion.
 - Outlines a 3-Phase verification campaign with sensor telemetry payloads.
 
+---
+
+## 6. End-to-End Smoke Test & Diagnostic Suite (`pipeline/smoke_test.py`)
+Provides automated sequential validation across:
+1. **STAC & Asset Resolution:** Queries `esa-worldcover`, `cop-dem-glo-30`, `sentinel-1-rtc`/`sentinel-1-grd`, `modis-21A2-061`/`modis-11A2-061`, and `hls2-s30`/`hls2-l30`.
+2. **Windowed Raster Ingestion:** Validates live COG streaming from Azure Blob via `rasterio` and calculates finite slope and TRI metrics.
+3. **Hardware Profile & Morphology Embeddings:** Verifies PyTorch multi-spectral architecture (CPU & CUDA) yielding 64-dimensional latent representations.
+4. **Seed Artifact Generation:** Verifies `planetary_targets.json`, `earth_analogs.json`, and `tiles.geojson` schema contracts and bounds.
+5. **Live Groq LLM API Integration:** Confirms structured JSON completions with required subsystem test protocols and breakdown analyses.
+
+

@@ -14,6 +14,11 @@ import os
 import sys
 import json
 import argparse
+import warnings
+
+# Silence Windows joblib Loky CPU detection warning
+os.environ.setdefault("LOKY_MAX_CPU_COUNT", str(os.cpu_count() or 4))
+warnings.filterwarnings("ignore", category=UserWarning, module="joblib")
 from typing import Dict, Any, List
 
 from .config_sites import get_all_earth_sites

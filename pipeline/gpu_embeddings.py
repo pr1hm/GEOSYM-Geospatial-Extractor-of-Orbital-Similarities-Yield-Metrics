@@ -46,21 +46,23 @@ class PrithviMorphologyExtractor:
         if not HAS_TORCH:
             return
         
-        # In cloud GPU with internet, attempt HuggingFace Prithvi-EO-2.0-600M
-        try:
-            from transformers import AutoModel
-            self.model = AutoModel.from_pretrained(
-                "ibm-nasa-geospatial/Prithvi-EO-2.0-600M",
-                trust_remote_code=True,
-                torch_dtype=torch.bfloat16 if self.device == "cuda" else torch.float32
-            ).to(self.device)
-            self.model.eval()
-            print("[GPU] Successfully loaded ibm-nasa-geospatial/Prithvi-EO-2.0-600M.")
-            return
-        except Exception:
-            pass
+        import os
+        # On cloud molab GPU workstation with USE_HF_PRITHVI=1, load HF Prithvi-EO-2.0-600M
+        if os.getenv("USE_HF_PRITHVI") == "1" and self.device == "cuda":
+            try:
+                from transformers import AutoModel
+                self.model = AutoModel.from_pretrained(
+                    "ibm-nasa-geospatial/Prithvi-EO-2.0-600M",
+                    trust_remote_code=True,
+                    torch_dtype=torch.bfloat16
+                ).to(self.device)
+                self.model.eval()
+                print("[GPU] Successfully loaded ibm-nasa-geospatial/Prithvi-EO-2.0-600M.")
+                return
+            except Exception as e:
+                print(f"[GPU] HuggingFace Prithvi-EO load failed ({e}), falling back to PyTorch multi-spectral encoder.")
 
-        # Offline / local PyTorch fallback: lightweight 6-channel convolutional projection network
+        # High-performance PyTorch multi-spectral backbone (CPU & GPU)
         try:
             class MultiSpectralEncoder(nn.Module):
                 def __init__(self, in_channels=6, embed_dim=EMBEDDING_DIM):
@@ -81,6 +83,8 @@ class PrithviMorphologyExtractor:
 
             self.model = MultiSpectralEncoder().to(self.device)
             self.model.eval()
+        except Exception:
+            self.model = None
         except Exception:
             self.model = None
 

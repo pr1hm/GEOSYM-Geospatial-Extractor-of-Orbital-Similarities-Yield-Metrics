@@ -38,6 +38,7 @@ In `src/app/api/mission-brief/route.ts`, we feed the exact numerical delta score
 - `public/data/`: `planetary_targets.json` (31 KB), `earth_analogs.json` (191 KB), `tiles.geojson` (95 KB).
 - `src/`: Next.js 14 App Router dashboard with space-grade monochromatic UI, dual map telemetry, 8-axis delta progress bars, and Groq mission synthesizer.
 - Build status: Clean `next build` with zero errors, total first-load JS under 99 kB.
+- End-to-End Diagnostic Suite: Shipped `pipeline/smoke_test.py` with 5-out-of-5 sequential checks passing cleanly (`[PASS]` across STAC, COG streaming, hardware embeddings, JSON contracts, and live Groq LLM integration).
 
 Now go fire up `pnpm dev`, pick Shackleton Crater Rim or Jezero Crater, and find your next planetary testing ground! 🌕🔴🌍
 

@@ -28,47 +28,60 @@ export async function POST(req: NextRequest) {
 
     const prompt = buildMissionBriefPrompt(target, result);
 
-    const groqResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${groqApiKey}`,
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        messages: [
-          {
-            role: "system",
-            content: "You are a Principal NASA Systems Engineer specializing in planetary surface exploration, analog field trials, and TRL advancement. Always respond with strict, valid JSON matching the requested schema."
-          },
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
-        response_format: { type: "json_object" },
-        temperature: 0.3,
-        max_tokens: 2048,
-      }),
-    });
+    const modelsToTry = ["llama-3.3-70b-versatile", "qwen/qwen3.8-27b", "openai/gpt-oss-120b"];
+    let successfulContent: string | null = null;
+    let modelUsed = "";
 
-    if (!groqResponse.ok) {
-      const errText = await groqResponse.text();
-      console.warn("Groq API returned error status:", groqResponse.status, errText);
+    for (const model of modelsToTry) {
+      try {
+        const groqResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${groqApiKey}`,
+          },
+          body: JSON.stringify({
+            model: model,
+            messages: [
+              {
+                role: "system",
+                content: "You are a Principal NASA Systems Engineer specializing in planetary surface exploration, analog field trials, and TRL advancement. Always respond with strict, valid JSON matching the requested schema."
+              },
+              {
+                role: "user",
+                content: prompt,
+              },
+            ],
+            response_format: { type: "json_object" },
+            temperature: 0.3,
+            max_tokens: 2048,
+          }),
+        });
+
+        if (groqResponse.ok) {
+          const completion = await groqResponse.json();
+          successfulContent = completion.choices?.[0]?.message?.content;
+          modelUsed = model;
+          break;
+        }
+      } catch (e) {
+        // Continue to fallback model
+      }
+    }
+
+    if (!successfulContent) {
       const fallbackBrief = generateSynthesizedFallbackBrief(target, result);
       return NextResponse.json({
         source: "synthesized_fallback",
-        note: `Groq upstream error (${groqResponse.status}). Used deterministic NASA protocol engine.`,
+        note: `Groq upstream models unavailable. Used deterministic NASA protocol engine.`,
         brief: fallbackBrief,
       });
     }
 
-    const completion = await groqResponse.json();
-    const content = completion.choices?.[0]?.message?.content;
-    const parsedBrief: MissionBriefResponse = JSON.parse(content);
+    const parsedBrief: MissionBriefResponse = JSON.parse(successfulContent);
 
     return NextResponse.json({
-      source: "groq_llama_3.3_70b",
+      source: `groq_${modelUsed}`,
       brief: parsedBrief,
     });
   } catch (err: any) {
