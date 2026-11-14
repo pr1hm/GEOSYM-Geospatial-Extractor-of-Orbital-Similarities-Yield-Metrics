@@ -1,1 +1,28 @@
+# Environment variables
 .env
+.env*.local
+
+# Node.js
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+temp-tests/
+
+# OS and Editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

@@ -1,0 +1,3288 @@
+{
+  "type": "FeatureCollection",
+  "name": "EarthPlanetaryAnalogTiles",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -89.75923,
+              75.35748
+            ],
+            [
+              -89.58077,
+              75.35748
+            ],
+            [
+              -89.58077,
+              75.40252
+            ],
+            [
+              -89.75923,
+              75.40252
+            ],
+            [
+              -89.75923,
+              75.35748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_haughton_crater",
+        "name": "Haughton Impact Crater",
+        "region_country": "Devon Island, Nunavut, Canada",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars & Moon Impact Craters",
+        "elevation_m": 220.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N75_00_W090_00_DEM",
+        "mean_slope_deg": 14.2,
+        "terrain_ruggedness_tri": 42.5,
+        "sar_roughness_db": -9.8,
+        "sar_depolarization_ratio": 0.35,
+        "diurnal_delta_t_c": 16.5,
+        "min_temp_c": -42.0,
+        "iron_oxide_index": 1.48,
+        "basalt_mafic_index": 1.65,
+        "center_lon": -89.67,
+        "center_lat": 75.38
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -70.03467,
+              -24.10252
+            ],
+            [
+              -69.98533,
+              -24.10252
+            ],
+            [
+              -69.98533,
+              -24.05748
+            ],
+            [
+              -70.03467,
+              -24.05748
+            ],
+            [
+              -70.03467,
+              -24.10252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_atacama_yungay",
+        "name": "Atacama Desert (Yungay Hyper-Arid Core)",
+        "region_country": "Antofagasta, Chile",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars Desiccated Regolith",
+        "elevation_m": 960.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S25_00_W071_00_DEM",
+        "mean_slope_deg": 6.8,
+        "terrain_ruggedness_tri": 21.0,
+        "sar_roughness_db": -16.2,
+        "sar_depolarization_ratio": 0.18,
+        "diurnal_delta_t_c": 46.5,
+        "min_temp_c": 2.0,
+        "iron_oxide_index": 2.38,
+        "basalt_mafic_index": 1.85,
+        "center_lon": -70.01,
+        "center_lat": -24.08
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              160.64299,
+              -77.87252
+            ],
+            [
+              160.85701,
+              -77.87252
+            ],
+            [
+              160.85701,
+              -77.82748
+            ],
+            [
+              160.64299,
+              -77.82748
+            ],
+            [
+              160.64299,
+              -77.87252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_mcmurdo_dry_valleys",
+        "name": "McMurdo Dry Valleys (University Valley)",
+        "region_country": "Victoria Land, Antarctica",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars Ice-Cemented Permafrost & Moon PSRs",
+        "elevation_m": 1650.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S78_00_E160_00_DEM",
+        "mean_slope_deg": 22.4,
+        "terrain_ruggedness_tri": 68.0,
+        "sar_roughness_db": -8.5,
+        "sar_depolarization_ratio": 0.41,
+        "diurnal_delta_t_c": 24.0,
+        "min_temp_c": -52.0,
+        "iron_oxide_index": 1.55,
+        "basalt_mafic_index": 2.45,
+        "center_lon": 160.75,
+        "center_lat": -77.85
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -16.80335,
+              65.00748
+            ],
+            [
+              -16.69665,
+              65.00748
+            ],
+            [
+              -16.69665,
+              65.05252
+            ],
+            [
+              -16.80335,
+              65.05252
+            ],
+            [
+              -16.80335,
+              65.00748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_askja_volcano",
+        "name": "Askja Caldera & \u00d3d\u00e1\u00f0ahraun Lava Field",
+        "region_country": "Central Highlands, Iceland",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Moon & Mars Basaltic Volcanism",
+        "elevation_m": 1100.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N65_00_W017_00_DEM",
+        "mean_slope_deg": 16.5,
+        "terrain_ruggedness_tri": 55.0,
+        "sar_roughness_db": -6.2,
+        "sar_depolarization_ratio": 0.49,
+        "diurnal_delta_t_c": 19.5,
+        "min_temp_c": -28.0,
+        "iron_oxide_index": 1.42,
+        "basalt_mafic_index": 3.35,
+        "center_lon": -16.75,
+        "center_lat": 65.03
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -155.22387,
+              19.34748
+            ],
+            [
+              -155.17613,
+              19.34748
+            ],
+            [
+              -155.17613,
+              19.39252
+            ],
+            [
+              -155.22387,
+              19.39252
+            ],
+            [
+              -155.22387,
+              19.34748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_kilauea_hawaii",
+        "name": "Kilauea & Mauna Ulu Lava Fields",
+        "region_country": "Hawaii, USA",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Moon Mare Basalts & Mars Volcanic Plains",
+        "elevation_m": 1050.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N19_00_W156_00_DEM",
+        "mean_slope_deg": 11.2,
+        "terrain_ruggedness_tri": 48.0,
+        "sar_roughness_db": -5.1,
+        "sar_depolarization_ratio": 0.54,
+        "diurnal_delta_t_c": 18.0,
+        "min_temp_c": 4.0,
+        "iron_oxide_index": 1.35,
+        "basalt_mafic_index": 3.2,
+        "center_lon": -155.2,
+        "center_lat": 19.37
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -121.54017,
+              41.68748
+            ],
+            [
+              -121.47983,
+              41.68748
+            ],
+            [
+              -121.47983,
+              41.73252
+            ],
+            [
+              -121.54017,
+              41.73252
+            ],
+            [
+              -121.54017,
+              41.68748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_lava_beds_monument",
+        "name": "Lava Beds National Monument",
+        "region_country": "California, USA",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Moon Marius Hills & Mars Lava Tubes",
+        "elevation_m": 1340.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N41_00_W122_00_DEM",
+        "mean_slope_deg": 13.8,
+        "terrain_ruggedness_tri": 44.0,
+        "sar_roughness_db": -7.8,
+        "sar_depolarization_ratio": 0.44,
+        "diurnal_delta_t_c": 32.0,
+        "min_temp_c": -12.0,
+        "iron_oxide_index": 1.4,
+        "basalt_mafic_index": 2.9,
+        "center_lon": -121.51,
+        "center_lat": 41.71
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -114.06987,
+              41.02748
+            ],
+            [
+              -114.01013,
+              41.02748
+            ],
+            [
+              -114.01013,
+              41.07252
+            ],
+            [
+              -114.06987,
+              41.07252
+            ],
+            [
+              -114.06987,
+              41.02748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_pilot_valley",
+        "name": "Pilot Valley Playa",
+        "region_country": "Utah / Nevada border, USA",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars Lacustrine Evaporites & Mudstones",
+        "elevation_m": 1290.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N41_00_W115_00_DEM",
+        "mean_slope_deg": 2.1,
+        "terrain_ruggedness_tri": 12.0,
+        "sar_roughness_db": -18.5,
+        "sar_depolarization_ratio": 0.15,
+        "diurnal_delta_t_c": 38.0,
+        "min_temp_c": -18.0,
+        "iron_oxide_index": 1.72,
+        "basalt_mafic_index": 1.45,
+        "center_lon": -114.04,
+        "center_lat": 41.05
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -111.04751,
+              35.00748
+            ],
+            [
+              -110.99249,
+              35.00748
+            ],
+            [
+              -110.99249,
+              35.05252
+            ],
+            [
+              -111.04751,
+              35.05252
+            ],
+            [
+              -111.04751,
+              35.00748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_meteor_crater",
+        "name": "Barringer Meteor Crater",
+        "region_country": "Arizona, USA",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Moon & Mars Simple Impact Craters",
+        "elevation_m": 1740.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N35_00_W112_00_DEM",
+        "mean_slope_deg": 19.0,
+        "terrain_ruggedness_tri": 58.0,
+        "sar_roughness_db": -8.1,
+        "sar_depolarization_ratio": 0.39,
+        "diurnal_delta_t_c": 36.5,
+        "min_temp_c": -10.0,
+        "iron_oxide_index": 1.88,
+        "basalt_mafic_index": 1.75,
+        "center_lon": -111.02,
+        "center_lat": 35.03
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              29.68159,
+              37.52748
+            ],
+            [
+              29.73841,
+              37.52748
+            ],
+            [
+              29.73841,
+              37.57252
+            ],
+            [
+              29.68159,
+              37.57252
+            ],
+            [
+              29.68159,
+              37.52748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_lake_salda",
+        "name": "Lake Salda Hydromagnesite Shoreline",
+        "region_country": "Burdur, Turkey",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars Jezero Crater Carbonates",
+        "elevation_m": 1160.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N37_00_E029_00_DEM",
+        "mean_slope_deg": 8.5,
+        "terrain_ruggedness_tri": 28.0,
+        "sar_roughness_db": -13.2,
+        "sar_depolarization_ratio": 0.26,
+        "diurnal_delta_t_c": 28.0,
+        "min_temp_c": -8.0,
+        "iron_oxide_index": 1.6,
+        "basalt_mafic_index": 2.25,
+        "center_lon": 29.71,
+        "center_lat": 37.55
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -6.58846,
+              37.66748
+            ],
+            [
+              -6.53154,
+              37.66748
+            ],
+            [
+              -6.53154,
+              37.71252
+            ],
+            [
+              -6.58846,
+              37.71252
+            ],
+            [
+              -6.58846,
+              37.66748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_rio_tinto",
+        "name": "Rio Tinto Acidic Iron-Sulfate River",
+        "region_country": "Andalusia, Spain",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars Meridiani Planum Jarosite & Hematite",
+        "elevation_m": 330.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N37_00_W007_00_DEM",
+        "mean_slope_deg": 10.4,
+        "terrain_ruggedness_tri": 34.0,
+        "sar_roughness_db": -11.5,
+        "sar_depolarization_ratio": 0.31,
+        "diurnal_delta_t_c": 25.5,
+        "min_temp_c": 1.0,
+        "iron_oxide_index": 2.65,
+        "basalt_mafic_index": 1.95,
+        "center_lon": -6.56,
+        "center_lat": 37.69
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.48604,
+              19.94748
+            ],
+            [
+              76.53396,
+              19.94748
+            ],
+            [
+              76.53396,
+              19.99252
+            ],
+            [
+              76.48604,
+              19.99252
+            ],
+            [
+              76.48604,
+              19.94748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_lonar_crater",
+        "name": "Lonar Impact Crater in Deccan Basalt",
+        "region_country": "Buldhana, Maharashtra, India",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Moon & Mars Basaltic Impact Structures",
+        "elevation_m": 560.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N19_00_E076_00_DEM",
+        "mean_slope_deg": 16.8,
+        "terrain_ruggedness_tri": 52.0,
+        "sar_roughness_db": -7.5,
+        "sar_depolarization_ratio": 0.45,
+        "diurnal_delta_t_c": 29.0,
+        "min_temp_c": 9.0,
+        "iron_oxide_index": 1.92,
+        "basalt_mafic_index": 3.1,
+        "center_lon": 76.51,
+        "center_lat": 19.97
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.97305,
+              33.28748
+            ],
+            [
+              78.02695,
+              33.28748
+            ],
+            [
+              78.02695,
+              33.33252
+            ],
+            [
+              77.97305,
+              33.33252
+            ],
+            [
+              77.97305,
+              33.28748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_tso_kar_basin",
+        "name": "Tso Kar Permafrost & Salt Basin",
+        "region_country": "Ladakh, India",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars High-Altitude Cryo-Evaporitic Plains",
+        "elevation_m": 4530.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N33_00_E078_00_DEM",
+        "mean_slope_deg": 9.8,
+        "terrain_ruggedness_tri": 33.0,
+        "sar_roughness_db": -14.0,
+        "sar_depolarization_ratio": 0.28,
+        "diurnal_delta_t_c": 34.0,
+        "min_temp_c": -35.0,
+        "iron_oxide_index": 1.8,
+        "basalt_mafic_index": 2.15,
+        "center_lon": 78.0,
+        "center_lat": 33.31
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              68.93543,
+              23.50748
+            ],
+            [
+              68.98457,
+              23.50748
+            ],
+            [
+              68.98457,
+              23.55252
+            ],
+            [
+              68.93543,
+              23.55252
+            ],
+            [
+              68.93543,
+              23.50748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_matanomadh_jarosite",
+        "name": "Matanomadh Jarosite & Alunite Beds",
+        "region_country": "Kutch, Gujarat, India",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars Mawrth Vallis & Meridiani Planum Sulfates",
+        "elevation_m": 85.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N23_00_E068_00_DEM",
+        "mean_slope_deg": 6.2,
+        "terrain_ruggedness_tri": 22.0,
+        "sar_roughness_db": -13.8,
+        "sar_depolarization_ratio": 0.25,
+        "diurnal_delta_t_c": 33.0,
+        "min_temp_c": 8.0,
+        "iron_oxide_index": 2.75,
+        "basalt_mafic_index": 2.3,
+        "center_lon": 68.96,
+        "center_lat": 23.53
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              40.27676,
+              14.21748
+            ],
+            [
+              40.32324,
+              14.21748
+            ],
+            [
+              40.32324,
+              14.26252
+            ],
+            [
+              40.27676,
+              14.26252
+            ],
+            [
+              40.27676,
+              14.21748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_danakil_depression",
+        "name": "Danakil Depression (Dallol Hydrothermal)",
+        "region_country": "Afar Region, Ethiopia",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars Hydrothermal & Poly-Extremophile Frontiers",
+        "elevation_m": -125.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N14_00_E040_00_DEM",
+        "mean_slope_deg": 7.4,
+        "terrain_ruggedness_tri": 26.0,
+        "sar_roughness_db": -12.1,
+        "sar_depolarization_ratio": 0.32,
+        "diurnal_delta_t_c": 44.0,
+        "min_temp_c": 22.0,
+        "iron_oxide_index": 2.82,
+        "basalt_mafic_index": 2.4,
+        "center_lon": 40.3,
+        "center_lat": 14.24
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              15.2552,
+              -24.77252
+            ],
+            [
+              15.3048,
+              -24.77252
+            ],
+            [
+              15.3048,
+              -24.72748
+            ],
+            [
+              15.2552,
+              -24.72748
+            ],
+            [
+              15.2552,
+              -24.77252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "known_namib_sand_sea",
+        "name": "Namib Sand Sea Linear Megadunes",
+        "region_country": "Namib-Naukluft, Namibia",
+        "is_known_nasa_analog": true,
+        "primary_analog_target": "Mars Aeolian Dune Fields & Titan Dunes",
+        "elevation_m": 450.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S25_00_E015_00_DEM",
+        "mean_slope_deg": 18.5,
+        "terrain_ruggedness_tri": 54.0,
+        "sar_roughness_db": -17.5,
+        "sar_depolarization_ratio": 0.17,
+        "diurnal_delta_t_c": 39.0,
+        "min_temp_c": 6.0,
+        "iron_oxide_index": 2.62,
+        "basalt_mafic_index": 1.4,
+        "center_lon": 15.28,
+        "center_lat": -24.75
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.00337,
+              32.22748
+            ],
+            [
+              78.05663,
+              32.22748
+            ],
+            [
+              78.05663,
+              32.27252
+            ],
+            [
+              78.00337,
+              32.27252
+            ],
+            [
+              78.00337,
+              32.22748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_spiti_cold_desert",
+        "name": "Spiti Valley High-Altitude Periglacial Shales",
+        "region_country": "Himachal Pradesh, India",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Mawrth Vallis & Periglacial Highlands",
+        "elevation_m": 3800.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N32_00_E078_00_DEM",
+        "mean_slope_deg": 28.5,
+        "terrain_ruggedness_tri": 82.0,
+        "sar_roughness_db": -7.2,
+        "sar_depolarization_ratio": 0.46,
+        "diurnal_delta_t_c": 31.0,
+        "min_temp_c": -29.0,
+        "iron_oxide_index": 2.15,
+        "basalt_mafic_index": 1.95,
+        "center_lon": 78.03,
+        "center_lat": 32.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              69.31545,
+              23.42748
+            ],
+            [
+              69.36455,
+              23.42748
+            ],
+            [
+              69.36455,
+              23.47252
+            ],
+            [
+              69.31545,
+              23.47252
+            ],
+            [
+              69.31545,
+              23.42748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_dhinodhar_basalt",
+        "name": "Dhinodhar Volcanic Basalt Plug",
+        "region_country": "Kutch, Gujarat, India",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Volcanic Cones & Mars Intrusive Plugs",
+        "elevation_m": 386.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N23_00_E069_00_DEM",
+        "mean_slope_deg": 22.0,
+        "terrain_ruggedness_tri": 64.0,
+        "sar_roughness_db": -6.8,
+        "sar_depolarization_ratio": 0.44,
+        "diurnal_delta_t_c": 35.0,
+        "min_temp_c": 7.0,
+        "iron_oxide_index": 1.95,
+        "basalt_mafic_index": 3.05,
+        "center_lon": 69.34,
+        "center_lat": 23.45
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.96587,
+              21.01748
+            ],
+            [
+              15.01413,
+              21.01748
+            ],
+            [
+              15.01413,
+              21.06252
+            ],
+            [
+              14.96587,
+              21.06252
+            ],
+            [
+              14.96587,
+              21.01748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_tibesti_tousside",
+        "name": "Pic Tousside & Trou au Natron Caldera",
+        "region_country": "Tibesti Mountains, Chad",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Aristarchus & Mars Tharsis Volcanoes",
+        "elevation_m": 3265.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N21_00_E014_00_DEM",
+        "mean_slope_deg": 31.0,
+        "terrain_ruggedness_tri": 88.0,
+        "sar_roughness_db": -6.1,
+        "sar_depolarization_ratio": 0.5,
+        "diurnal_delta_t_c": 41.0,
+        "min_temp_c": -8.0,
+        "iron_oxide_index": 1.85,
+        "basalt_mafic_index": 3.25,
+        "center_lon": 14.99,
+        "center_lat": 21.04
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              17.74517,
+              24.88748
+            ],
+            [
+              17.79483,
+              24.88748
+            ],
+            [
+              17.79483,
+              24.93252
+            ],
+            [
+              17.74517,
+              24.93252
+            ],
+            [
+              17.74517,
+              24.88748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_waw_an_namus",
+        "name": "Waw an Namus Basaltic Ash Caldera",
+        "region_country": "Fezzan, Central Sahara, Libya",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Aristarchus Plateau Pyroclastics",
+        "elevation_m": 547.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N24_00_E017_00_DEM",
+        "mean_slope_deg": 13.5,
+        "terrain_ruggedness_tri": 39.0,
+        "sar_roughness_db": -13.0,
+        "sar_depolarization_ratio": 0.31,
+        "diurnal_delta_t_c": 45.0,
+        "min_temp_c": 3.0,
+        "iron_oxide_index": 1.7,
+        "basalt_mafic_index": 3.3,
+        "center_lon": 17.77,
+        "center_lat": 24.91
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              59.07383,
+              30.57748
+            ],
+            [
+              59.12617,
+              30.57748
+            ],
+            [
+              59.12617,
+              30.62252
+            ],
+            [
+              59.07383,
+              30.62252
+            ],
+            [
+              59.07383,
+              30.57748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_lut_desert_kaluts",
+        "name": "Dasht-e Lut Mega-Yardangs (Kaluts)",
+        "region_country": "Kerman / Sistan, Iran",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Medusae Fossae Wind-Sculpted Yardangs",
+        "elevation_m": 240.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N30_00_E059_00_DEM",
+        "mean_slope_deg": 17.5,
+        "terrain_ruggedness_tri": 53.0,
+        "sar_roughness_db": -10.2,
+        "sar_depolarization_ratio": 0.37,
+        "diurnal_delta_t_c": 56.0,
+        "min_temp_c": -2.0,
+        "iron_oxide_index": 2.4,
+        "basalt_mafic_index": 1.65,
+        "center_lon": 59.1,
+        "center_lat": 30.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -67.77477,
+              -24.64252
+            ],
+            [
+              -67.72523,
+              -24.64252
+            ],
+            [
+              -67.72523,
+              -24.59748
+            ],
+            [
+              -67.77477,
+              -24.59748
+            ],
+            [
+              -67.77477,
+              -24.64252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_puna_atacama_arizaro",
+        "name": "Puna de Atacama (Salar de Arizaro Barren)",
+        "region_country": "Salta Province, Argentina",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Acidic Evaporites & Cono de Arita",
+        "elevation_m": 3500.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S24_00_W067_00_DEM",
+        "mean_slope_deg": 5.4,
+        "terrain_ruggedness_tri": 23.0,
+        "sar_roughness_db": -10.5,
+        "sar_depolarization_ratio": 0.36,
+        "diurnal_delta_t_c": 43.0,
+        "min_temp_c": -22.0,
+        "iron_oxide_index": 2.22,
+        "basalt_mafic_index": 2.35,
+        "center_lon": -67.75,
+        "center_lat": -24.62
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              39.92501,
+              25.65748
+            ],
+            [
+              39.97499,
+              25.65748
+            ],
+            [
+              39.97499,
+              25.70252
+            ],
+            [
+              39.92501,
+              25.70252
+            ],
+            [
+              39.92501,
+              25.65748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_harrat_khaybar",
+        "name": "Harrat Khaybar White Volcanoes",
+        "region_country": "Madinah Province, Saudi Arabia",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Compton-Belkovich & Mars Domes",
+        "elevation_m": 1750.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N25_00_E039_00_DEM",
+        "mean_slope_deg": 20.5,
+        "terrain_ruggedness_tri": 67.0,
+        "sar_roughness_db": -5.9,
+        "sar_depolarization_ratio": 0.51,
+        "diurnal_delta_t_c": 40.0,
+        "min_temp_c": -1.0,
+        "iron_oxide_index": 1.55,
+        "basalt_mafic_index": 3.1,
+        "center_lon": 39.95,
+        "center_lat": 25.68
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              5.60548,
+              23.25748
+            ],
+            [
+              5.65452,
+              23.25748
+            ],
+            [
+              5.65452,
+              23.30252
+            ],
+            [
+              5.60548,
+              23.30252
+            ],
+            [
+              5.60548,
+              23.25748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_hoggar_massif",
+        "name": "Hoggar Atakor Volcanic Plugs",
+        "region_country": "Tamanrasset, Algeria",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Central Peaks & Mars Volcanic Spires",
+        "elevation_m": 2918.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N23_00_E005_00_DEM",
+        "mean_slope_deg": 27.0,
+        "terrain_ruggedness_tri": 79.0,
+        "sar_roughness_db": -6.7,
+        "sar_depolarization_ratio": 0.47,
+        "diurnal_delta_t_c": 37.0,
+        "min_temp_c": -7.0,
+        "iron_oxide_index": 2.05,
+        "basalt_mafic_index": 2.7,
+        "center_lon": 5.63,
+        "center_lat": 23.28
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              53.24868,
+              43.99748
+            ],
+            [
+              53.31132,
+              43.99748
+            ],
+            [
+              53.31132,
+              44.04252
+            ],
+            [
+              53.24868,
+              44.04252
+            ],
+            [
+              53.24868,
+              43.99748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_mangystau_tuzbair",
+        "name": "Mangystau Plateau & Sor Tuzbair",
+        "region_country": "Mangystau, Kazakhstan",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Valles Marineris Escarpments",
+        "elevation_m": -20.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N44_00_E053_00_DEM",
+        "mean_slope_deg": 21.0,
+        "terrain_ruggedness_tri": 61.0,
+        "sar_roughness_db": -12.8,
+        "sar_depolarization_ratio": 0.3,
+        "diurnal_delta_t_c": 36.0,
+        "min_temp_c": -26.0,
+        "iron_oxide_index": 1.7,
+        "basalt_mafic_index": 1.5,
+        "center_lon": 53.28,
+        "center_lat": 44.02
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              118.49565,
+              -22.37252
+            ],
+            [
+              118.54435,
+              -22.37252
+            ],
+            [
+              118.54435,
+              -22.32748
+            ],
+            [
+              118.49565,
+              -22.32748
+            ],
+            [
+              118.49565,
+              -22.37252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_pilbara_iron",
+        "name": "Pilbara Craton Banded Iron Formations",
+        "region_country": "Western Australia",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Ancient Noachian Crust & Hematite",
+        "elevation_m": 580.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S22_00_E118_00_DEM",
+        "mean_slope_deg": 12.0,
+        "terrain_ruggedness_tri": 38.0,
+        "sar_roughness_db": -9.5,
+        "sar_depolarization_ratio": 0.38,
+        "diurnal_delta_t_c": 34.0,
+        "min_temp_c": 5.0,
+        "iron_oxide_index": 3.1,
+        "basalt_mafic_index": 2.2,
+        "center_lon": 118.52,
+        "center_lat": -22.35
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              78.82279,
+              34.09748
+            ],
+            [
+              78.87721,
+              34.09748
+            ],
+            [
+              78.87721,
+              34.14252
+            ],
+            [
+              78.82279,
+              34.14252
+            ],
+            [
+              78.82279,
+              34.09748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_changthang_desert",
+        "name": "Changthang Cold Desert Plateau",
+        "region_country": "Ladakh, India",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Arcadia Planitia Cryo-Permafrost",
+        "elevation_m": 4700.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N34_00_E078_00_DEM",
+        "mean_slope_deg": 4.5,
+        "terrain_ruggedness_tri": 18.0,
+        "sar_roughness_db": -15.1,
+        "sar_depolarization_ratio": 0.22,
+        "diurnal_delta_t_c": 35.0,
+        "min_temp_c": -38.0,
+        "iron_oxide_index": 1.85,
+        "basalt_mafic_index": 2.05,
+        "center_lon": 78.85,
+        "center_lat": 34.12
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -11.42414,
+              21.09748
+            ],
+            [
+              -11.37586,
+              21.09748
+            ],
+            [
+              -11.37586,
+              21.14252
+            ],
+            [
+              -11.42414,
+              21.14252
+            ],
+            [
+              -11.42414,
+              21.09748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_richat_structure",
+        "name": "Richat Structure (Eye of the Sahara)",
+        "region_country": "Ouadane, Mauritania",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon & Mars Concentric Uplift Domes",
+        "elevation_m": 410.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N21_00_W011_00_DEM",
+        "mean_slope_deg": 14.8,
+        "terrain_ruggedness_tri": 47.0,
+        "sar_roughness_db": -9.0,
+        "sar_depolarization_ratio": 0.39,
+        "diurnal_delta_t_c": 42.0,
+        "min_temp_c": 4.0,
+        "iron_oxide_index": 2.18,
+        "basalt_mafic_index": 2.1,
+        "center_lon": -11.4,
+        "center_lat": 21.12
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              35.85366,
+              31.22748
+            ],
+            [
+              35.90634,
+              31.22748
+            ],
+            [
+              35.90634,
+              31.27252
+            ],
+            [
+              35.85366,
+              31.27252
+            ],
+            [
+              35.85366,
+              31.22748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_al_lajjun_jordan",
+        "name": "Al-Lajjun Basaltic Plateau & Graben",
+        "region_country": "Karak Governorate, Jordan",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Mare Tranquillitatis Regolith",
+        "elevation_m": 720.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N31_00_E035_00_DEM",
+        "mean_slope_deg": 9.2,
+        "terrain_ruggedness_tri": 31.0,
+        "sar_roughness_db": -11.8,
+        "sar_depolarization_ratio": 0.33,
+        "diurnal_delta_t_c": 36.0,
+        "min_temp_c": -2.0,
+        "iron_oxide_index": 2.05,
+        "basalt_mafic_index": 3.0,
+        "center_lon": 35.88,
+        "center_lat": 31.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              93.62148,
+              37.82748
+            ],
+            [
+              93.67852,
+              37.82748
+            ],
+            [
+              93.67852,
+              37.87252
+            ],
+            [
+              93.62148,
+              37.87252
+            ],
+            [
+              93.62148,
+              37.82748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_qaidam_yardangs",
+        "name": "Qaidam Basin Yardangs & Saline Dunefield",
+        "region_country": "Qinghai, Tibet Plateau, China",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Medusae Fossae & Gale Crater Plains",
+        "elevation_m": 2750.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N37_00_E093_00_DEM",
+        "mean_slope_deg": 16.0,
+        "terrain_ruggedness_tri": 49.0,
+        "sar_roughness_db": -11.2,
+        "sar_depolarization_ratio": 0.35,
+        "diurnal_delta_t_c": 38.0,
+        "min_temp_c": -27.0,
+        "iron_oxide_index": 2.3,
+        "basalt_mafic_index": 1.8,
+        "center_lon": 93.65,
+        "center_lat": 37.85
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              34.83383,
+              30.58748
+            ],
+            [
+              34.88617,
+              30.58748
+            ],
+            [
+              34.88617,
+              30.63252
+            ],
+            [
+              34.83383,
+              30.63252
+            ],
+            [
+              34.83383,
+              30.58748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_makhtesh_ramon",
+        "name": "Makhtesh Ramon Erosion Cirque",
+        "region_country": "Negev Desert, Israel",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Valles Marineris Floor & Basalt Dykes",
+        "elevation_m": 500.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N30_00_E034_00_DEM",
+        "mean_slope_deg": 23.5,
+        "terrain_ruggedness_tri": 69.0,
+        "sar_roughness_db": -7.9,
+        "sar_depolarization_ratio": 0.43,
+        "diurnal_delta_t_c": 37.0,
+        "min_temp_c": 2.0,
+        "iron_oxide_index": 2.35,
+        "basalt_mafic_index": 2.65,
+        "center_lon": 34.86,
+        "center_lat": 30.61
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -13.75576,
+              28.99748
+            ],
+            [
+              -13.70424,
+              28.99748
+            ],
+            [
+              -13.70424,
+              29.04252
+            ],
+            [
+              -13.75576,
+              29.04252
+            ],
+            [
+              -13.75576,
+              28.99748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_timanfaya_lanzarote",
+        "name": "Timanfaya Volcanic Malpa\u00eds",
+        "region_country": "Lanzarote, Canary Islands, Spain",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Oceanus Procellarum & Mars Elysium",
+        "elevation_m": 350.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N29_00_W013_00_DEM",
+        "mean_slope_deg": 15.2,
+        "terrain_ruggedness_tri": 51.0,
+        "sar_roughness_db": -5.6,
+        "sar_depolarization_ratio": 0.52,
+        "diurnal_delta_t_c": 21.0,
+        "min_temp_c": 8.0,
+        "iron_oxide_index": 1.45,
+        "basalt_mafic_index": 3.35,
+        "center_lon": -13.73,
+        "center_lat": 29.02
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -113.59103,
+              43.43748
+            ],
+            [
+              -113.52897,
+              43.43748
+            ],
+            [
+              -113.52897,
+              43.48252
+            ],
+            [
+              -113.59103,
+              43.48252
+            ],
+            [
+              -113.59103,
+              43.43748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_craters_of_the_moon",
+        "name": "Craters of the Moon Great Rift Lava",
+        "region_country": "Idaho, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Marius Hills & Apollo 14/15 Basalts",
+        "elevation_m": 1790.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N43_00_W113_00_DEM",
+        "mean_slope_deg": 12.5,
+        "terrain_ruggedness_tri": 45.0,
+        "sar_roughness_db": -6.4,
+        "sar_depolarization_ratio": 0.48,
+        "diurnal_delta_t_c": 33.0,
+        "min_temp_c": -24.0,
+        "iron_oxide_index": 1.38,
+        "basalt_mafic_index": 3.2,
+        "center_lon": -113.56,
+        "center_lat": 43.46
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -116.84793,
+              36.22748
+            ],
+            [
+              -116.79207,
+              36.22748
+            ],
+            [
+              -116.79207,
+              36.27252
+            ],
+            [
+              -116.84793,
+              36.27252
+            ],
+            [
+              -116.84793,
+              36.22748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_death_valley_badwater",
+        "name": "Death Valley Badwater Salt Polygon Crust",
+        "region_country": "California, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Chloride & Halite Playa Deposits",
+        "elevation_m": -86.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N36_00_W116_00_DEM",
+        "mean_slope_deg": 2.8,
+        "terrain_ruggedness_tri": 14.0,
+        "sar_roughness_db": -12.4,
+        "sar_depolarization_ratio": 0.32,
+        "diurnal_delta_t_c": 47.0,
+        "min_temp_c": 4.0,
+        "iron_oxide_index": 1.95,
+        "basalt_mafic_index": 1.55,
+        "center_lon": -116.82,
+        "center_lat": 36.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -106.34679,
+              32.75748
+            ],
+            [
+              -106.29321,
+              32.75748
+            ],
+            [
+              -106.29321,
+              32.80252
+            ],
+            [
+              -106.34679,
+              32.80252
+            ],
+            [
+              -106.34679,
+              32.75748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_white_sands_gypsum",
+        "name": "White Sands Gypsum Dunefield",
+        "region_country": "New Mexico, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Olympia Undae Polar Gypsum Erg",
+        "elevation_m": 1218.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N32_00_W106_00_DEM",
+        "mean_slope_deg": 10.5,
+        "terrain_ruggedness_tri": 32.0,
+        "sar_roughness_db": -19.0,
+        "sar_depolarization_ratio": 0.14,
+        "diurnal_delta_t_c": 36.0,
+        "min_temp_c": -12.0,
+        "iron_oxide_index": 1.1,
+        "basalt_mafic_index": 1.3,
+        "center_lon": -106.32,
+        "center_lat": 32.78
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -67.50399,
+              -20.15252
+            ],
+            [
+              -67.45601,
+              -20.15252
+            ],
+            [
+              -67.45601,
+              -20.10748
+            ],
+            [
+              -67.50399,
+              -20.10748
+            ],
+            [
+              -67.50399,
+              -20.15252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_salar_uyuni",
+        "name": "Salar de Uyuni Lithium & Salt Crust",
+        "region_country": "Daniel Campos, Potos\u00ed, Bolivia",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Paleolake Salars & Satellite Calibration",
+        "elevation_m": 3656.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S20_00_W067_00_DEM",
+        "mean_slope_deg": 0.6,
+        "terrain_ruggedness_tri": 5.0,
+        "sar_roughness_db": -22.0,
+        "sar_depolarization_ratio": 0.08,
+        "diurnal_delta_t_c": 38.0,
+        "min_temp_c": -19.0,
+        "iron_oxide_index": 1.25,
+        "basalt_mafic_index": 1.2,
+        "center_lon": -67.48,
+        "center_lat": -20.13
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -17.30123,
+              63.89748
+            ],
+            [
+              -17.19877,
+              63.89748
+            ],
+            [
+              -17.19877,
+              63.94252
+            ],
+            [
+              -17.30123,
+              63.94252
+            ],
+            [
+              -17.30123,
+              63.89748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_skeidararsandur",
+        "name": "Skei\u00f0ar\u00e1rsandur Glacial Basalt Outwash",
+        "region_country": "South Region, Iceland",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Catastrophic Outflow Channels",
+        "elevation_m": 45.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N63_00_W017_00_DEM",
+        "mean_slope_deg": 3.2,
+        "terrain_ruggedness_tri": 14.0,
+        "sar_roughness_db": -16.5,
+        "sar_depolarization_ratio": 0.2,
+        "diurnal_delta_t_c": 14.0,
+        "min_temp_c": -16.0,
+        "iron_oxide_index": 1.35,
+        "basalt_mafic_index": 3.15,
+        "center_lon": -17.25,
+        "center_lat": 63.92
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -118.48056,
+              42.50748
+            ],
+            [
+              -118.41944,
+              42.50748
+            ],
+            [
+              -118.41944,
+              42.55252
+            ],
+            [
+              -118.48056,
+              42.55252
+            ],
+            [
+              -118.48056,
+              42.50748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_alvord_desert",
+        "name": "Alvord Desert Dry Bed Playa",
+        "region_country": "Harney County, Oregon, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Lacustrine Mud Flats",
+        "elevation_m": 1230.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N42_00_W118_00_DEM",
+        "mean_slope_deg": 1.2,
+        "terrain_ruggedness_tri": 8.0,
+        "sar_roughness_db": -20.2,
+        "sar_depolarization_ratio": 0.11,
+        "diurnal_delta_t_c": 39.0,
+        "min_temp_c": -19.0,
+        "iron_oxide_index": 1.8,
+        "basalt_mafic_index": 1.6,
+        "center_lon": -118.45,
+        "center_lat": 42.53
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.07977,
+              40.82748
+            ],
+            [
+              -119.02023,
+              40.82748
+            ],
+            [
+              -119.02023,
+              40.87252
+            ],
+            [
+              -119.07977,
+              40.87252
+            ],
+            [
+              -119.07977,
+              40.82748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_black_rock_desert",
+        "name": "Black Rock Desert Alkali Playa",
+        "region_country": "Nevada, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Basin Floors & Evaporitic Mud",
+        "elevation_m": 1190.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N40_00_W119_00_DEM",
+        "mean_slope_deg": 1.5,
+        "terrain_ruggedness_tri": 9.0,
+        "sar_roughness_db": -19.5,
+        "sar_depolarization_ratio": 0.12,
+        "diurnal_delta_t_c": 41.0,
+        "min_temp_c": -16.0,
+        "iron_oxide_index": 1.85,
+        "basalt_mafic_index": 1.55,
+        "center_lon": -119.05,
+        "center_lat": 40.85
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              137.47511,
+              -25.22252
+            ],
+            [
+              137.52489,
+              -25.22252
+            ],
+            [
+              137.52489,
+              -25.17748
+            ],
+            [
+              137.47511,
+              -25.17748
+            ],
+            [
+              137.47511,
+              -25.22252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_simpson_claypans",
+        "name": "Simpson Desert Iron Regolith & Dunes",
+        "region_country": "Northern Territory, Australia",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Red Regolith & Longitudinal Dunes",
+        "elevation_m": 90.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S25_00_E137_00_DEM",
+        "mean_slope_deg": 12.2,
+        "terrain_ruggedness_tri": 37.0,
+        "sar_roughness_db": -16.0,
+        "sar_depolarization_ratio": 0.21,
+        "diurnal_delta_t_c": 36.0,
+        "min_temp_c": 2.0,
+        "iron_oxide_index": 3.05,
+        "basalt_mafic_index": 1.65,
+        "center_lon": 137.5,
+        "center_lat": -25.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              137.3544,
+              -28.39252
+            ],
+            [
+              137.4056,
+              -28.39252
+            ],
+            [
+              137.4056,
+              -28.34748
+            ],
+            [
+              137.3544,
+              -28.34748
+            ],
+            [
+              137.3544,
+              -28.39252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_lake_eyre_playa",
+        "name": "Kati Thanda-Lake Eyre Endorheic Basin",
+        "region_country": "South Australia",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Paleolake Saline Basins",
+        "elevation_m": -15.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S28_00_E137_00_DEM",
+        "mean_slope_deg": 1.0,
+        "terrain_ruggedness_tri": 7.0,
+        "sar_roughness_db": -18.0,
+        "sar_depolarization_ratio": 0.16,
+        "diurnal_delta_t_c": 35.0,
+        "min_temp_c": 2.0,
+        "iron_oxide_index": 2.45,
+        "basalt_mafic_index": 1.5,
+        "center_lon": 137.38,
+        "center_lat": -28.37
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.31445,
+              -22.94252
+            ],
+            [
+              -68.26555,
+              -22.94252
+            ],
+            [
+              -68.26555,
+              -22.89748
+            ],
+            [
+              -68.31445,
+              -22.89748
+            ],
+            [
+              -68.31445,
+              -22.94252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_valle_de_la_luna",
+        "name": "Valle de la Luna (Valley of the Moon)",
+        "region_country": "San Pedro de Atacama, Chile",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars & Moon Folded Sedimentary Strata",
+        "elevation_m": 2550.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S22_00_W068_00_DEM",
+        "mean_slope_deg": 24.0,
+        "terrain_ruggedness_tri": 74.0,
+        "sar_roughness_db": -8.8,
+        "sar_depolarization_ratio": 0.4,
+        "diurnal_delta_t_c": 42.0,
+        "min_temp_c": -6.0,
+        "iron_oxide_index": 2.5,
+        "basalt_mafic_index": 1.75,
+        "center_lon": -68.29,
+        "center_lat": -22.92
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              102.32066,
+              39.82748
+            ],
+            [
+              102.37934,
+              39.82748
+            ],
+            [
+              102.37934,
+              39.87252
+            ],
+            [
+              102.32066,
+              39.87252
+            ],
+            [
+              102.32066,
+              39.82748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_badain_jaran_megadunes",
+        "name": "Badain Jaran Stationary Megadunes",
+        "region_country": "Inner Mongolia, China",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars High-Relief Aeolian Sand Seas",
+        "elevation_m": 1450.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N39_00_E102_00_DEM",
+        "mean_slope_deg": 27.5,
+        "terrain_ruggedness_tri": 78.0,
+        "sar_roughness_db": -15.8,
+        "sar_depolarization_ratio": 0.22,
+        "diurnal_delta_t_c": 39.0,
+        "min_temp_c": -23.0,
+        "iron_oxide_index": 2.1,
+        "basalt_mafic_index": 1.45,
+        "center_lon": 102.35,
+        "center_lat": 39.85
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              52.47595,
+              20.47748
+            ],
+            [
+              52.52405,
+              20.47748
+            ],
+            [
+              52.52405,
+              20.52252
+            ],
+            [
+              52.47595,
+              20.52252
+            ],
+            [
+              52.47595,
+              20.47748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_rub_al_khali",
+        "name": "Rub' al Khali (Empty Quarter Sand Seas)",
+        "region_country": "Oman / Saudi Arabia border",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Unbroken Sand Seas & Titan Dunes",
+        "elevation_m": 120.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N20_00_E052_00_DEM",
+        "mean_slope_deg": 19.5,
+        "terrain_ruggedness_tri": 56.0,
+        "sar_roughness_db": -16.8,
+        "sar_depolarization_ratio": 0.18,
+        "diurnal_delta_t_c": 44.0,
+        "min_temp_c": 3.0,
+        "iron_oxide_index": 2.58,
+        "basalt_mafic_index": 1.4,
+        "center_lon": 52.5,
+        "center_lat": 20.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              53.97267,
+              34.47748
+            ],
+            [
+              54.02733,
+              34.47748
+            ],
+            [
+              54.02733,
+              34.52252
+            ],
+            [
+              53.97267,
+              34.52252
+            ],
+            [
+              53.97267,
+              34.47748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_dasht_e_kavir",
+        "name": "Dasht-e Kavir Great Salt Desert",
+        "region_country": "Central Iranian Plateau, Iran",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Chloride Deposits & Evaporites",
+        "elevation_m": 780.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N34_00_E054_00_DEM",
+        "mean_slope_deg": 2.5,
+        "terrain_ruggedness_tri": 12.0,
+        "sar_roughness_db": -17.0,
+        "sar_depolarization_ratio": 0.2,
+        "diurnal_delta_t_c": 46.0,
+        "min_temp_c": -5.0,
+        "iron_oxide_index": 2.15,
+        "basalt_mafic_index": 1.65,
+        "center_lon": 54.0,
+        "center_lat": 34.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -4.2564,
+              31.40748
+            ],
+            [
+              -4.2036,
+              31.40748
+            ],
+            [
+              -4.2036,
+              31.45252
+            ],
+            [
+              -4.2564,
+              31.45252
+            ],
+            [
+              -4.2564,
+              31.40748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_erfoud_regolith",
+        "name": "Erfoud Desert Regolith & Devonian Beds",
+        "region_country": "Dr\u00e2a-Tafilalet, Morocco",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Stony Desert Pavements (Hamadas)",
+        "elevation_m": 800.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N31_00_W004_00_DEM",
+        "mean_slope_deg": 5.8,
+        "terrain_ruggedness_tri": 22.0,
+        "sar_roughness_db": -13.5,
+        "sar_depolarization_ratio": 0.27,
+        "diurnal_delta_t_c": 38.0,
+        "min_temp_c": -1.0,
+        "iron_oxide_index": 2.45,
+        "basalt_mafic_index": 1.9,
+        "center_lon": -4.23,
+        "center_lat": 31.43
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              143.05291,
+              -33.77252
+            ],
+            [
+              143.10709,
+              -33.77252
+            ],
+            [
+              143.10709,
+              -33.72748
+            ],
+            [
+              143.05291,
+              -33.72748
+            ],
+            [
+              143.05291,
+              -33.77252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_mungo_dry_lake",
+        "name": "Lake Mungo Pleistocene Lunette",
+        "region_country": "New South Wales, Australia",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Lacustrine Lunette Dunes & Clays",
+        "elevation_m": 70.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S33_00_E143_00_DEM",
+        "mean_slope_deg": 7.5,
+        "terrain_ruggedness_tri": 24.0,
+        "sar_roughness_db": -15.0,
+        "sar_depolarization_ratio": 0.23,
+        "diurnal_delta_t_c": 32.0,
+        "min_temp_c": 1.0,
+        "iron_oxide_index": 2.25,
+        "basalt_mafic_index": 1.55,
+        "center_lon": 143.08,
+        "center_lat": -33.75
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -45.37574,
+              60.47748
+            ],
+            [
+              -45.28426,
+              60.47748
+            ],
+            [
+              -45.28426,
+              60.52252
+            ],
+            [
+              -45.37574,
+              60.52252
+            ],
+            [
+              -45.37574,
+              60.47748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_uunartoq_barren",
+        "name": "Uunartoq Cold Periglacial Barren",
+        "region_country": "Kujalleq, South Greenland",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars North Polar Glacial Margins",
+        "elevation_m": 820.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N60_00_W045_00_DEM",
+        "mean_slope_deg": 25.0,
+        "terrain_ruggedness_tri": 75.0,
+        "sar_roughness_db": -7.5,
+        "sar_depolarization_ratio": 0.45,
+        "diurnal_delta_t_c": 12.0,
+        "min_temp_c": -32.0,
+        "iron_oxide_index": 1.3,
+        "basalt_mafic_index": 2.2,
+        "center_lon": -45.33,
+        "center_lat": 60.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -84.64094,
+              75.63748
+            ],
+            [
+              -84.45906,
+              75.63748
+            ],
+            [
+              -84.45906,
+              75.68252
+            ],
+            [
+              -84.64094,
+              75.68252
+            ],
+            [
+              -84.64094,
+              75.63748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_truelove_lowland",
+        "name": "Truelove Lowland Permafrost Terraces",
+        "region_country": "Devon Island, Nunavut, Canada",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars High-Latitude Periglacial Terraces",
+        "elevation_m": 15.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N75_00_W084_00_DEM",
+        "mean_slope_deg": 5.2,
+        "terrain_ruggedness_tri": 18.0,
+        "sar_roughness_db": -12.5,
+        "sar_depolarization_ratio": 0.3,
+        "diurnal_delta_t_c": 15.0,
+        "min_temp_c": -45.0,
+        "iron_oxide_index": 1.35,
+        "basalt_mafic_index": 1.7,
+        "center_lon": -84.55,
+        "center_lat": 75.66
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.87267,
+              79.39748
+            ],
+            [
+              -90.62733,
+              79.39748
+            ],
+            [
+              -90.62733,
+              79.44252
+            ],
+            [
+              -90.87267,
+              79.44252
+            ],
+            [
+              -90.87267,
+              79.39748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_axel_heiberg_diapirs",
+        "name": "Expedition Fjord Gypsum & Anhydrite Diapirs",
+        "region_country": "Axel Heiberg Island, Nunavut, Canada",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Cold Saline Springs & Gypsum Domes",
+        "elevation_m": 180.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N79_00_W090_00_DEM",
+        "mean_slope_deg": 22.0,
+        "terrain_ruggedness_tri": 66.0,
+        "sar_roughness_db": -9.1,
+        "sar_depolarization_ratio": 0.38,
+        "diurnal_delta_t_c": 18.0,
+        "min_temp_c": -48.0,
+        "iron_oxide_index": 1.4,
+        "basalt_mafic_index": 1.5,
+        "center_lon": -90.75,
+        "center_lat": 79.42
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.22699,
+              79.42748
+            ],
+            [
+              13.47301,
+              79.42748
+            ],
+            [
+              13.47301,
+              79.47252
+            ],
+            [
+              13.22699,
+              79.47252
+            ],
+            [
+              13.22699,
+              79.42748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_svalbard_ny_alesund",
+        "name": "Bockfjorden Volcanic Complex",
+        "region_country": "Spitsbergen, Svalbard, Norway",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Volcanic Carbonate Interaction",
+        "elevation_m": 520.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N79_00_E013_00_DEM",
+        "mean_slope_deg": 26.0,
+        "terrain_ruggedness_tri": 76.0,
+        "sar_roughness_db": -6.8,
+        "sar_depolarization_ratio": 0.47,
+        "diurnal_delta_t_c": 14.0,
+        "min_temp_c": -35.0,
+        "iron_oxide_index": 1.45,
+        "basalt_mafic_index": 3.2,
+        "center_lon": 13.35,
+        "center_lat": 79.45
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              112.92726,
+              -7.96252
+            ],
+            [
+              112.97274,
+              -7.96252
+            ],
+            [
+              112.97274,
+              -7.91748
+            ],
+            [
+              112.92726,
+              -7.91748
+            ],
+            [
+              112.92726,
+              -7.96252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_bromo_sand_sea",
+        "name": "Bromo Caldera Laut Pasir (Sand Sea)",
+        "region_country": "East Java, Indonesia",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon & Mars Fresh Volcanic Calderas",
+        "elevation_m": 2100.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S07_00_E112_00_DEM",
+        "mean_slope_deg": 8.0,
+        "terrain_ruggedness_tri": 27.0,
+        "sar_roughness_db": -14.2,
+        "sar_depolarization_ratio": 0.28,
+        "diurnal_delta_t_c": 22.0,
+        "min_temp_c": 2.0,
+        "iron_oxide_index": 1.5,
+        "basalt_mafic_index": 3.1,
+        "center_lon": 112.95,
+        "center_lat": -7.94
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -111.65769,
+              35.55748
+            ],
+            [
+              -111.60231,
+              35.55748
+            ],
+            [
+              -111.60231,
+              35.60252
+            ],
+            [
+              -111.65769,
+              35.60252
+            ],
+            [
+              -111.65769,
+              35.55748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_san_francisco_volcanic",
+        "name": "SP Crater & Black Basalt Lava Flow",
+        "region_country": "Arizona, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Cinder Cones & Mars Blocky Basalt",
+        "elevation_m": 2100.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N35_00_W111_00_DEM",
+        "mean_slope_deg": 24.5,
+        "terrain_ruggedness_tri": 73.0,
+        "sar_roughness_db": -4.8,
+        "sar_depolarization_ratio": 0.58,
+        "diurnal_delta_t_c": 35.0,
+        "min_temp_c": -15.0,
+        "iron_oxide_index": 1.52,
+        "basalt_mafic_index": 3.3,
+        "center_lon": -111.63,
+        "center_lat": 35.58
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -108.03749,
+              34.95748
+            ],
+            [
+              -107.98251,
+              34.95748
+            ],
+            [
+              -107.98251,
+              35.00252
+            ],
+            [
+              -108.03749,
+              35.00252
+            ],
+            [
+              -108.03749,
+              34.95748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_zuni_bandera",
+        "name": "Zuni-Bandera Lava Tube Caves",
+        "region_country": "New Mexico, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Marius Hills Subsurface Pits",
+        "elevation_m": 2350.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N34_00_W108_00_DEM",
+        "mean_slope_deg": 14.5,
+        "terrain_ruggedness_tri": 47.0,
+        "sar_roughness_db": -6.5,
+        "sar_depolarization_ratio": 0.49,
+        "diurnal_delta_t_c": 32.0,
+        "min_temp_c": -18.0,
+        "iron_oxide_index": 1.48,
+        "basalt_mafic_index": 3.15,
+        "center_lon": -108.01,
+        "center_lat": 34.98
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -105.9771,
+              33.75748
+            ],
+            [
+              -105.9229,
+              33.75748
+            ],
+            [
+              -105.9229,
+              33.80252
+            ],
+            [
+              -105.9771,
+              33.80252
+            ],
+            [
+              -105.9771,
+              33.75748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_carrizozo_malpais",
+        "name": "Carrizozo Malpais Basalt Flow",
+        "region_country": "Lincoln County, New Mexico, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Moon Mare Plains & Lava Rilles",
+        "elevation_m": 1500.0,
+        "cluster_id": 2,
+        "cluster_name": "Cryo-Periglacial Deserts",
+        "cluster_color": "#06b6d4",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N33_00_W105_00_DEM",
+        "mean_slope_deg": 8.4,
+        "terrain_ruggedness_tri": 29.0,
+        "sar_roughness_db": -6.9,
+        "sar_depolarization_ratio": 0.46,
+        "diurnal_delta_t_c": 36.0,
+        "min_temp_c": -10.0,
+        "iron_oxide_index": 1.44,
+        "basalt_mafic_index": 3.25,
+        "center_lon": -105.95,
+        "center_lat": 33.78
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -105.53848,
+              37.70748
+            ],
+            [
+              -105.48152,
+              37.70748
+            ],
+            [
+              -105.48152,
+              37.75252
+            ],
+            [
+              -105.53848,
+              37.75252
+            ],
+            [
+              -105.53848,
+              37.70748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_great_sand_dunes",
+        "name": "Great Sand Dunes Mountain-Trapped Erg",
+        "region_country": "Colorado, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Inter-Crater Sand Accumulations",
+        "elevation_m": 2500.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N37_00_W105_00_DEM",
+        "mean_slope_deg": 23.0,
+        "terrain_ruggedness_tri": 68.0,
+        "sar_roughness_db": -16.2,
+        "sar_depolarization_ratio": 0.19,
+        "diurnal_delta_t_c": 38.0,
+        "min_temp_c": -26.0,
+        "iron_oxide_index": 1.9,
+        "basalt_mafic_index": 1.7,
+        "center_lon": -105.51,
+        "center_lat": 37.73
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -67.07494,
+              -25.47252
+            ],
+            [
+              -67.02506,
+              -25.47252
+            ],
+            [
+              -67.02506,
+              -25.42748
+            ],
+            [
+              -67.07494,
+              -25.42748
+            ],
+            [
+              -67.07494,
+              -25.47252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_salar_hombre_muerto",
+        "name": "Salar del Hombre Muerto Halite Crust",
+        "region_country": "Catamarca, Argentina",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Paleolake Chlorides & Brines",
+        "elevation_m": 4000.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S25_00_W067_00_DEM",
+        "mean_slope_deg": 3.5,
+        "terrain_ruggedness_tri": 15.0,
+        "sar_roughness_db": -12.0,
+        "sar_depolarization_ratio": 0.31,
+        "diurnal_delta_t_c": 41.0,
+        "min_temp_c": -24.0,
+        "iron_oxide_index": 2.1,
+        "basalt_mafic_index": 2.0,
+        "center_lon": -67.05,
+        "center_lat": -25.45
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.17386,
+              -19.27252
+            ],
+            [
+              -68.12614,
+              -19.27252
+            ],
+            [
+              -68.12614,
+              -19.22748
+            ],
+            [
+              -68.17386,
+              -19.22748
+            ],
+            [
+              -68.17386,
+              -19.27252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_salar_coipasa",
+        "name": "Salar de Coipasa Gypsum & Volcanic Border",
+        "region_country": "Oruro Department, Bolivia",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Jezero/Gale Marginal Evaporites",
+        "elevation_m": 3680.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S19_00_W068_00_DEM",
+        "mean_slope_deg": 4.0,
+        "terrain_ruggedness_tri": 16.0,
+        "sar_roughness_db": -15.5,
+        "sar_depolarization_ratio": 0.24,
+        "diurnal_delta_t_c": 39.0,
+        "min_temp_c": -21.0,
+        "iron_oxide_index": 2.05,
+        "basalt_mafic_index": 2.2,
+        "center_lon": -68.15,
+        "center_lat": -19.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -67.80433,
+              -22.22252
+            ],
+            [
+              -67.75567,
+              -22.22252
+            ],
+            [
+              -67.75567,
+              -22.17748
+            ],
+            [
+              -67.80433,
+              -22.17748
+            ],
+            [
+              -67.80433,
+              -22.22252
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_laguna_colorada",
+        "name": "Laguna Colorada Borax & Extreme UV Basin",
+        "region_country": "Eduardo Avaroa Reserve, Bolivia",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Early Wet Evaporating Basins",
+        "elevation_m": 4278.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_S22_00_W067_00_DEM",
+        "mean_slope_deg": 6.0,
+        "terrain_ruggedness_tri": 21.0,
+        "sar_roughness_db": -14.5,
+        "sar_depolarization_ratio": 0.26,
+        "diurnal_delta_t_c": 40.0,
+        "min_temp_c": -25.0,
+        "iron_oxide_index": 2.65,
+        "basalt_mafic_index": 1.85,
+        "center_lon": -67.78,
+        "center_lat": -22.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -118.63046,
+              42.29748
+            ],
+            [
+              -118.56954,
+              42.29748
+            ],
+            [
+              -118.56954,
+              42.34252
+            ],
+            [
+              -118.63046,
+              42.34252
+            ],
+            [
+              -118.63046,
+              42.29748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_alvord_borax_lake",
+        "name": "Borax Lake Geothermal Mud Pots",
+        "region_country": "Oregon, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Subsurface Geothermal Vents",
+        "elevation_m": 1240.0,
+        "cluster_id": 4,
+        "cluster_name": "Evaporite & Sulfate Salt Flats",
+        "cluster_color": "#10b981",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N42_00_W118_00_DEM",
+        "mean_slope_deg": 4.2,
+        "terrain_ruggedness_tri": 16.0,
+        "sar_roughness_db": -16.2,
+        "sar_depolarization_ratio": 0.21,
+        "diurnal_delta_t_c": 37.0,
+        "min_temp_c": -17.0,
+        "iron_oxide_index": 1.95,
+        "basalt_mafic_index": 1.75,
+        "center_lon": -118.6,
+        "center_lat": 42.32
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -108.25793,
+              36.23748
+            ],
+            [
+              -108.20207,
+              36.23748
+            ],
+            [
+              -108.20207,
+              36.28252
+            ],
+            [
+              -108.25793,
+              36.28252
+            ],
+            [
+              -108.25793,
+              36.23748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_bisti_badlands",
+        "name": "Bisti/De-Na-Zin Shales & Coal Ash Badlands",
+        "region_country": "San Juan County, New Mexico, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Layered Clay & Hoodoo Stratigraphy",
+        "elevation_m": 1950.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N36_00_W108_00_DEM",
+        "mean_slope_deg": 21.5,
+        "terrain_ruggedness_tri": 65.0,
+        "sar_roughness_db": -10.8,
+        "sar_depolarization_ratio": 0.36,
+        "diurnal_delta_t_c": 36.0,
+        "min_temp_c": -18.0,
+        "iron_oxide_index": 2.32,
+        "basalt_mafic_index": 1.65,
+        "center_lon": -108.23,
+        "center_lat": 36.26
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -110.77892,
+              38.82748
+            ],
+            [
+              -110.72108,
+              38.82748
+            ],
+            [
+              -110.72108,
+              38.87252
+            ],
+            [
+              -110.77892,
+              38.87252
+            ],
+            [
+              -110.77892,
+              38.82748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_san_rafael_swell",
+        "name": "San Rafael Swell Inverted River Channels",
+        "region_country": "Emery County, Utah, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Inverted Fluvial Channel Ridges",
+        "elevation_m": 1620.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N38_00_W110_00_DEM",
+        "mean_slope_deg": 22.8,
+        "terrain_ruggedness_tri": 68.0,
+        "sar_roughness_db": -8.6,
+        "sar_depolarization_ratio": 0.41,
+        "diurnal_delta_t_c": 35.0,
+        "min_temp_c": -15.0,
+        "iron_oxide_index": 2.45,
+        "basalt_mafic_index": 1.85,
+        "center_lon": -110.75,
+        "center_lat": 38.85
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -110.81874,
+              38.38748
+            ],
+            [
+              -110.76126,
+              38.38748
+            ],
+            [
+              -110.76126,
+              38.43252
+            ],
+            [
+              -110.81874,
+              38.43252
+            ],
+            [
+              -110.81874,
+              38.38748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_hanksville_mars_desert",
+        "name": "Hanksville Morrison Formation Clay Mesas",
+        "region_country": "Wayne County, Utah, USA",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Gale Crater Hematite & Clay Ridge",
+        "elevation_m": 1370.0,
+        "cluster_id": 1,
+        "cluster_name": "Basaltic Lava Fields & Tubes",
+        "cluster_color": "#3b82f6",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N38_00_W110_00_DEM",
+        "mean_slope_deg": 19.8,
+        "terrain_ruggedness_tri": 58.0,
+        "sar_roughness_db": -10.4,
+        "sar_depolarization_ratio": 0.38,
+        "diurnal_delta_t_c": 36.0,
+        "min_temp_c": -16.0,
+        "iron_oxide_index": 2.52,
+        "basalt_mafic_index": 1.75,
+        "center_lon": -110.79,
+        "center_lat": 38.41
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.98339,
+              32.14748
+            ],
+            [
+              13.03661,
+              32.14748
+            ],
+            [
+              13.03661,
+              32.19252
+            ],
+            [
+              12.98339,
+              32.19252
+            ],
+            [
+              12.98339,
+              32.14748
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "unrec_el_azizia_quarry",
+        "name": "Jabal Gharyan Basalt Sill & Red Soils",
+        "region_country": "Jafara / Jabal al Gharbi, Libya",
+        "is_known_nasa_analog": false,
+        "primary_analog_target": "Mars Volcanic Sill & Deep Red Regolith",
+        "elevation_m": 680.0,
+        "cluster_id": 0,
+        "cluster_name": "Hyper-Arid Ferric Regolith",
+        "cluster_color": "#ef4444",
+        "satellite_preview_url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=cop-dem-glo-30&item=Copernicus_DSM_COG_10_N32_00_E013_00_DEM",
+        "mean_slope_deg": 16.2,
+        "terrain_ruggedness_tri": 48.0,
+        "sar_roughness_db": -9.2,
+        "sar_depolarization_ratio": 0.39,
+        "diurnal_delta_t_c": 42.0,
+        "min_temp_c": 1.0,
+        "iron_oxide_index": 2.7,
+        "basalt_mafic_index": 2.85,
+        "center_lon": 13.01,
+        "center_lat": 32.17
+      }
+    }
+  ]
+}
