@@ -1,5 +1,6 @@
 {
-  "name": "planetary-analog-explorer",
+  "name": "tavme",
+  "description": "TAVME: Terrestrial Analog Vector Matching Engine",
   "version": "1.0.0",
   "private": true,
   "scripts": {

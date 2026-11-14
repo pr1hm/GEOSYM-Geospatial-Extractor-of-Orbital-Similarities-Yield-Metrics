@@ -1,12 +1,13 @@
-# 🪐 Planetary Analog Explorer
+# 🪐 TAVME: Terrestrial Analog Vector Matching Engine
 ### 2026 NASA Space Apps Challenge: *"Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars"*
 
+[![TAVME](https://img.shields.io/badge/TAVME-v1.0-cyan?style=flat-square)](https://github.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
 [![STAC](https://img.shields.io/badge/STAC-Microsoft_Planetary_Computer-blue)](https://planetarycomputer.microsoft.com/)
 [![Groq](https://img.shields.io/badge/Groq-Llama_3.3_70B-orange)](https://groq.com/)
 [![License](https://img.shields.io/badge/License-MIT-emerald)](LICENSE)
 
-A Two-Stage Hybrid Architecture pairing offline high-throughput satellite Earth observation and deep foundation model embeddings with a real-time, sub-5ms client-side weighted similarity engine and LLM-powered engineering test protocol synthesis.
+**TAVME (Terrestrial Analog Vector Matching Engine)** is a Two-Stage Hybrid Architecture pairing offline high-throughput satellite Earth observation and deep foundation model embeddings with a real-time, sub-5ms client-side weighted similarity engine and LLM-powered engineering test protocol synthesis.
 
 ---
 
@@ -45,7 +46,7 @@ A Two-Stage Hybrid Architecture pairing offline high-throughput satellite Earth 
 ## 📦 Directory Structure
 
 ```text
-planetary-analog-explorer/
+tavme/
 ├── .env.example                 # GROQ_API_KEY template
 ├── requirements.txt             # Python dependencies (STAC, rasterio, PyTorch, Marimo)
 ├── package.json                 # Next.js 14, Tailwind CSS, Lucide icons

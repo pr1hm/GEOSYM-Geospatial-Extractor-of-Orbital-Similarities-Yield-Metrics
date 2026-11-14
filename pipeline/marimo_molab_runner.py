@@ -1,5 +1,5 @@
 """
-# Planetary Analog Explorer - Marimo Molab GPU Runner
+# TAVME: Terrestrial Analog Vector Matching Engine - Marimo Molab GPU Runner
 # Optimized for NVIDIA RTX Pro 6000 (96GB VRAM) & Local CPU execution.
 # To run interactively: marimo edit pipeline/marimo_molab_runner.py
 """
@@ -24,8 +24,8 @@ def __():
 def __(mo):
     mo.md(
         r"""
-        # 🪐 2026 NASA Space Apps Challenge: Planetary Analog Explorer
-        ### **Two-Stage Hybrid Architecture: Planetary Computer STAC Ingestion & Deep Morphology Embeddings**
+        # 🪐 TAVME: Terrestrial Analog Vector Matching Engine
+        ### **2026 NASA Space Apps Challenge | Two-Stage Hybrid Architecture**
         This reactive Marimo notebook runs on the **NVIDIA RTX Pro 6000 (96GB VRAM)** to:
         1. Query Microsoft Planetary Computer STAC for 5x5 km barren Earth tiles.
         2. Stream Copernicus DEM, Sentinel-1 SAR, MODIS LST, and HLS multispectral bands.

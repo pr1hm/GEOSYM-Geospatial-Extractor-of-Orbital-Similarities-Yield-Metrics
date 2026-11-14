@@ -353,10 +353,10 @@ ${missionBrief.recommended_testing_protocol.key_telemetry_sensors.map((s) => `- 
               </span>
             </div>
             <h1 className="text-base lg:text-lg font-bold tracking-tight text-white flex items-center space-x-2">
-              <span>Planetary Analog Explorer</span>
+              <span className="text-cyan-400 font-mono tracking-wider">TAVME</span>
               <span className="text-slate-500 font-light">|</span>
-              <span className="text-slate-400 font-normal text-xs lg:text-sm hidden sm:inline">
-                Moon & Mars Terrestrial Counterparts
+              <span className="text-slate-300 font-normal text-xs lg:text-sm hidden sm:inline">
+                Terrestrial Analog Vector Matching Engine
               </span>
             </h1>
           </div>
@@ -1130,9 +1130,11 @@ ${missionBrief.recommended_testing_protocol.key_telemetry_sensors.map((s) => `- 
       {/* Global Footer */}
       <footer className="mt-auto border-t border-space-800/80 bg-space-950 px-6 py-4 text-xs font-mono text-slate-500 flex flex-wrap justify-between items-center gap-2">
         <div className="flex items-center space-x-2">
-          <span>NASA Space Apps 2026 Challenge: Planetary Analog Explorer</span>
+          <span className="text-slate-300 font-semibold">TAVME: Terrestrial Analog Vector Matching Engine</span>
           <span>•</span>
-          <span className="text-slate-400">Microsoft Planetary Computer STAC</span>
+          <span className="text-slate-400">NASA Space Apps 2026 Challenge</span>
+          <span>•</span>
+          <span className="text-slate-500">Microsoft Planetary Computer STAC</span>
         </div>
         <div>
           <span>NVIDIA RTX Pro 6000 96GB Pipeline • Groq Llama 3.3 70B</span>

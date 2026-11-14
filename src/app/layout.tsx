@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Planetary Analog Explorer | 2026 NASA Space Apps Challenge",
-  description: "Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars via Microsoft Planetary Computer STAC and Real-Time ML Similarity Engine.",
+  title: "TAVME: Terrestrial Analog Vector Matching Engine | 2026 NASA Space Apps Challenge",
+  description: "TAVME: Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars via Microsoft Planetary Computer STAC and Real-Time ML Similarity Engine.",
 };
 
 export default function RootLayout({
