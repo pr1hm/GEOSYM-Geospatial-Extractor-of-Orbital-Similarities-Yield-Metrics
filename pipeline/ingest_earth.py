@@ -180,7 +180,7 @@ def process_earth_site_live_stac(site_meta: Dict[str, Any]) -> Dict[str, Any]:
     
     try:
         # Search ESA WorldCover to ensure bare ground / snow ice
-        search_wc = client.search(collections=[COLLECTIONS["worldcover"]], bbox=bbox, limit=1)
+        search_wc = client.search(collections=[COLLECTIONS["worldcover"]], bbox=bbox, max_items=1)
         items_wc = list(search_wc.items())
         if items_wc:
             map_data = read_windowed_cog_bounds(items_wc[0].assets["map"].href, bbox)
@@ -192,21 +192,23 @@ def process_earth_site_live_stac(site_meta: Dict[str, Any]) -> Dict[str, Any]:
                     pass
         
         # Search Copernicus DEM GLO-30
-        search_dem = client.search(collections=[COLLECTIONS["dem"]], bbox=bbox, limit=1)
+        search_dem = client.search(collections=[COLLECTIONS["dem"]], bbox=bbox, max_items=1)
         items_dem = list(search_dem.items())
-        slope_deg, tri = 14.0, 40.0
+        slope_deg, tri = site_meta["physical_vector"]["mean_slope_deg"], site_meta["physical_vector"]["terrain_ruggedness_tri"]
         if items_dem:
             dem_data = read_windowed_cog_bounds(items_dem[0].assets["data"].href, bbox)
-            slope_deg, tri = compute_dem_derivatives(dem_data)
+            if dem_data is not None:
+                slope_deg, tri = compute_dem_derivatives(dem_data)
         
-        # Search Sentinel-1 SAR
-        search_sar = client.search(collections=[COLLECTIONS["sar_rtc"]], bbox=bbox, limit=1)
+        # Search Sentinel-1 SAR (RTC with GRD global fallback)
+        search_sar = client.search(collections=[COLLECTIONS["sar_rtc"], COLLECTIONS["sar_grd"]], bbox=bbox, max_items=1)
         items_sar = list(search_sar.items())
-        sar_db, sar_depol = -10.0, 0.35
+        sar_db, sar_depol = site_meta["physical_vector"]["sar_roughness_db"], site_meta["physical_vector"]["sar_depolarization_ratio"]
         if items_sar:
             vv = read_windowed_cog_bounds(items_sar[0].assets["vv"].href, bbox)
             vh = read_windowed_cog_bounds(items_sar[0].assets["vh"].href, bbox)
-            sar_db, sar_depol = compute_sar_features(vv, vh)
+            if vv is not None and vh is not None:
+                sar_db, sar_depol = compute_sar_features(vv, vh)
         
         # Combine into physical vector
         return {
