@@ -1,6 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useTransition } from "react";
+/**
+ * TAVME: globe-first explorer.
+ * Navbar (Moon/Mars) -> target strip -> hero globe with floating panels ->
+ * site drawer -> validation, weights, method, credits.
+ * AI-assisted code: written with Claude (Anthropic) during NASA Space Apps 2026,
+ * reviewed and integrated by team TAVME. See README "AI use" section.
+ */
+
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import {
   PlanetaryTarget,
   EarthAnalogSite,
@@ -8,1139 +17,798 @@ import {
   AnalogScoreResult,
   MissionBriefResponse,
   FeatureMetadataRegistry,
-  ClusterInfo,
+  PhysicalVector8D,
 } from "@/lib/types";
-import {
-  DEFAULT_WEIGHTS,
-  PRESET_WEIGHTS,
-  rankEarthAnalogs,
-} from "@/lib/similarityEngine";
-import {
-  Globe,
-  Sliders,
-  Compass,
-  Layers,
-  Sparkles,
-  AlertTriangle,
-  CheckCircle2,
-  Cpu,
-  Search,
-  Filter,
-  Download,
-  ExternalLink,
-  ChevronRight,
-  Info,
-  RefreshCw,
-  Terminal,
-  Activity,
-  ArrowUpRight,
-  ShieldAlert,
-  Zap,
-} from "lucide-react";
+import { DEFAULT_WEIGHTS, PRESET_WEIGHTS, rankEarthAnalogs } from "@/lib/similarityEngine";
+import { earthProvenance, PROVENANCE_LABEL, Provenance, LIVE_EXTRACTION_FAILED } from "@/lib/provenance";
+import { Panel } from "@/components/hud/Panel";
+import type { GlobeSpike } from "@/components/ui/wireframe-dotted-globe";
 
-// Fallback embedded metadata registry
-const DEFAULT_META: FeatureMetadataRegistry = {
-  mean_slope_deg: {
-    label: "Mean Slope",
-    unit: "°",
-    source: "Copernicus DEM GLO-30",
-    min: 0,
-    max: 45,
-    description: "Mean terrain slope measuring steepness and traverse difficulty.",
-  },
-  terrain_ruggedness_tri: {
-    label: "Terrain Ruggedness (TRI)",
-    unit: "m",
-    source: "Copernicus DEM GLO-30",
-    min: 0,
-    max: 120,
-    description: "Mean elevation deviation of adjacent DEM cells (boulder fields & gullies).",
-  },
-  sar_roughness_db: {
-    label: "SAR Backscatter",
-    unit: "dB",
-    source: "Sentinel-1 RTC (VV)",
-    min: -25,
-    max: 2,
-    description: "Radar microwave backscatter cross-section measuring gravel & surface roughness.",
-  },
-  sar_depolarization_ratio: {
-    label: "SAR Depolarization",
-    unit: "ratio",
-    source: "Sentinel-1 RTC (VH/VV)",
-    min: 0.05,
-    max: 0.7,
-    description: "Cross-polarization volume scattering from blocky basalt and fractured regolith.",
-  },
-  diurnal_delta_t_c: {
-    label: "Diurnal Thermal Swing",
-    unit: "°C",
-    source: "MODIS LST 8-Day",
-    min: 5,
-    max: 75,
-    description: "Day-to-night surface temperature swing tracking thermal inertia.",
-  },
-  min_temp_c: {
-    label: "Min Night Temperature",
-    unit: "°C",
-    source: "MODIS LST 8-Day",
-    min: -80,
-    max: 25,
-    description: "Cryogenic surface temperature floor testing mechanical endurance.",
-  },
-  iron_oxide_index: {
-    label: "Ferric Iron Oxide",
-    unit: "ratio",
-    source: "HLS B04/B02 (Red/Blue)",
-    min: 0.8,
-    max: 3.2,
-    description: "Spectroscopic ferric index indicating oxidized regolith and hematite coatings.",
-  },
-  basalt_mafic_index: {
-    label: "Basaltic Mafic Index",
-    unit: "ratio",
-    source: "HLS SWIR/NIR + MODIS Emissivity",
-    min: 0.7,
-    max: 3.5,
-    description: "Spectroscopic ratio matching pyroxene/olivine unweathered basalt bedrock.",
-  },
+const Globe = dynamic(() => import("@/components/ui/wireframe-dotted-globe"), {
+  ssr: false,
+  loading: () => <div className="flex aspect-square w-full items-center justify-center font-mono text-xs tracking-widest text-muted">SCANNING...</div>,
+});
+
+const FEATURE_KEYS: (keyof PhysicalVector8D)[] = [
+  "mean_slope_deg",
+  "terrain_ruggedness_tri",
+  "sar_roughness_db",
+  "sar_depolarization_ratio",
+  "diurnal_delta_t_c",
+  "min_temp_c",
+  "iron_oxide_index",
+  "basalt_mafic_index",
+];
+
+const TOP_N = 10;
+const CAT_COLOR = { known: "#3DDC97", india: "#FFA53B", candidate: "#3EA6FF" } as const;
+type Cat = keyof typeof CAT_COLOR;
+const CAT_LABEL: Record<Cat, string> = { known: "Known NASA analog", india: "India site", candidate: "New candidate" };
+const MODE_SHORT: Record<string, string> = {
+  rover_mobility: "Rover",
+  thermal_cryo: "Cryo",
+  isru_mineralogy: "ISRU",
+  hazard_autonomy: "Hazard",
+  balanced: "Balanced",
 };
 
-export default function PlanetaryAnalogDashboard() {
+const categoryOf = (s: EarthAnalogSite): Cat => (/india/i.test(s.region_country) ? "india" : s.is_known_nasa_analog ? "known" : "candidate");
+const barColor = (p: number) => (p >= 75 ? "#3DDC97" : p >= 50 ? "#F5C542" : "#E5484D");
+
+function fmt(v: number | undefined, unit = "") {
+  if (v === undefined || v === null || Number.isNaN(v)) return "n/a";
+  const a = Math.abs(v);
+  const s = a >= 100 ? v.toFixed(0) : a >= 10 ? v.toFixed(1) : v.toFixed(2);
+  return unit ? `${s} ${unit}` : s;
+}
+
+function ProvBadge({ p }: { p: Provenance }) {
+  const cls = p === "measured" ? "border-good/40 text-good" : p === "reference" ? "border-cand/40 text-cand" : "border-partial/40 text-partial";
+  return <span className={`rounded-sm border px-1 py-px font-mono text-[9px] uppercase tracking-wider ${cls}`}>{PROVENANCE_LABEL[p]}</span>;
+}
+
+function Float({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`relative border border-line bg-bg/75 backdrop-blur-sm ${className}`}>
+      <span className="hud-corner left-[-1px] top-[-1px] border-l border-t" />
+      <span className="hud-corner right-[-1px] top-[-1px] border-r border-t" />
+      <span className="hud-corner bottom-[-1px] left-[-1px] border-b border-l" />
+      <span className="hud-corner bottom-[-1px] right-[-1px] border-b border-r" />
+      {children}
+    </div>
+  );
+}
+
+type Filter = "ALL" | Cat;
+type Tab = "overview" | "features" | "breaks" | "brief";
+
+export default function Page() {
   const [targets, setTargets] = useState<PlanetaryTarget[]>([]);
-  const [analogs, setAnalogs] = useState<EarthAnalogSite[]>([]);
-  const [clusters, setClusters] = useState<ClusterInfo[]>([]);
-  const [metaRegistry, setMetaRegistry] = useState<FeatureMetadataRegistry>(DEFAULT_META);
-  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [sites, setSites] = useState<EarthAnalogSite[]>([]);
+  const [meta, setMeta] = useState<FeatureMetadataRegistry | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
-  // User selections & controls
-  const [selectedTargetId, setSelectedTargetId] = useState<string>("moon_shackleton_rim");
-  const [selectedAnalogId, setSelectedAnalogId] = useState<string>("");
-  const [activePreset, setActivePreset] = useState<string>("balanced");
-  const [weights, setWeights] = useState<SimilarityWeights>(DEFAULT_WEIGHTS);
-  const [bodyFilter, setBodyFilter] = useState<"ALL" | "Moon" | "Mars">("ALL");
-  const [siteTypeFilter, setSiteTypeFilter] = useState<"ALL" | "KNOWN" | "UNRECOGNIZED">("ALL");
-  const [clusterFilter, setClusterFilter] = useState<number | "ALL">("ALL");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showWeightPanel, setShowWeightPanel] = useState(false);
+  const [body, setBody] = useState<"Moon" | "Mars">("Moon");
+  const [targetId, setTargetId] = useState("");
+  const [preset, setPreset] = useState("rover_mobility");
+  const [weights, setWeights] = useState<SimilarityWeights>(PRESET_WEIGHTS.rover_mobility?.weights ?? DEFAULT_WEIGHTS);
+  const [filter, setFilter] = useState<Filter>("ALL");
+  const [selectedId, setSelectedId] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [tab, setTab] = useState<Tab>("overview");
 
-  // Live Groq Mission Brief state
-  const [isSynthesizing, setIsSynthesizing] = useState(false);
-  const [missionBrief, setMissionBrief] = useState<MissionBriefResponse | null>(null);
-  const [briefSource, setBriefSource] = useState<string>("");
+  const [brief, setBrief] = useState<MissionBriefResponse | null>(null);
+  const [briefSource, setBriefSource] = useState("");
+  const [briefLoading, setBriefLoading] = useState(false);
 
-  // Load static data artifacts
   useEffect(() => {
-    async function loadArtifacts() {
+    (async () => {
       try {
-        const [targetsRes, analogsRes] = await Promise.all([
-          fetch("/data/planetary_targets.json"),
-          fetch("/data/earth_analogs.json"),
-        ]);
-
-        if (targetsRes.ok && analogsRes.ok) {
-          const targetsData = await targetsRes.json();
-          const analogsData = await analogsRes.json();
-
-          setTargets(targetsData.targets || []);
-          setAnalogs(analogsData.sites || []);
-          if (analogsData.cluster_taxonomy) {
-            setClusters(analogsData.cluster_taxonomy);
-          }
-          if (analogsData.features_metadata) {
-            setMetaRegistry(analogsData.features_metadata);
-          }
-          if (targetsData.targets?.[0]) {
-            setSelectedTargetId(targetsData.targets[0].id);
-          }
+        const [t, e] = await Promise.all([fetch("/data/planetary_targets.json"), fetch("/data/earth_analogs.json")]);
+        if (!t.ok || !e.ok) throw new Error("load");
+        const tj = await t.json();
+        const ej = await e.json();
+        setTargets(tj.targets || []);
+        setSites(ej.sites || []);
+        setMeta(ej.features_metadata || tj.features_metadata);
+        const first = (tj.targets || []).find((x: PlanetaryTarget) => x.id === "moon_malapert_massif") || tj.targets?.[0];
+        if (first) {
+          setTargetId(first.id);
+          setBody(first.target_body);
         }
-      } catch (err) {
-        console.error("Failed to fetch static artifacts:", err);
+      } catch {
+        setLoadError(true);
       } finally {
-        setIsLoadingData(false);
+        setLoading(false);
       }
-    }
-    loadArtifacts();
+    })();
   }, []);
 
-  // Current selected Planetary Target
-  const currentTarget = useMemo(() => {
-    return targets.find((t) => t.id === selectedTargetId) || targets[0];
-  }, [targets, selectedTargetId]);
-
-  // Ranked Earth Analog Results (Sub-5ms recomputed on weight/target changes)
-  const rankedResults = useMemo(() => {
-    if (!currentTarget || analogs.length === 0) return [];
-    const t0 = performance.now();
-    const ranked = rankEarthAnalogs(currentTarget, analogs, weights, metaRegistry);
-    const t1 = performance.now();
-    // Sub-5ms calculation verified in console
-    return ranked;
-  }, [currentTarget, analogs, weights, metaRegistry]);
-
-  // Filtered Earth Analog Results
-  const filteredResults = useMemo(() => {
-    return rankedResults.filter((res) => {
-      const site = res.site;
-      if (siteTypeFilter === "KNOWN" && !site.is_known_nasa_analog) return false;
-      if (siteTypeFilter === "UNRECOGNIZED" && site.is_known_nasa_analog) return false;
-      if (clusterFilter !== "ALL" && site.cluster_id !== clusterFilter) return false;
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchesText =
-          site.name.toLowerCase().includes(q) ||
-          site.region_country.toLowerCase().includes(q) ||
-          site.geological_summary.toLowerCase().includes(q);
-        if (!matchesText) return false;
-      }
-      return true;
-    });
-  }, [rankedResults, siteTypeFilter, clusterFilter, searchQuery]);
-
-  // Ensure an analog site is selected
+  // Close drawer with Escape
   useEffect(() => {
-    if (filteredResults.length > 0) {
-      const exists = filteredResults.some((r) => r.site.id === selectedAnalogId);
-      if (!exists) {
-        setSelectedAnalogId(filteredResults[0].site.id);
-      }
-    }
-  }, [filteredResults, selectedAnalogId]);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setDrawerOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
-  // Selected Analog result item
-  const selectedResult = useMemo(() => {
-    return (
-      filteredResults.find((r) => r.site.id === selectedAnalogId) ||
-      filteredResults[0] ||
-      rankedResults[0]
-    );
-  }, [filteredResults, rankedResults, selectedAnalogId]);
+  const target = useMemo(() => targets.find((t) => t.id === targetId) || targets[0], [targets, targetId]);
+  const bodyTargets = useMemo(() => targets.filter((t) => t.target_body === body), [targets, body]);
 
-  // Handle Preset selection
-  const handlePresetChange = (presetKey: string) => {
-    setActivePreset(presetKey);
-    if (PRESET_WEIGHTS[presetKey]) {
-      setWeights(PRESET_WEIGHTS[presetKey].weights);
-    }
+  const ranked = useMemo(() => (target && sites.length ? rankEarthAnalogs(target, sites, weights, meta) : []), [target, sites, weights, meta]);
+  const rankOf = useMemo(() => new Map(ranked.map((r, i) => [r.site.id, i + 1])), [ranked]);
+  const visible = useMemo(() => ranked.filter((r) => filter === "ALL" || categoryOf(r.site) === filter), [ranked, filter]);
+  const topIds = useMemo(() => new Set(visible.slice(0, TOP_N).map((r) => r.site.id)), [visible]);
+
+  useEffect(() => {
+    if (ranked.length && !ranked.some((r) => r.site.id === selectedId)) setSelectedId(ranked[0].site.id);
+  }, [ranked, selectedId]);
+  useEffect(() => setBrief(null), [selectedId, targetId]);
+
+  const selected: AnalogScoreResult | undefined = useMemo(() => ranked.find((r) => r.site.id === selectedId) || ranked[0], [ranked, selectedId]);
+
+  const spikes: GlobeSpike[] = useMemo(() => {
+    if (!visible.length) return [];
+    const scores = visible.map((r) => r.match_score_pct);
+    const lo = Math.min(...scores);
+    const hi = Math.max(...scores);
+    return visible.map((r) => {
+      const cat = categoryOf(r.site);
+      return {
+        id: r.site.id,
+        lat: r.site.latitude,
+        lng: r.site.longitude,
+        value: Math.pow((r.match_score_pct - lo) / Math.max(1e-6, hi - lo), 1.6),
+        color: CAT_COLOR[cat],
+        label: r.site.name,
+        sublabel: r.site.region_country,
+        score: r.match_score_pct,
+        rank: rankOf.get(r.site.id),
+        dim: !topIds.has(r.site.id),
+        star: !r.site.is_known_nasa_analog,
+      };
+    });
+  }, [visible, rankOf, topIds]);
+
+  const targetMarker: GlobeSpike[] = useMemo(
+    () => (target ? [{ id: target.id, lat: target.latitude, lng: target.longitude, value: 0.35, color: "#FFA53B", label: target.name }] : []),
+    [target],
+  );
+
+  // Score every site against every target (same weights) to find each site's best twin
+  const bestTwin = useMemo(() => {
+    const best = new Map<string, { target: PlanetaryTarget; score: number }>();
+    if (!sites.length) return best;
+    targets.forEach((t) => {
+      rankEarthAnalogs(t, sites, weights, meta).forEach((r) => {
+        const cur = best.get(r.site.id);
+        if (!cur || r.match_score_pct > cur.score) best.set(r.site.id, { target: t, score: r.match_score_pct });
+      });
+    });
+    return best;
+  }, [targets, sites, weights, meta]);
+
+  const [discFilter, setDiscFilter] = useState<"all" | "india">("all");
+  const discoveries = useMemo(() => {
+    const knownScores = ranked.filter((r) => r.site.is_known_nasa_analog).map((r) => r.match_score_pct).sort((a, b) => a - b);
+    const medianKnown = knownScores.length ? knownScores[Math.floor(knownScores.length / 2)] : 0;
+    const fresh = ranked.filter((r) => !r.site.is_known_nasa_analog);
+    const beat = fresh.filter((r) => r.match_score_pct > medianKnown).length;
+    const list = fresh.filter((r) => discFilter === "all" || /india/i.test(r.site.region_country));
+    return { medianKnown, beat, total: fresh.length, list: list.slice(0, 8), indiaCount: fresh.filter((r) => /india/i.test(r.site.region_country)).length };
+  }, [ranked, discFilter]);
+
+  const newInTop = useMemo(() => visible.slice(0, TOP_N).filter((r) => !r.site.is_known_nasa_analog).length, [visible]);
+
+  const validation = useMemo(() => {
+    const known = ranked.map((r, i) => ({ r, rank: i + 1 })).filter((x) => x.r.site.is_known_nasa_analog);
+    const half = Math.ceil(ranked.length / 2);
+    const ranks = known.map((k) => k.rank).sort((a, b) => a - b);
+    return {
+      known,
+      inTopHalf: known.filter((k) => k.rank <= half).length,
+      total: known.length,
+      median: ranks.length ? ranks[Math.floor(ranks.length / 2)] : 0,
+      n: ranked.length,
+    };
+  }, [ranked]);
+
+  const openSite = useCallback((id: string) => {
+    setSelectedId(id);
+    setTab("overview");
+    setDrawerOpen(true);
+  }, []);
+
+  const switchBody = (b: "Moon" | "Mars") => {
+    setBody(b);
+    const t = targets.find((x) => x.target_body === b);
+    if (t) setTargetId(t.id);
+    setDrawerOpen(false);
   };
 
-  // Handle single weight slider change
-  const handleWeightChange = (key: keyof SimilarityWeights, val: number) => {
-    setActivePreset("custom");
-    setWeights((prev) => ({
-      ...prev,
-      [key]: val,
-    }));
+  const choosePreset = (k: string) => {
+    setPreset(k);
+    if (PRESET_WEIGHTS[k]) setWeights(PRESET_WEIGHTS[k].weights);
   };
 
-  // Trigger Live Groq Engineering Mission Brief Synthesis
-  const handleSynthesizeBrief = async () => {
-    if (!currentTarget || !selectedResult) return;
-    setIsSynthesizing(true);
-    setMissionBrief(null);
+  const generateBrief = async () => {
+    if (!target || !selected) return;
+    setBriefLoading(true);
     try {
       const res = await fetch("/api/mission-brief", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          target: currentTarget,
-          result: selectedResult,
-        }),
+        body: JSON.stringify({ target, result: selected }),
       });
       if (res.ok) {
         const data = await res.json();
-        setMissionBrief(data.brief);
-        setBriefSource(data.source || "groq");
+        setBrief(data.brief);
+        setBriefSource(data.source || "");
       }
-    } catch (e) {
-      console.error("Synthesis call failed:", e);
     } finally {
-      setIsSynthesizing(false);
+      setBriefLoading(false);
     }
   };
 
-  // Export current brief as markdown file
-  const handleExportBriefMarkdown = () => {
-    if (!missionBrief || !currentTarget || !selectedResult) return;
-    const site = selectedResult.site;
-    const md = `# NASA Space Apps 2026 - Engineering Field Test Protocol
-## Target: ${currentTarget.name} (${currentTarget.target_body}) vs Earth Analog: ${site.name}
-**Match Score:** ${selectedResult.match_score_pct}% | **Physical Match:** ${selectedResult.physical_score_pct}% | **Morphology:** ${selectedResult.morphology_score_pct}%
-**Site Type:** ${site.is_known_nasa_analog ? "Established NASA/ESA Analog" : "Unrecognized High-Priority Discovery"}
-**Coordinates:** Earth (${site.latitude.toFixed(4)}, ${site.longitude.toFixed(4)}) | Planetary Target (${currentTarget.latitude}, ${currentTarget.longitude})
+  if (loading) return <div className="flex min-h-screen items-center justify-center bg-bg font-mono text-xs tracking-[0.3em] text-accent">LOADING ANALOG DATA...</div>;
+  if (loadError || !target)
+    return <div className="flex min-h-screen items-center justify-center bg-bg p-6 text-center text-sm text-muted">Couldn&apos;t load the data files in /public/data. Run the pipeline export, then reload.</div>;
 
----
+  const selCat = selected ? categoryOf(selected.site) : "candidate";
+  const breaks = selected?.feature_breakdowns.filter((f) => f.similarity_pct < 50) ?? [];
+  const strong = [...(selected?.feature_breakdowns ?? [])].sort((a, b) => b.similarity_pct - a.similarity_pct).slice(0, 3);
+  const vacuum = target.atmospheric_pressure_bar < 1e-6;
 
-### Executive Summary
-${missionBrief.executive_summary}
-
----
-
-### Recommended Subsystem Testing Hardware
-${missionBrief.hardware_to_test
-  .map(
-    (h, idx) => `
-#### ${idx + 1}. ${h.system_name} (${h.subsystem_type})
-- **Rationale:** ${h.rationale}
-- **Testing Protocol:** ${h.test_protocol}
-`
-  )
-  .join("\n")}
-
----
-
-### Where The Terrestrial Analogy Breaks Down
-#### 1. Gravity Differential Analysis
-${missionBrief.where_analogy_breaks_down.gravity_differential_analysis}
-
-#### 2. Atmospheric & Radiation Discrepancies
-${missionBrief.where_analogy_breaks_down.atmospheric_pressure_and_radiation}
-
-#### 3. Divergent Sensor Metrics
-${missionBrief.where_analogy_breaks_down.divergent_physical_metrics.map((m) => `- ${m}`).join("\n")}
-
-#### 4. Engineering Mitigations
-${missionBrief.where_analogy_breaks_down.engineering_mitigations.map((m) => `- ${m}`).join("\n")}
-
----
-
-### Recommended 3-Phase Field Test Protocol
-- **${missionBrief.recommended_testing_protocol.phase_1}**
-- **${missionBrief.recommended_testing_protocol.phase_2}**
-- **${missionBrief.recommended_testing_protocol.phase_3}**
-
-**Primary Telemetry Sensors:**
-${missionBrief.recommended_testing_protocol.key_telemetry_sensors.map((s) => `- ${s}`).join("\n")}
-`;
-
-    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `Mission_Brief_${currentTarget.id}_vs_${site.id}.md`;
-    link.click();
-    URL.revokeObjectURL(url);
-  };
-
-  if (isLoadingData) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-space-950 text-cyan-400">
-        <Activity className="w-12 h-12 animate-spin mb-4" />
-        <p className="font-mono text-sm tracking-wider uppercase">
-          Initializing STAC Ingestion Engine & Dimensionality Reduction...
-        </p>
+  const topList = (
+    <>
+      <div className="mb-2 flex flex-wrap gap-1">
+        {(["ALL", "known", "india", "candidate"] as Filter[]).map((f) => (
+          <button
+            key={f}
+            onClick={() => setFilter(f)}
+            className={`border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider transition-colors ${filter === f ? "border-accent text-accent" : "border-line text-muted hover:text-ink"}`}
+          >
+            {f === "ALL" ? "All" : f === "candidate" ? "New" : f === "known" ? "Known" : "India"}
+          </button>
+        ))}
       </div>
-    );
-  }
+      <ol>
+        {visible.slice(0, TOP_N).map((r) => {
+          const cat = categoryOf(r.site);
+          const sel = r.site.id === selected?.site.id && drawerOpen;
+          return (
+            <li key={r.site.id}>
+              <button
+                onClick={() => openSite(r.site.id)}
+                className={`flex w-full items-center gap-2 border-l-2 px-2 py-1.5 text-left transition-colors ${sel ? "border-accent bg-accent/10" : "border-transparent hover:border-accent/60 hover:bg-white/[0.03]"}`}
+              >
+                <span className="w-5 font-mono text-[11px] text-muted">{rankOf.get(r.site.id)}</span>
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: CAT_COLOR[cat] }} />
+                <span className="min-w-0 flex-1">
+                  <span className="flex items-center gap-1.5">
+                    <span className="truncate text-[12.5px]">{r.site.name}</span>
+                    {!r.site.is_known_nasa_analog && <span className="shrink-0 border border-accent/60 px-1 font-mono text-[8.5px] leading-[13px] text-accent">NEW</span>}
+                  </span>
+                  <span className="block h-[2px] w-full bg-line">
+                    <span className="block h-full" style={{ width: `${r.match_score_pct}%`, background: CAT_COLOR[cat] }} />
+                  </span>
+                </span>
+                <span className="w-10 text-right font-mono text-[12px]">{r.match_score_pct.toFixed(1)}</span>
+              </button>
+            </li>
+          );
+        })}
+        {visible.length === 0 && <li className="py-3 text-center text-[12px] text-muted">No sites in this filter.</li>}
+      </ol>
+    </>
+  );
 
-  const isMoonTarget = currentTarget?.target_body === "Moon";
+  const targetCard = (
+    <div className="p-3">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <div className="font-mono text-[10px] uppercase tracking-wider text-accent">{target.target_body} target</div>
+          <div className="font-display text-lg font-semibold leading-tight">{target.name}</div>
+        </div>
+        <span className="font-mono text-[11px] text-muted">
+          {target.latitude.toFixed(1)}°, {target.longitude.toFixed(1)}°
+        </span>
+      </div>
+      <div className="mx-auto mt-1 w-[220px]">
+        <Globe
+          key={target.target_body}
+          variant={target.target_body === "Moon" ? "moon" : "mars"}
+          spikes={targetMarker}
+          selectedId={target.id}
+          autoRotate={false}
+          interactive={true}
+          maxHeight={240}
+        />
+      </div>
+      <p className="-mt-1 mb-1 text-center font-mono text-[10px] text-muted">Orange marker = target location · drag to look around</p>
+      <p className="text-[12px] leading-snug text-muted">{target.mission_context}</p>
+      <div className="mt-2 grid grid-cols-2 gap-2 border-t border-line pt-2 font-mono text-[11px]">
+        <div>
+          <div className="text-muted">Gravity</div>
+          <div>{target.target_gravity_g} g</div>
+        </div>
+        <div>
+          <div className="text-muted">Atmosphere</div>
+          <div>{vacuum ? "vacuum" : `${target.atmospheric_pressure_bar} bar`}</div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-space-950 text-slate-200 flex flex-col bg-grid-pattern">
-      {/* Top Navigation Bar */}
-      <header className="border-b border-space-700/80 bg-space-900/90 backdrop-blur-md sticky top-0 z-50 px-4 lg:px-8 py-3 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-glow">
-            <Globe className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="font-mono text-xs font-semibold tracking-widest text-cyan-400 uppercase">
-                NASA Space Apps 2026
-              </span>
-              <span className="bg-space-800 text-slate-400 border border-space-700 text-[10px] px-1.5 py-0.5 rounded font-mono">
-                v1.0-Hybrid
-              </span>
-            </div>
-            <h1 className="text-base lg:text-lg font-bold tracking-tight text-white flex items-center space-x-2">
-              <span className="text-cyan-400 font-mono tracking-wider">TAVME</span>
-              <span className="text-slate-500 font-light">|</span>
-              <span className="text-slate-300 font-normal text-xs lg:text-sm hidden sm:inline">
-                Terrestrial Analog Vector Matching Engine
-              </span>
-            </h1>
-          </div>
-        </div>
-
-        {/* Status Pills */}
-        <div className="flex items-center space-x-3 text-xs font-mono">
-          <div className="hidden md:flex items-center space-x-1.5 bg-space-850 border border-space-700 px-2.5 py-1 rounded-md text-slate-300">
-            <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-            <span>STAC: Microsoft Planetary Computer</span>
-          </div>
-          <div className="hidden lg:flex items-center space-x-1.5 bg-space-850 border border-space-700 px-2.5 py-1 rounded-md text-slate-300">
-            <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Engine: Sub-5ms Cosine</span>
-          </div>
-          <div className="flex items-center space-x-1.5 bg-cyan-950/80 border border-cyan-800/80 text-cyan-300 px-2.5 py-1 rounded-md shadow-glow">
-            <Zap className="w-3.5 h-3.5" />
-            <span>Groq Llama 3.3 70B Active</span>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Grid View */}
-      <main className="flex-1 max-w-[1800px] w-full mx-auto p-4 lg:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6">
-        {/* Left Column: Target Selector & Weight Configuration (xl:col-span-4) */}
-        <div className="xl:col-span-4 flex flex-col space-y-5">
-          {/* Planetary Target Selection Card */}
-          <div className="bg-space-900/90 border border-space-700 rounded-xl p-4 shadow-xl">
-            <div className="flex items-center justify-between pb-3 border-b border-space-800 mb-3">
-              <div className="flex items-center space-x-2">
-                <Compass className="w-4 h-4 text-cyan-400" />
-                <h2 className="text-xs font-mono uppercase font-bold tracking-wider text-slate-300">
-                  Planetary Reference Target
-                </h2>
-              </div>
-              {/* Moon / Mars filter pills */}
-              <div className="flex space-x-1 text-[11px] font-mono">
-                <button
-                  onClick={() => setBodyFilter("ALL")}
-                  className={`px-2 py-0.5 rounded transition ${
-                    bodyFilter === "ALL"
-                      ? "bg-slate-700 text-white font-bold"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  ALL
-                </button>
-                <button
-                  onClick={() => setBodyFilter("Moon")}
-                  className={`px-2 py-0.5 rounded transition ${
-                    bodyFilter === "Moon"
-                      ? "bg-cyan-600 text-white font-bold"
-                      : "text-slate-400 hover:text-cyan-300"
-                  }`}
-                >
-                  MOON (5)
-                </button>
-                <button
-                  onClick={() => setBodyFilter("Mars")}
-                  className={`px-2 py-0.5 rounded transition ${
-                    bodyFilter === "Mars"
-                      ? "bg-orange-600 text-white font-bold"
-                      : "text-slate-400 hover:text-orange-300"
-                  }`}
-                >
-                  MARS (5)
-                </button>
-              </div>
-            </div>
-
-            {/* Target Sites List */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-2 max-h-[300px] overflow-y-auto pr-1">
-              {targets
-                .filter((t) => bodyFilter === "ALL" || t.target_body === bodyFilter)
-                .map((tgt) => {
-                  const isSelected = tgt.id === selectedTargetId;
-                  const isMoon = tgt.target_body === "Moon";
-                  return (
-                    <button
-                      key={tgt.id}
-                      onClick={() => {
-                        setSelectedTargetId(tgt.id);
-                        setMissionBrief(null);
-                      }}
-                      className={`text-left p-2.5 rounded-lg border transition flex items-start justify-between ${
-                        isSelected
-                          ? isMoon
-                            ? "bg-cyan-950/50 border-cyan-500 shadow-glow"
-                            : "bg-orange-950/50 border-orange-500 shadow-glow-mars"
-                          : "bg-space-850/60 border-space-800 hover:border-space-600 text-slate-300"
-                      }`}
-                    >
-                      <div className="space-y-1">
-                        <div className="flex items-center space-x-2">
-                          <span
-                            className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-bold uppercase ${
-                              isMoon
-                                ? "bg-cyan-900/80 text-cyan-200 border border-cyan-700"
-                                : "bg-orange-900/80 text-orange-200 border border-orange-700"
-                            }`}
-                          >
-                            {tgt.target_body}
-                          </span>
-                          <span className="font-semibold text-sm text-white">
-                            {tgt.name}
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-slate-400 line-clamp-1">
-                          {tgt.mission_context}
-                        </p>
-                      </div>
-                      <span className="text-[10px] font-mono text-slate-500 mt-0.5">
-                        {tgt.latitude > 0 ? `+${tgt.latitude}°` : `${tgt.latitude}°`}
-                      </span>
-                    </button>
-                  );
-                })}
-            </div>
-
-            {/* Active Target Telemetry Panel */}
-            {currentTarget && (
-              <div
-                className={`mt-4 p-3.5 rounded-lg border text-xs font-mono ${
-                  isMoonTarget
-                    ? "bg-cyan-950/30 border-cyan-900/60"
-                    : "bg-orange-950/30 border-orange-900/60"
+    <div className="min-h-screen bg-hud-grid text-ink">
+      {/* ===== Navbar ===== */}
+      <nav className="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur">
+        <div className="mx-auto flex h-14 max-w-[1680px] items-center justify-between gap-3 px-4">
+          <a href="#explore" className="flex items-center gap-2.5">
+            <span className="flex h-8 w-8 items-center justify-center border border-accent font-display text-xs font-bold text-accent">TV</span>
+            <span className="hidden sm:block">
+              <span className="block font-display text-sm font-bold tracking-[0.2em]">TAVME</span>
+              <span className="block text-[10px] text-muted">Earth analogs for Moon &amp; Mars</span>
+            </span>
+          </a>
+          <div className="grid grid-cols-2 border border-line" role="tablist" aria-label="Choose Moon or Mars">
+            {(["Moon", "Mars"] as const).map((b) => (
+              <button
+                key={b}
+                role="tab"
+                aria-selected={body === b}
+                onClick={() => switchBody(b)}
+                className={`flex items-center gap-2 px-4 py-1.5 font-mono text-xs uppercase tracking-widest transition-colors sm:px-6 ${
+                  body === b ? (b === "Moon" ? "bg-ink/10 text-ink" : "bg-accent/15 text-accent") : "text-muted hover:text-ink"
                 }`}
               >
-                <div className="flex items-center justify-between pb-2 border-b border-space-800/80 mb-2">
-                  <span className="font-bold text-white uppercase flex items-center space-x-1.5">
-                    <span>{currentTarget.name}</span>
-                  </span>
-                  <span
-                    className={`px-1.5 py-0.5 rounded text-[10px] ${
-                      isMoonTarget ? "text-cyan-300 bg-cyan-900/50" : "text-orange-300 bg-orange-900/50"
-                    }`}
-                  >
-                    g: {currentTarget.target_gravity_g}G | P: {currentTarget.atmospheric_pressure_bar} bar
-                  </span>
-                </div>
-                <p className="text-slate-300 text-[11px] font-sans leading-relaxed mb-3">
-                  {currentTarget.primary_interest}
-                </p>
+                <span className={`h-2 w-2 rounded-full ${b === "Moon" ? "bg-[#C9CCD2]" : "bg-[#E2552D]"}`} />
+                {b}
+              </button>
+            ))}
+          </div>
+          <div className="hidden items-center gap-5 font-mono text-[11px] uppercase tracking-wider text-muted md:flex">
+            <a href="#explore" className="hover:text-accent">Explore</a>
+            <a href="#discoveries" className="hover:text-accent">New sites</a>
+            <a href="#validation" className="hover:text-accent">Validation</a>
+            <a href="/method" className="hover:text-accent">Method</a>
+            <a href="/method#credits" className="hover:text-accent">About</a>
+          </div>
+        </div>
+      </nav>
 
-                {/* 8-Axis Ground Truth Readout */}
-                <div className="grid grid-cols-2 gap-2 text-[11px]">
-                  <div className="bg-space-900/90 p-2 rounded border border-space-800">
-                    <span className="text-slate-500 block">Slope / TRI:</span>
-                    <span className="font-bold text-white">
-                      {currentTarget.physical_vector.mean_slope_deg}° / {currentTarget.physical_vector.terrain_ruggedness_tri}m
-                    </span>
-                  </div>
-                  <div className="bg-space-900/90 p-2 rounded border border-space-800">
-                    <span className="text-slate-500 block">SAR Rough / Depol:</span>
-                    <span className="font-bold text-white">
-                      {currentTarget.physical_vector.sar_roughness_db} dB / {currentTarget.physical_vector.sar_depolarization_ratio}
-                    </span>
-                  </div>
-                  <div className="bg-space-900/90 p-2 rounded border border-space-800">
-                    <span className="text-slate-500 block">ΔT / Min Temp:</span>
-                    <span className="font-bold text-white">
-                      {currentTarget.physical_vector.diurnal_delta_t_c}°C / {currentTarget.physical_vector.min_temp_c}°C
-                    </span>
-                  </div>
-                  <div className="bg-space-900/90 p-2 rounded border border-space-800">
-                    <span className="text-slate-500 block">Fe-Oxide / Mafic:</span>
-                    <span className="font-bold text-white">
-                      {currentTarget.physical_vector.iron_oxide_index} / {currentTarget.physical_vector.basalt_mafic_index}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
+      {/* ===== Hero ===== */}
+      <section id="explore" className="relative scroll-mt-14">
+        {/* Target strip */}
+        <div className="border-b border-line">
+          <div className="mx-auto flex max-w-[1680px] items-center gap-2 overflow-x-auto px-4 py-2">
+            <div className="mr-1 flex shrink-0 items-center gap-2 border-r border-line pr-3">
+              <span className={`h-2 w-2 rounded-full ${body === "Moon" ? "bg-[#C9CCD2]" : "bg-[#E2552D]"}`} />
+              <span className="font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-accent">{body} targets</span>
+              <span className="font-mono text-[11px] text-muted">›</span>
+            </div>
+            {bodyTargets.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => {
+                  setTargetId(t.id);
+                  setDrawerOpen(false);
+                }}
+                className={`shrink-0 border px-3 py-1 text-[12px] transition-colors ${t.id === target.id ? "border-accent bg-accent/10 text-accent" : "border-line text-muted hover:border-muted hover:text-ink"}`}
+              >
+                {t.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative mx-auto max-w-[1680px] px-4 pb-6 pt-3 xl:min-h-[calc(100vh-56px-45px)]">
+          <div className="mb-1 text-center">
+            <h1 className="font-display text-xl font-semibold tracking-wide sm:text-2xl">
+              Where on Earth is <span className="text-accent">{target.name}</span>?
+            </h1>
+            <p className="text-[12px] text-muted">
+              Top {TOP_N} Earth analogs glow · <span className="text-ink">★ {newInTop} new candidates in the top {TOP_N}</span> · {ranked.length} sites scored · mode:{" "}
+              {PRESET_WEIGHTS[preset]?.label ?? "custom weights"}
+            </p>
           </div>
 
-          {/* Similarity Engine Configuration & Priority Sliders */}
-          <div className="bg-space-900/90 border border-space-700 rounded-xl p-4 shadow-xl">
-            <div className="flex items-center justify-between pb-3 border-b border-space-800 mb-3">
-              <div className="flex items-center space-x-2">
-                <Sliders className="w-4 h-4 text-emerald-400" />
-                <h2 className="text-xs font-mono uppercase font-bold tracking-wider text-slate-300">
-                  Similarity Engine Calibration
-                </h2>
-              </div>
-              <button
-                onClick={() => setShowWeightPanel(!showWeightPanel)}
-                className="text-xs font-mono text-cyan-400 hover:text-cyan-300 underline"
-              >
-                {showWeightPanel ? "Hide Sliders" : "Fine-Tune (9 Axes)"}
-              </button>
-            </div>
+          {/* Globe */}
+          <div className="mx-auto max-w-[760px]">
+            <Globe spikes={spikes} selectedId={drawerOpen ? selected?.site.id : undefined} onSelect={openSite} maxHeight={720} />
+          </div>
 
-            {/* Presets */}
-            <div className="space-y-1.5 mb-3">
-              <label className="text-[11px] font-mono text-slate-400 uppercase block">
-                Mission Test Objectives (Presets):
-              </label>
-              <div className="grid grid-cols-1 gap-1.5">
-                {Object.entries(PRESET_WEIGHTS).map(([key, p]) => (
+          {/* Mission mode bar */}
+          <div className="mt-3 flex justify-center xl:absolute xl:bottom-6 xl:left-1/2 xl:mt-0 xl:-translate-x-1/2">
+            <Float className="max-w-full">
+              <div className="flex items-center gap-1 overflow-x-auto p-1.5">
+                <span className="mr-1 hidden shrink-0 items-center gap-2 border-r border-line px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-accent sm:flex">
+                  Mission mode <span className="text-muted">›</span>
+                </span>
+                {Object.keys(PRESET_WEIGHTS).map((k) => (
                   <button
-                    key={key}
-                    onClick={() => handlePresetChange(key)}
-                    className={`text-left px-3 py-2 rounded-lg border text-xs transition flex items-center justify-between ${
-                      activePreset === key
-                        ? "bg-emerald-950/60 border-emerald-500 text-emerald-200 font-semibold"
-                        : "bg-space-850/60 border-space-800 hover:border-space-700 text-slate-300"
-                    }`}
+                    key={k}
+                    onClick={() => choosePreset(k)}
+                    title={PRESET_WEIGHTS[k].description}
+                    className={`shrink-0 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition-colors ${preset === k ? "bg-accent text-bg" : "text-muted hover:text-ink"}`}
                   >
-                    <div>
-                      <span className="block font-medium">{p.label}</span>
-                      <span className="text-[10px] text-slate-400 block line-clamp-1">
-                        {p.description}
+                    {MODE_SHORT[k] ?? PRESET_WEIGHTS[k].label}
+                  </button>
+                ))}
+              </div>
+            </Float>
+          </div>
+
+          {/* Floating panels (desktop) */}
+          <Float className="mx-auto mt-3 w-full max-w-[420px] xl:absolute xl:left-4 xl:top-16 xl:mt-0 xl:w-[300px]">{targetCard}</Float>
+          <Float className="mx-auto mt-3 w-full max-w-[420px] xl:absolute xl:right-4 xl:top-16 xl:mt-0 xl:w-[320px]">
+            <div className="p-3">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="font-display text-[13px] font-semibold uppercase tracking-[0.14em]">Top matches</span>
+                <span className="font-mono text-[10px] text-muted">click to open</span>
+              </div>
+              {topList}
+            </div>
+          </Float>
+
+          {/* Legend */}
+          <div className="mt-3 flex flex-wrap justify-center gap-4 font-mono text-[10px] text-muted xl:absolute xl:bottom-6 xl:left-4 xl:mt-0 xl:flex-col xl:gap-1">
+            {(Object.keys(CAT_COLOR) as Cat[]).map((c) => (
+              <span key={c}>
+                <span style={{ color: CAT_COLOR[c] }}>●</span> {CAT_LABEL[c]}
+              </span>
+            ))}
+            <span>★ = new candidate in top {TOP_N}</span>
+            <span>Faint = outside top {TOP_N}</span>
+          </div>
+          <div className="mt-2 text-center font-mono text-[10px] text-muted xl:absolute xl:bottom-6 xl:right-4 xl:mt-0">Drag to rotate · Ctrl + scroll to zoom</div>
+        </div>
+      </section>
+
+      {/* ===== New candidate sites ===== */}
+      <section id="discoveries" className="mx-auto max-w-[1680px] scroll-mt-16 px-4 pt-8">
+        <Panel
+          tag="01"
+          title="New candidate sites we found"
+          right={<span className="font-mono text-[10px] text-muted">{discoveries.total} flagged · not on NASA&apos;s analog list</span>}
+        >
+          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-line pb-3">
+            <p className="max-w-3xl text-[13px] leading-relaxed text-muted">
+              <span className="font-mono text-3xl text-accent">{discoveries.beat}</span> new sites score higher than the median known NASA analog (
+              <span className="font-mono text-ink">{discoveries.medianKnown.toFixed(1)}%</span>) for <span className="text-ink">{target.name}</span>. These are candidates flagged by
+              our engine, not yet field-checked.
+            </p>
+            <div className="flex gap-1">
+              {(
+                [
+                  ["all", `All new (${discoveries.total})`],
+                  ["india", `India spotlight (${discoveries.indiaCount})`],
+                ] as ["all" | "india", string][]
+              ).map(([k, l]) => (
+                <button
+                  key={k}
+                  onClick={() => setDiscFilter(k)}
+                  className={`border px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-wider ${discFilter === k ? "border-accent text-accent" : "border-line text-muted hover:text-ink"}`}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {discoveries.list.map((r) => {
+              const twin = bestTwin.get(r.site.id);
+              const top3 = [...r.feature_breakdowns].sort((a, b) => b.similarity_pct - a.similarity_pct).slice(0, 3);
+              const india = /india/i.test(r.site.region_country);
+              const estimated = LIVE_EXTRACTION_FAILED.has(r.site.id);
+              return (
+                <button
+                  key={r.site.id}
+                  onClick={() => openSite(r.site.id)}
+                  className="group relative flex flex-col gap-2 border border-line bg-bg/60 p-3 text-left transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_0_20px_-6px_rgba(255,165,59,0.5)]"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="font-mono text-[10px] uppercase tracking-wider" style={{ color: india ? CAT_COLOR.india : CAT_COLOR.candidate }}>
+                        ★ New candidate{india ? " · India" : ""}
+                      </div>
+                      <div className="truncate font-display text-[15px] font-semibold">{r.site.name}</div>
+                      <div className="truncate text-[11.5px] text-muted">{r.site.region_country}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-mono text-xl text-accent">{r.match_score_pct.toFixed(1)}%</div>
+                      <div className="font-mono text-[10px] text-muted">#{rankOf.get(r.site.id)} of {ranked.length}</div>
+                    </div>
+                  </div>
+                  {twin && (
+                    <div className="border-l-2 border-accent/70 pl-2 text-[11.5px]">
+                      <span className="text-muted">Best twin: </span>
+                      <span className="text-ink">{twin.target.name}</span>
+                      <span className="text-muted">
+                        {" "}
+                        ({twin.target.target_body}, {twin.score.toFixed(1)}%)
                       </span>
                     </div>
-                    {activePreset === key && (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 ml-2" />
-                    )}
+                  )}
+                  <div className="flex flex-col gap-1">
+                    {top3.map((f) => (
+                      <div key={f.key} className="flex items-center gap-2 text-[10.5px]">
+                        <span className="w-28 truncate text-muted">{meta?.[f.key]?.label || f.label}</span>
+                        <span className="h-1 flex-1 bg-line">
+                          <span className="block h-full" style={{ width: `${f.similarity_pct}%`, background: barColor(f.similarity_pct) }} />
+                        </span>
+                        <span className="w-8 text-right font-mono">{f.similarity_pct}%</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-auto flex items-center justify-between pt-1">
+                    <ProvBadge p={estimated ? "estimated" : "measured"} />
+                    <span className="font-mono text-[10.5px] text-muted group-hover:text-accent">Open →</span>
+                  </div>
+                </button>
+              );
+            })}
+            {discoveries.list.length === 0 && <div className="py-6 text-center text-[12px] text-muted sm:col-span-2 xl:col-span-4">No new candidates in this filter.</div>}
+          </div>
+          <p className="mt-3 text-[10.5px] text-muted">
+            Best twin = the Moon/Mars target this site matches most closely across all {targets.length} targets, using the current mission mode. Badge shows whether its terrain values are live
+            satellite measurements or estimates.
+          </p>
+        </Panel>
+      </section>
+
+      {/* ===== Validation ===== */}
+      <section id="validation" className="mx-auto max-w-[1680px] scroll-mt-16 px-4 py-8">
+        <Panel tag="02" title="Validation: does the method find known analogs?">
+          <p className="text-[13px] leading-relaxed text-muted">
+            <span className="font-mono text-2xl text-accent">
+              {validation.inTopHalf}/{validation.total}
+            </span>{" "}
+            known NASA analogs rank in the top half of {validation.n} sites for {target.name} (median rank{" "}
+            <span className="font-mono text-ink">{validation.median}</span>). Changing the target or mission mode updates this.
+          </p>
+          <div className="mt-3 grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
+            {validation.known.map((k) => (
+              <button key={k.r.site.id} onClick={() => openSite(k.r.site.id)} className="flex items-center gap-2 border-b border-line/60 py-1.5 text-left text-[12px] hover:text-accent">
+                <span className="w-8 font-mono text-muted">#{k.rank}</span>
+                <span className="flex-1 truncate">{k.r.site.name}</span>
+                <span className="font-mono">{k.r.match_score_pct.toFixed(1)}</span>
+              </button>
+            ))}
+          </div>
+        </Panel>
+      </section>
+
+      {/* ===== Fine-tune weights ===== */}
+      <section className="mx-auto max-w-[1680px] px-4 pb-8">
+        <Panel
+          tag="03"
+          title="Fine-tune feature weights"
+          right={
+            <button onClick={() => choosePreset(preset in PRESET_WEIGHTS ? preset : "balanced")} className="font-mono text-[10px] uppercase tracking-wider text-accent hover:underline">
+              Reset to mode
+            </button>
+          }
+        >
+          <p className="mb-3 text-[12px] text-muted">Drag a slider to tell the engine what matters for your test. The globe and rankings above update instantly.</p>
+          <div className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
+            {FEATURE_KEYS.map((k) => (
+              <label key={k} className="text-[11.5px]">
+                <div className="flex justify-between text-muted">
+                  <span>{meta?.[k]?.label || k}</span>
+                  <span className="font-mono text-ink">{weights[k].toFixed(1)}</span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={3}
+                  step={0.1}
+                  value={weights[k]}
+                  onChange={(e) => {
+                    setPreset("custom");
+                    setWeights((w) => ({ ...w, [k]: parseFloat(e.target.value) }));
+                  }}
+                  className="mt-1 w-full"
+                />
+              </label>
+            ))}
+          </div>
+        </Panel>
+      </section>
+
+      {/* ===== How it works CTA ===== */}
+      <section className="mx-auto max-w-[1680px] px-4 pb-10">
+        <a
+          href="/method"
+          className="group relative flex flex-wrap items-center justify-between gap-4 overflow-hidden border border-line bg-panel/80 px-6 py-6 transition-colors hover:border-accent"
+        >
+          <span className="hud-corner left-[-1px] top-[-1px] border-l border-t" />
+          <span className="hud-corner bottom-[-1px] right-[-1px] border-b border-r" />
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">How it works</div>
+            <div className="font-display text-xl font-semibold">See the method, try the math, and check the data</div>
+            <p className="text-[12.5px] text-muted">An interactive walkthrough of the pipeline, the 8 features, Earth&apos;s limits, AI use and credits.</p>
+          </div>
+          <span className="font-mono text-sm text-accent transition-transform group-hover:translate-x-1">Open the method page →</span>
+        </a>
+      </section>
+
+      {/* ===== Site drawer ===== */}
+      {drawerOpen && <button aria-label="Close details" onClick={() => setDrawerOpen(false)} className="fixed inset-0 z-40 bg-black/50 lg:hidden" />}
+      <aside
+        aria-hidden={!drawerOpen}
+        className={`fixed z-50 flex flex-col border-line bg-panel/95 backdrop-blur transition-transform duration-300 ease-out
+          inset-x-0 bottom-0 max-h-[82vh] rounded-t-lg border-t lg:inset-x-auto lg:bottom-0 lg:right-0 lg:top-14 lg:max-h-none lg:w-[460px] lg:rounded-none lg:border-l lg:border-t-0
+          ${drawerOpen ? "translate-y-0 lg:translate-x-0" : "translate-y-full lg:translate-y-0 lg:translate-x-full"}`}
+      >
+        {selected && (
+          <>
+            <div className="border-b border-line p-4">
+              {!selected.site.is_known_nasa_analog && (
+                <div className="mb-3 border border-accent/50 bg-accent/10 px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-wider text-accent">
+                  ★ New candidate · not on NASA&apos;s analog list
+                </div>
+              )}
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono text-lg text-accent">#{rankOf.get(selected.site.id)}</span>
+                    <span className="rounded-sm border px-1.5 py-px text-[10.5px]" style={{ borderColor: CAT_COLOR[selCat], color: CAT_COLOR[selCat] }}>
+                      {CAT_LABEL[selCat]}
+                    </span>
+                  </div>
+                  <h2 className="mt-0.5 font-display text-xl font-semibold leading-tight">{selected.site.name}</h2>
+                  <p className="font-mono text-[11px] text-muted">
+                    {selected.site.region_country} · {selected.site.latitude.toFixed(2)}°, {selected.site.longitude.toFixed(2)}°
+                  </p>
+                </div>
+                <button onClick={() => setDrawerOpen(false)} className="border border-line px-2 py-1 font-mono text-xs text-muted hover:border-accent hover:text-accent" aria-label="Close">
+                  ✕
+                </button>
+              </div>
+              <div className="mt-3 flex items-end justify-between">
+                <div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted">Match to {target.name}</div>
+                  <div className="font-mono text-3xl text-accent">{selected.match_score_pct.toFixed(1)}%</div>
+                </div>
+                <div className="text-right font-mono text-[11px] text-muted">
+                  <div>{selected.site.cluster_name}</div>
+                  <div>elev {fmt(selected.site.elevation_m, "m")}</div>
+                </div>
+              </div>
+              <div className="mt-3 grid grid-cols-4 border border-line">
+                {(
+                  [
+                    ["overview", "Overview"],
+                    ["features", "Features"],
+                    ["breaks", "Breaks"],
+                    ["brief", "Test brief"],
+                  ] as [Tab, string][]
+                ).map(([k, l]) => (
+                  <button key={k} onClick={() => setTab(k)} className={`py-1.5 font-mono text-[10.5px] uppercase tracking-wider ${tab === k ? "bg-accent/15 text-accent" : "text-muted hover:text-ink"}`}>
+                    {l}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Individual Sliders Panel */}
-            {showWeightPanel && (
-              <div className="mt-3 pt-3 border-t border-space-800 space-y-3 max-h-[360px] overflow-y-auto pr-1">
-                {(Object.keys(DEFAULT_WEIGHTS) as (keyof SimilarityWeights)[]).map((wKey) => {
-                  const meta = metaRegistry[wKey as keyof typeof metaRegistry];
-                  const label = meta ? meta.label : "Deep Terrain Morphology (Prithvi)";
-                  return (
-                    <div key={wKey} className="space-y-1 text-xs font-mono">
-                      <div className="flex justify-between items-center text-slate-300">
-                        <span className="text-[11px]">{label}</span>
-                        <span className="font-bold text-cyan-400">
-                          {weights[wKey].toFixed(1)}x
+            <div className="flex-1 overflow-y-auto p-4 text-[12.5px] leading-relaxed">
+              {tab === "overview" && (
+                <div className="flex flex-col gap-4">
+                  <div className="border-l-2 border-good pl-3">
+                    <h3 className="font-mono text-[11px] uppercase tracking-wider text-good">Why it matches</h3>
+                    <p>Closest on {strong.map((s) => `${(meta?.[s.key]?.label || s.label).toLowerCase()} (${s.similarity_pct}%)`).join(", ")}.</p>
+                    <p className="mt-1 text-muted">{selected.site.geological_summary}</p>
+                  </div>
+                  <div className="border-l-2 border-accent pl-3">
+                    <h3 className="font-mono text-[11px] uppercase tracking-wider text-accent">What to test here</h3>
+                    <p className="text-muted">{selected.site.target_mission_relevance}</p>
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                      {target.key_subsystems_to_test.map((k) => (
+                        <span key={k} className="border border-line px-1.5 py-0.5 text-[11px]">
+                          {k}
                         </span>
-                      </div>
-                      <input
-                        type="range"
-                        min="0"
-                        max="3"
-                        step="0.1"
-                        value={weights[wKey]}
-                        onChange={(e) =>
-                          handleWeightChange(wKey, parseFloat(e.target.value))
-                        }
-                        className="w-full accent-cyan-400 cursor-pointer"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Center / Right Column: Ranked Analog Sites, Dual Maps & Telemetry (xl:col-span-8) */}
-        <div className="xl:col-span-8 flex flex-col space-y-5">
-          {/* Filter Bar & Site Counters */}
-          <div className="bg-space-900/90 border border-space-700 rounded-xl p-4 shadow-xl flex flex-wrap items-center justify-between gap-3">
-            {/* Search Input */}
-            <div className="relative flex-1 min-w-[240px]">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search Earth analog sites by name, country, or geology..."
-                className="w-full bg-space-850 border border-space-700 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-sans"
-              />
-            </div>
-
-            {/* Site Type Filter Pills */}
-            <div className="flex items-center space-x-1.5 font-mono text-xs">
-              <button
-                onClick={() => setSiteTypeFilter("ALL")}
-                className={`px-3 py-1.5 rounded-lg border transition ${
-                  siteTypeFilter === "ALL"
-                    ? "bg-slate-700 border-slate-500 text-white font-bold"
-                    : "bg-space-850 border-space-700 text-slate-400 hover:text-white"
-                }`}
-              >
-                All Sites ({rankedResults.length})
-              </button>
-              <button
-                onClick={() => setSiteTypeFilter("KNOWN")}
-                className={`px-3 py-1.5 rounded-lg border transition ${
-                  siteTypeFilter === "KNOWN"
-                    ? "bg-blue-600 border-blue-400 text-white font-bold shadow-glow"
-                    : "bg-space-850 border-space-700 text-slate-400 hover:text-blue-300"
-                }`}
-              >
-                NASA Anchors (15)
-              </button>
-              <button
-                onClick={() => setSiteTypeFilter("UNRECOGNIZED")}
-                className={`px-3 py-1.5 rounded-lg border transition ${
-                  siteTypeFilter === "UNRECOGNIZED"
-                    ? "bg-emerald-600 border-emerald-400 text-white font-bold"
-                    : "bg-space-850 border-space-700 text-slate-400 hover:text-emerald-300"
-                }`}
-              >
-                Discoveries ({rankedResults.filter((r) => !r.site.is_known_nasa_analog).length})
-              </button>
-            </div>
-          </div>
-
-          {/* Split-Screen Geo-Spatial Map & Site Selection Grid */}
-          <div className="bg-space-900/90 border border-space-700 rounded-xl p-4 shadow-xl">
-            <div className="flex items-center justify-between pb-3 border-b border-space-800 mb-3">
-              <div className="flex items-center space-x-2">
-                <Layers className="w-4 h-4 text-cyan-400" />
-                <h3 className="text-xs font-mono uppercase font-bold tracking-wider text-slate-300">
-                  Global 5x5 km Analog Candidate Grid (Top Matches for {currentTarget?.name})
-                </h3>
-              </div>
-              <span className="text-[11px] font-mono text-cyan-400">
-                Sorted by Weighted Cosine Similarity
-              </span>
-            </div>
-
-            {/* Analog Cards Carousel / Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[380px] overflow-y-auto pr-1">
-              {filteredResults.slice(0, 15).map((res) => {
-                const site = res.site;
-                const isSelected = site.id === selectedAnalogId;
-                const matchPct = res.match_score_pct;
-
-                let scoreBadgeClass = "bg-emerald-950 text-emerald-300 border-emerald-700";
-                if (matchPct < 85 && matchPct >= 75) {
-                  scoreBadgeClass = "bg-cyan-950 text-cyan-300 border-cyan-700";
-                } else if (matchPct < 75) {
-                  scoreBadgeClass = "bg-amber-950 text-amber-300 border-amber-700";
-                }
-
-                return (
-                  <div
-                    key={site.id}
-                    onClick={() => {
-                      setSelectedAnalogId(site.id);
-                      setMissionBrief(null);
-                    }}
-                    className={`cursor-pointer p-3 rounded-lg border transition flex flex-col justify-between ${
-                      isSelected
-                        ? "bg-space-800 border-cyan-400 shadow-glow ring-1 ring-cyan-500"
-                        : "bg-space-850/70 border-space-800 hover:border-space-600"
-                    }`}
-                  >
-                    <div>
-                      {/* Top Badges */}
-                      <div className="flex items-center justify-between mb-2">
-                        <span
-                          className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
-                            site.is_known_nasa_analog
-                              ? "bg-blue-950/80 text-blue-300 border-blue-700"
-                              : "bg-emerald-950/80 text-emerald-300 border-emerald-700"
-                          }`}
-                        >
-                          {site.is_known_nasa_analog ? "NASA ANCHOR" : "NEW DISCOVERY"}
-                        </span>
-                        <div
-                          className={`font-mono font-bold text-xs px-2 py-0.5 rounded border ${scoreBadgeClass}`}
-                        >
-                          {matchPct.toFixed(1)}% MATCH
-                        </div>
-                      </div>
-
-                      {/* Site Name & Region */}
-                      <h4 className="font-bold text-sm text-white line-clamp-1 mb-0.5">
-                        {site.name}
-                      </h4>
-                      <p className="text-[11px] text-slate-400 line-clamp-1 mb-2">
-                        {site.region_country}
-                      </p>
-
-                      {/* Mini Geological Summary */}
-                      <p className="text-[11px] text-slate-300 line-clamp-2 leading-tight mb-2">
-                        {site.geological_summary}
-                      </p>
-                    </div>
-
-                    {/* Bottom Metadata Footer */}
-                    <div className="pt-2 border-t border-space-800 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                      <span>Elev: {site.elevation_m}m</span>
-                      <span className="text-cyan-400">
-                        {res.strong_matches_count} high / {res.breakdown_warnings_count} alert
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Selected Analog Deep Breakdown & Telemetry Comparison */}
-          {selectedResult && (
-            <div className="bg-space-900/90 border border-space-700 rounded-xl p-5 shadow-2xl">
-              <div className="flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-space-800">
-                <div>
-                  <div className="flex items-center space-x-2 mb-1">
-                    <span
-                      className={`text-xs font-mono font-bold px-2.5 py-0.5 rounded border ${
-                        selectedResult.site.is_known_nasa_analog
-                          ? "bg-blue-900/60 text-blue-300 border-blue-600"
-                          : "bg-emerald-900/60 text-emerald-300 border-emerald-600"
-                      }`}
-                    >
-                      {selectedResult.site.is_known_nasa_analog
-                        ? "ESTABLISHED NASA ANALOG"
-                        : "UNRECOGNIZED BARREN DISCOVERY"}
-                    </span>
-                    <span className="text-slate-500 font-mono text-xs">
-                      5x5 km Barren Tile
-                    </span>
-                  </div>
-                  <h3 className="text-lg lg:text-xl font-bold text-white">
-                    {selectedResult.site.name}
-                  </h3>
-                  <p className="text-xs text-slate-400 font-mono">
-                    {selectedResult.site.region_country} • Lat:{" "}
-                    {selectedResult.site.latitude.toFixed(4)}°, Lon:{" "}
-                    {selectedResult.site.longitude.toFixed(4)}° • Elev:{" "}
-                    {selectedResult.site.elevation_m}m
-                  </p>
-                </div>
-
-                {/* Match Score Block */}
-                <div className="flex items-center space-x-4 bg-space-850 p-3 rounded-xl border border-space-700 font-mono">
-                  <div className="text-right">
-                    <div className="text-[10px] text-slate-400 uppercase">
-                      Composite Fidelity
-                    </div>
-                    <div className="text-2xl font-black text-cyan-400">
-                      {selectedResult.match_score_pct}%
-                    </div>
-                  </div>
-                  <div className="h-8 w-px bg-space-700" />
-                  <div className="text-xs space-y-0.5 text-slate-300">
-                    <div>
-                      Physical 8D:{" "}
-                      <span className="font-bold text-white">
-                        {selectedResult.physical_score_pct}%
-                      </span>
-                    </div>
-                    <div>
-                      Morphology:{" "}
-                      <span className="font-bold text-white">
-                        {selectedResult.morphology_score_pct}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* STAC Satellite Imagery Preview & Geological Narrative */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 mb-5">
-                <div className="md:col-span-1 bg-space-950 p-2 rounded-lg border border-space-800 flex flex-col justify-between">
-                  <span className="text-[10px] font-mono text-slate-400 uppercase mb-1 block">
-                    Planetary Computer Preview:
-                  </span>
-                  <div className="relative w-full aspect-video rounded overflow-hidden bg-space-900 border border-space-800">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={selectedResult.site.satellite_preview_url}
-                      alt={selectedResult.site.name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        // Fallback placeholder pattern if cloud asset times out
-                        (e.target as HTMLElement).style.display = "none";
-                      }}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <span className="text-[10px] font-mono bg-black/60 px-2 py-0.5 rounded text-slate-300">
-                        Copernicus DEM 30m / S2
-                      </span>
-                    </div>
-                  </div>
-                  <span className="text-[10px] text-slate-500 font-mono mt-1 block">
-                    STAC Window: 5x5 km COG
-                  </span>
-                </div>
-
-                <div className="md:col-span-2 space-y-2">
-                  <div className="bg-space-850/60 p-3 rounded-lg border border-space-800">
-                    <span className="text-[11px] font-mono font-bold text-slate-300 uppercase block mb-1">
-                      Geological Context & Subsurface Stratigraphy
-                    </span>
-                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
-                      {selectedResult.site.geological_summary}
-                    </p>
-                  </div>
-                  <div className="bg-space-850/60 p-3 rounded-lg border border-space-800">
-                    <span className="text-[11px] font-mono font-bold text-cyan-400 uppercase block mb-1">
-                      Target Mission Relevance & Testing Value
-                    </span>
-                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
-                      {selectedResult.site.target_mission_relevance}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 8-Axis Feature-by-Feature Scorecard */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between pb-1">
-                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
-                    8-Axis Physical Breakdown (Target: {currentTarget.name} vs Analog: {selectedResult.site.name})
-                  </span>
-                  <div className="flex items-center space-x-3 text-[11px] font-mono">
-                    <span className="flex items-center space-x-1 text-emerald-400">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      <span>Match (&gt;80%)</span>
-                    </span>
-                    <span className="flex items-center space-x-1 text-amber-400">
-                      <AlertTriangle className="w-3.5 h-3.5" />
-                      <span>Breakdown (&lt;60%)</span>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 font-mono text-xs">
-                  {selectedResult.feature_breakdowns.map((f) => {
-                    const isStrong = f.status === "strong_match";
-                    const isWarning = f.status === "breakdown_divergence";
-
-                    return (
-                      <div
-                        key={f.key}
-                        className={`p-2.5 rounded-lg border flex flex-col justify-between ${
-                          isStrong
-                            ? "bg-emerald-950/20 border-emerald-800/60"
-                            : isWarning
-                            ? "bg-amber-950/20 border-amber-800/60"
-                            : "bg-space-850/40 border-space-800"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="font-semibold text-slate-200">
-                            {f.label}
-                          </span>
-                          <span
-                            className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                              isStrong
-                                ? "bg-emerald-900/60 text-emerald-300"
-                                : isWarning
-                                ? "bg-amber-900/60 text-amber-300"
-                                : "bg-space-800 text-slate-300"
-                            }`}
-                          >
-                            {f.similarity_pct}% SIMILAR
-                          </span>
-                        </div>
-
-                        {/* Comparative Value Badges */}
-                        <div className="grid grid-cols-2 gap-2 text-[11px] mb-1.5">
-                          <div className="bg-space-950/80 px-2 py-1 rounded">
-                            <span className="text-slate-500 block text-[9px] uppercase">
-                              Target ({currentTarget.target_body}):
-                            </span>
-                            <span className="font-bold text-cyan-300">
-                              {f.target_raw} {f.unit}
-                            </span>
-                          </div>
-                          <div className="bg-space-950/80 px-2 py-1 rounded">
-                            <span className="text-slate-500 block text-[9px] uppercase">
-                              Earth Tile:
-                            </span>
-                            <span className="font-bold text-emerald-300">
-                              {f.analog_raw} {f.unit}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Progress Bar showing normalized overlap */}
-                        <div className="w-full bg-space-950 rounded-full h-1.5 overflow-hidden">
-                          <div
-                            className={`h-full rounded-full transition-all duration-300 ${
-                              isStrong
-                                ? "bg-emerald-400"
-                                : isWarning
-                                ? "bg-amber-400"
-                                : "bg-cyan-400"
-                            }`}
-                            style={{ width: `${f.similarity_pct}%` }}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Action Banner: Trigger Groq Mission Protocol Synthesis */}
-              <div className="mt-6 pt-5 border-t border-space-800 flex flex-wrap items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <h4 className="font-bold text-white text-sm flex items-center space-x-2">
-                    <Sparkles className="w-4 h-4 text-cyan-400" />
-                    <span>NASA Engineering Test Protocol Synthesis</span>
-                  </h4>
-                  <p className="text-xs text-slate-400 font-sans">
-                    Leverages Groq Llama 3.3 70B to synthesize concrete hardware test protocols and breakdown analyses.
-                  </p>
-                </div>
-
-                <div className="flex items-center space-x-3">
-                  <button
-                    disabled={isSynthesizing}
-                    onClick={handleSynthesizeBrief}
-                    className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 font-mono text-xs font-bold text-white transition flex items-center space-x-2 shadow-glow disabled:opacity-50"
-                  >
-                    {isSynthesizing ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                        <span>Synthesizing Telemetry...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="w-4 h-4" />
-                        <span>Synthesize Mission Brief</span>
-                      </>
-                    )}
-                  </button>
-
-                  {missionBrief && (
-                    <button
-                      onClick={handleExportBriefMarkdown}
-                      className="px-4 py-2.5 rounded-lg bg-space-800 hover:bg-space-700 border border-space-700 font-mono text-xs text-slate-200 transition flex items-center space-x-1.5"
-                    >
-                      <Download className="w-4 h-4 text-slate-400" />
-                      <span>Export Protocol (.md)</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Rendered Live Mission Brief */}
-              {missionBrief && (
-                <div className="mt-6 p-5 rounded-xl bg-space-950 border border-cyan-800/60 shadow-2xl space-y-5 animate-fadeIn">
-                  <div className="flex items-center justify-between pb-3 border-b border-space-800">
-                    <span className="font-mono text-xs text-cyan-400 font-bold uppercase tracking-wider flex items-center space-x-2">
-                      <Terminal className="w-4 h-4" />
-                      <span>Mission Protocol Synthesis Report ({briefSource})</span>
-                    </span>
-                    <span className="text-[10px] font-mono bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded border border-cyan-800">
-                      TRL Advancement Ready
-                    </span>
-                  </div>
-
-                  {/* 1. Executive Summary */}
-                  <div>
-                    <h5 className="font-mono text-xs font-bold text-slate-300 uppercase mb-2">
-                      1. Executive Engineering Summary
-                    </h5>
-                    <p className="text-xs text-slate-200 leading-relaxed font-sans bg-space-900 p-3.5 rounded-lg border border-space-800">
-                      {missionBrief.executive_summary}
-                    </p>
-                  </div>
-
-                  {/* 2. Concrete Hardware to Test */}
-                  <div>
-                    <h5 className="font-mono text-xs font-bold text-slate-300 uppercase mb-2">
-                      2. Recommended Subsystem Test Packages (&gt;80% Metrics)
-                    </h5>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                      {missionBrief.hardware_to_test.map((hw, idx) => (
-                        <div
-                          key={idx}
-                          className="bg-space-900 p-3.5 rounded-lg border border-space-800 flex flex-col justify-between"
-                        >
-                          <div>
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-[10px] font-mono text-cyan-400 uppercase font-bold">
-                                {hw.subsystem_type}
-                              </span>
-                              <span className="text-[10px] font-mono bg-space-800 px-1.5 py-0.2 rounded text-slate-400">
-                                #{idx + 1}
-                              </span>
-                            </div>
-                            <h6 className="font-bold text-xs text-white mb-1.5">
-                              {hw.system_name}
-                            </h6>
-                            <p className="text-[11px] text-slate-400 font-sans mb-2">
-                              {hw.rationale}
-                            </p>
-                          </div>
-                          <div className="pt-2 border-t border-space-800/80">
-                            <span className="text-[10px] font-mono text-slate-500 uppercase block">
-                              Field Test Protocol:
-                            </span>
-                            <p className="text-[11px] text-slate-300 font-mono">
-                              {hw.test_protocol}
-                            </p>
-                          </div>
-                        </div>
                       ))}
                     </div>
                   </div>
-
-                  {/* 3. Where The Analogy Breaks Down */}
-                  <div className="bg-amber-950/20 border border-amber-900/60 p-4 rounded-xl space-y-3">
-                    <div className="flex items-center space-x-2 text-amber-400 font-mono text-xs font-bold uppercase">
-                      <ShieldAlert className="w-4 h-4" />
-                      <span>3. Where The Terrestrial Analogy Breaks Down & Engineering Mitigations</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                      <div className="bg-space-900/80 p-3 rounded-lg border border-amber-900/40">
-                        <span className="font-mono font-bold text-amber-300 block mb-1">
-                          Gravitational Scaling (1.0g vs {currentTarget.target_gravity_g}g):
-                        </span>
-                        <p className="text-slate-300 text-[11px] leading-relaxed">
-                          {missionBrief.where_analogy_breaks_down.gravity_differential_analysis}
-                        </p>
-                      </div>
-
-                      <div className="bg-space-900/80 p-3 rounded-lg border border-amber-900/40">
-                        <span className="font-mono font-bold text-amber-300 block mb-1">
-                          Atmospheric & Moisture Interferences:
-                        </span>
-                        <p className="text-slate-300 text-[11px] leading-relaxed">
-                          {missionBrief.where_analogy_breaks_down.atmospheric_pressure_and_radiation}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Engineering Mitigations List */}
-                    <div className="bg-space-900/90 p-3 rounded-lg border border-space-800">
-                      <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase block mb-1.5">
-                        Required Ground Mitigations:
-                      </span>
-                      <ul className="space-y-1 text-xs text-slate-300 font-sans list-disc list-inside">
-                        {missionBrief.where_analogy_breaks_down.engineering_mitigations.map((mit, i) => (
-                          <li key={i}>{mit}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* 4. Three-Phase Campaign Schedule */}
-                  <div className="bg-space-900 p-4 rounded-xl border border-space-800 space-y-2">
-                    <span className="font-mono text-xs font-bold text-slate-300 uppercase block">
-                      4. Recommended 3-Phase Deployment Protocol
-                    </span>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs font-mono">
-                      <div className="p-2.5 bg-space-850 rounded border border-space-700">
-                        <span className="text-cyan-400 font-bold block mb-1">Phase 1: Baseline</span>
-                        <p className="text-slate-300 text-[11px] font-sans">
-                          {missionBrief.recommended_testing_protocol.phase_1}
-                        </p>
-                      </div>
-                      <div className="p-2.5 bg-space-850 rounded border border-space-700">
-                        <span className="text-emerald-400 font-bold block mb-1">Phase 2: Stress Run</span>
-                        <p className="text-slate-300 text-[11px] font-sans">
-                          {missionBrief.recommended_testing_protocol.phase_2}
-                        </p>
-                      </div>
-                      <div className="p-2.5 bg-space-850 rounded border border-space-700">
-                        <span className="text-purple-400 font-bold block mb-1">Phase 3: Sample & Core</span>
-                        <p className="text-slate-300 text-[11px] font-sans">
-                          {missionBrief.recommended_testing_protocol.phase_3}
-                        </p>
-                      </div>
-                    </div>
+                  <div className="border-l-2 border-warn pl-3">
+                    <h3 className="font-mono text-[11px] uppercase tracking-wider text-warn">Biggest gap</h3>
+                    <p className="text-muted">
+                      {breaks.length
+                        ? `${breaks.length} feature${breaks.length > 1 ? "s" : ""} below 50%, plus gravity, atmosphere and radiation. See the Breaks tab.`
+                        : "No feature below 50%. Gravity, atmosphere and radiation still differ. See the Breaks tab."}
+                    </p>
                   </div>
                 </div>
               )}
-            </div>
-          )}
-        </div>
-      </main>
 
-      {/* Global Footer */}
-      <footer className="mt-auto border-t border-space-800/80 bg-space-950 px-6 py-4 text-xs font-mono text-slate-500 flex flex-wrap justify-between items-center gap-2">
-        <div className="flex items-center space-x-2">
-          <span className="text-slate-300 font-semibold">TAVME: Terrestrial Analog Vector Matching Engine</span>
-          <span>•</span>
-          <span className="text-slate-400">NASA Space Apps 2026 Challenge</span>
-          <span>•</span>
-          <span className="text-slate-500">Microsoft Planetary Computer STAC</span>
-        </div>
-        <div>
-          <span>NVIDIA RTX Pro 6000 96GB Pipeline • Groq Llama 3.3 70B</span>
+              {tab === "features" && (
+                <div className="flex flex-col gap-3">
+                  {selected.feature_breakdowns.map((f) => (
+                    <div key={f.key}>
+                      <div className="flex items-center justify-between gap-2 text-[12px]">
+                        <span className="flex items-center gap-2">
+                          {meta?.[f.key]?.label || f.label}
+                          <ProvBadge p={earthProvenance(selected.site.id, f.key)} />
+                        </span>
+                        <span className="font-mono" style={{ color: barColor(f.similarity_pct) }}>
+                          {f.similarity_pct}%
+                        </span>
+                      </div>
+                      <div className="mt-1 h-1.5 w-full bg-line">
+                        <div className="h-full transition-[width] duration-500" style={{ width: `${f.similarity_pct}%`, background: barColor(f.similarity_pct) }} />
+                      </div>
+                      <div className="mt-0.5 flex justify-between font-mono text-[10.5px] text-muted">
+                        <span>
+                          {target.target_body}: {fmt(f.target_raw, f.unit)}
+                        </span>
+                        <span>Earth: {fmt(f.analog_raw, f.unit)}</span>
+                      </div>
+                    </div>
+                  ))}
+                  <p className="text-[10.5px] text-muted">
+                    <ProvBadge p="measured" /> live satellite extraction · <ProvBadge p="estimated" /> calibrated estimate · {target.target_body} values from mission literature.
+                  </p>
+                </div>
+              )}
+
+              {tab === "breaks" && (
+                <ul className="list-disc space-y-1.5 pl-4 text-muted">
+                  {breaks.map((b) => (
+                    <li key={b.key}>
+                      <span className="text-ink">{meta?.[b.key]?.label || b.label}</span>: Earth {fmt(b.analog_raw, b.unit)} vs {target.target_body} {fmt(b.target_raw, b.unit)} ({b.similarity_pct}% match)
+                    </li>
+                  ))}
+                  <li>
+                    <span className="text-ink">Gravity</span>: Earth 1 g vs {target.target_body} {target.target_gravity_g} g. Wheel traction, dust behaviour and suit loads differ.
+                  </li>
+                  <li>
+                    <span className="text-ink">Atmosphere</span>: Earth ~1 bar vs {vacuum ? "near-vacuum" : `${target.atmospheric_pressure_bar} bar CO₂`}. Heat transfer and outgassing can&apos;t be tested here.
+                  </li>
+                  <li>
+                    <span className="text-ink">Radiation</span>: Earth&apos;s magnetic field and air shield the surface; the {target.target_body} has neither.
+                  </li>
+                  <li>Pair field tests here with thermal-vacuum chamber and reduced-gravity tests.</li>
+                </ul>
+              )}
+
+              {tab === "brief" && (
+                <div>
+                  <p className="text-muted">Draft a field-test protocol for this site with an AI model (Llama 3.3 via Groq). It&apos;s a starting point for engineers, not a verified plan.</p>
+                  <button
+                    onClick={generateBrief}
+                    disabled={briefLoading}
+                    className="mt-3 bg-accent px-4 py-2 font-mono text-[12px] font-medium uppercase tracking-wider text-bg transition-all hover:shadow-[0_0_18px_rgba(255,165,59,0.45)] active:scale-[0.98] disabled:opacity-60"
+                  >
+                    {briefLoading ? "Generating..." : "Generate test brief"}
+                  </button>
+                  {brief && (
+                    <div className="mt-4 flex flex-col gap-3">
+                      <p>{brief.executive_summary}</p>
+                      {brief.hardware_to_test.map((h, i) => (
+                        <div key={i} className="border border-line p-3">
+                          <div className="font-medium text-accent">{h.system_name}</div>
+                          <div className="font-mono text-[10.5px] text-muted">{h.subsystem_type}</div>
+                          <p className="mt-1 text-muted">{h.test_protocol}</p>
+                        </div>
+                      ))}
+                      <div className="font-mono text-[10px] text-muted">AI-generated{briefSource ? ` · ${briefSource}` : ""}</div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </aside>
+
+      <footer className="border-t border-line px-4 py-4">
+        <div className="mx-auto flex max-w-[1680px] flex-wrap justify-between gap-2 text-[11px] text-muted">
+          <span>Built for the 2026 NASA Space Apps Challenge · Team TAVME</span>
+          <span>Built with AI assistance (Claude) · Data: ESA Copernicus, NASA, Microsoft Planetary Computer, Natural Earth</span>
         </div>
       </footer>
     </div>
   );
 }
-

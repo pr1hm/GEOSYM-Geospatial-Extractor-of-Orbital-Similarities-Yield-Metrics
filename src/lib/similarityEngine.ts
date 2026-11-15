@@ -17,7 +17,9 @@ export const DEFAULT_WEIGHTS: SimilarityWeights = {
   min_temp_c: 1.0,
   iron_oxide_index: 1.0,
   basalt_mafic_index: 1.0,
-  morphology: 0.8,
+  // Morphology embedding is experimental: the current pipeline feeds the model
+  // constant grids built from the same scalars, so it is off by default.
+  morphology: 0,
 };
 
 export const PRESET_WEIGHTS: Record<string, { label: string; description: string; weights: SimilarityWeights }> = {
@@ -38,7 +40,7 @@ export const PRESET_WEIGHTS: Record<string, { label: string; description: string
       min_temp_c: 0.5,
       iron_oxide_index: 0.6,
       basalt_mafic_index: 0.8,
-      morphology: 1.5,
+      morphology: 0,
     },
   },
   thermal_cryo: {
@@ -53,7 +55,7 @@ export const PRESET_WEIGHTS: Record<string, { label: string; description: string
       min_temp_c: 3.0,
       iron_oxide_index: 0.5,
       basalt_mafic_index: 0.6,
-      morphology: 0.4,
+      morphology: 0,
     },
   },
   isru_mineralogy: {
@@ -68,12 +70,12 @@ export const PRESET_WEIGHTS: Record<string, { label: string; description: string
       min_temp_c: 0.6,
       iron_oxide_index: 2.8,
       basalt_mafic_index: 2.8,
-      morphology: 0.8,
+      morphology: 0,
     },
   },
   hazard_autonomy: {
     label: "Hazard Avoidance & Optical Autonomy",
-    description: "Weights deep terrain morphology embeddings, crater walls, and shadow contrast for perception algorithms.",
+    description: "Weights slope, ruggedness and radar roughness: the terrain cues that hazard-avoidance cameras and LiDAR see.",
     weights: {
       mean_slope_deg: 2.0,
       terrain_ruggedness_tri: 2.4,
@@ -83,7 +85,7 @@ export const PRESET_WEIGHTS: Record<string, { label: string; description: string
       min_temp_c: 0.4,
       iron_oxide_index: 0.8,
       basalt_mafic_index: 0.8,
-      morphology: 3.0,
+      morphology: 0,
     },
   },
 };
@@ -119,6 +121,24 @@ export function computeCosineSimilarity(v1: number[], v2: number[], weights: num
   return Math.max(0, Math.min(1, dotProduct / denom));
 }
 
+/**
+ * Weighted similarity on normalized [0,1] features: 1 - weighted mean absolute difference.
+ * Unlike cosine similarity, this respects magnitude: [0.1, 0.1] vs [0.9, 0.9] is NOT a match.
+ * (AI-assisted change: written with Claude, reviewed by team TAVME.)
+ */
+export function computeWeightedSimilarity(v1: number[], v2: number[], weights: number[]): number {
+  let num = 0;
+  let den = 0;
+  const len = Math.min(v1.length, v2.length);
+  for (let i = 0; i < len; i++) {
+    const w = weights[i] ?? 1.0;
+    num += w * Math.abs(v1[i] - v2[i]);
+    den += w;
+  }
+  if (den < 1e-9) return 0;
+  return Math.max(0, Math.min(1, 1 - num / den));
+}
+
 export function rankEarthAnalogs(
   target: PlanetaryTarget,
   analogs: EarthAnalogSite[],
@@ -139,7 +159,7 @@ export function rankEarthAnalogs(
     // 1. Physical 8D Vector Weighted Cosine
     const target8D = FEATURE_KEYS.map((k) => targetNormVec[k] ?? 0.5);
     const analog8D = FEATURE_KEYS.map((k) => analogNormVec[k] ?? 0.5);
-    const physicalSim = computeCosineSimilarity(target8D, analog8D, weightArray);
+    const physicalSim = computeWeightedSimilarity(target8D, analog8D, weightArray);
 
     // 2. Morphology Embedding Cosine Similarity
     let morphSim = physicalSim;
@@ -150,7 +170,7 @@ export function rankEarthAnalogs(
 
     // 3. Combined Weighted Score
     const totalPhysicalWeight = weightArray.reduce((acc, v) => acc + v, 0);
-    const morphWeight = weights.morphology || 0.8;
+    const morphWeight = weights.morphology ?? 0;
     const totalWeight = totalPhysicalWeight + morphWeight;
     const combinedScore = (physicalSim * totalPhysicalWeight + morphSim * morphWeight) / totalWeight;
 

@@ -9,6 +9,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        bg: "#050505",
+        panel: "#0F1115",
+        line: "#1E1E1E",
+        ink: "#E6E6E6",
+        muted: "#8A8F98",
+        accent: "#FFA53B",
+        warn: "#E5484D",
+        good: "#3DDC97",
+        partial: "#F5C542",
+        cand: "#3EA6FF",
         space: {
           950: "#05070c",
           900: "#090d16",
@@ -31,6 +41,8 @@ module.exports = {
         }
       },
       fontFamily: {
+        display: ["Space Grotesk", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
         mono: [
           "JetBrains Mono",
           "ui-monospace",
