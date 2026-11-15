@@ -2,7 +2,7 @@
 
 Hey team! ☕
 
-We just updated and consolidated **[TAVME-analog-metrics.md](../../docs/TAVME-analog-metrics.md)** into a single, comprehensive reference document.
+We just updated and consolidated **[GEOSYM-analog-metrics.md](../../docs/GEOSYM-analog-metrics.md)** into a single, comprehensive reference document.
 
 ### What Was Consolidated:
 1. **The 8 Physical Metrics Table**: Clear plain-English explanations, units, sensor sources, and hardware test purposes (slope, ruggedness TRI, radar roughness, depolarization, diurnal swings, cryogenic night floor, ferric iron oxide, and basaltic mafic ratio).

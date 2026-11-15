@@ -1,5 +1,5 @@
 """
-TAVME: Terrestrial Analog Vector Matching Engine - 2026 NASA Space Apps Challenge
+GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics - 2026 NASA Space Apps Challenge
 Pipeline Package: STAC ingestion, GPU morphology embedding, cross-planetary normalization,
 UMAP 3D dimensionality reduction, and artifact exportation.
 """

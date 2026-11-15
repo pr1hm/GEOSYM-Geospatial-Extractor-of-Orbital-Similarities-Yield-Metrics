@@ -1,5 +1,5 @@
 """
-# TAVME: Terrestrial Analog Vector Matching Engine - Marimo Molab GPU Runner
+# GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics - Marimo Molab GPU Runner
 # Optimized for NVIDIA RTX Pro 6000 (96GB VRAM) & Molab Cloud Execution.
 # Paste these cells sequentially into your molab notebook or run `marimo run pipeline/marimo_molab_runner.py`
 """
@@ -79,7 +79,7 @@ def __():
 @app.cell
 def __(_gpu_name, _vram_gb, mo):
     return mo.md(f"""
-    # 🪐 TAVME: Terrestrial Analog Vector Matching Engine
+    # 🪐 GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics
     ### **2026 NASA Space Apps Challenge | Molab NVIDIA RTX Pro 6000 Environment**
     - **Compute Hardware:** `{_gpu_name}` (`{_vram_gb} GB VRAM` available)
     - **Cloud Ingestion:** Microsoft Planetary Computer STAC API (ESA WorldCover, Copernicus 30m DEM, Sentinel-1 SAR)
@@ -113,7 +113,7 @@ def __(REPO_DIR, mo, subprocess, sys):
 def __(Path, REPO_DIR, mo, shutil):
     # Cell 3: One-Click Download of All Processed Data to Your Local Laptop
     _data_dir = Path(REPO_DIR) / "public" / "data"
-    _zip_path = Path("tavme_extracted_planetary_data")
+    _zip_path = Path("geosym_extracted_planetary_data")
 
     # Create a single .zip archive of public/data/
     _archive_file = shutil.make_archive(str(_zip_path), "zip", root_dir=str(_data_dir))
@@ -131,7 +131,7 @@ def __(Path, REPO_DIR, mo, shutil):
         mo.hstack([
             mo.download(
                 data=_zip_bytes,
-                filename="tavme_planetary_data.zip",
+                filename="geosym_planetary_data.zip",
                 mimetype="application/zip",
                 label="⬇️ Download All Extracted Data (.ZIP)",
             ),

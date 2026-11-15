@@ -1,6 +1,6 @@
-# TAVME Analog Comparison Metrics, Datasets & Extraction Architecture
+# GEOSYM Analog Comparison Metrics, Datasets & Extraction Architecture
 
-This document provides a unified reference for the **8 core physical metrics**, their **source datasets**, the **windowed ingestion workflow**, and the **machine learning algorithms** used in the Terrestrial Analog Vector Matching Engine (TAVME) to match Earth locations with lunar and Martian exploration sites.
+This document provides a unified reference for the **8 core physical metrics**, their **source datasets**, the **windowed ingestion workflow**, and the **machine learning algorithms** used in the Geospatial Extractor of Orbital Similarities & Yield Metrics (GEOSYM) to match Earth locations with lunar and Martian exploration sites.
 
 ---
 

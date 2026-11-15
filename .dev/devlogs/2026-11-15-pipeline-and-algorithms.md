@@ -3,8 +3,8 @@
 Hey everyone! 🚀
 
 We just wrapped up two major documentation milestones today in `/docs/`:
-1. **[TAVME-datasets.md](../../docs/TAVME-datasets.md)**: A complete reference guide of all satellite constellations, STAC collections (`cop-dem-glo-30`, `sentinel-1-rtc`, `modis-21A2-061`, `hls2-s30`, `esa-worldcover`), and NASA-IBM Prithvi-EO foundation models.
-2. **[TAVME-processing-pipeline.md](../../docs/TAVME-processing-pipeline.md)**: A plain-English and mathematically grounded breakdown of how we extract and match new analog sites.
+1. **[GEOSYM-datasets.md](../../docs/GEOSYM-datasets.md)**: A complete reference guide of all satellite constellations, STAC collections (`cop-dem-glo-30`, `sentinel-1-rtc`, `modis-21A2-061`, `hls2-s30`, `esa-worldcover`), and NASA-IBM Prithvi-EO foundation models.
+2. **[GEOSYM-processing-pipeline.md](../../docs/GEOSYM-processing-pipeline.md)**: A plain-English and mathematically grounded breakdown of how we extract and match new analog sites.
 3. Updated the project ledger in **[FEATURES.md](../../READMEs/FEATURES.md)** with direct relative links.
 
 ### How the Pipeline Works in Plain Terms:

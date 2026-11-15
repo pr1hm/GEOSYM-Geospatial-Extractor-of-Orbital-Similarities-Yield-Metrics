@@ -1,5 +1,5 @@
 """
-TAVME: Terrestrial Analog Vector Matching Engine - Artifact Exporter
+GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics - Artifact Exporter
 Generates:
 1. public/data/planetary_targets.json (10 Moon & Mars target sites with normalized vectors)
 2. public/data/earth_analogs.json (63+ Earth analog sites with 8D vectors, morphology embeddings, 3D UMAP coordinates)
@@ -78,7 +78,7 @@ def build_geojson_feature(site: Dict[str, Any]) -> Dict[str, Any]:
 
 def run_export(seed_mode: bool = True, workers: int = 8, limit: Optional[int] = None):
     print("=" * 70)
-    print("TAVME: Terrestrial Analog Vector Matching Engine - ARTIFACT GENERATOR")
+    print("GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics - ARTIFACT GENERATOR")
     print(f"Mode: {'Offline Seed Mode (--seed)' if seed_mode else 'Live STAC Query Mode (--live)'}")
     print("=" * 70)
 

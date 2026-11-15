@@ -1,11 +1,11 @@
 "use client";
 
 /**
- * TAVME: globe-first explorer.
+ * GEOSYM: globe-first explorer.
  * Navbar (Moon/Mars) -> target strip -> hero globe with floating panels ->
  * site drawer -> validation, weights, method, credits.
  * AI-assisted code: written with Claude (Anthropic) during NASA Space Apps 2026,
- * reviewed and integrated by team TAVME. See README "AI use" section.
+ * reviewed and integrated by Team TAVME. See README "AI use" section.
  */
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -346,9 +346,9 @@ export default function Page() {
       <nav className="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-[1680px] items-center justify-between gap-3 px-4">
           <a href="#explore" className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center border border-accent font-display text-xs font-bold text-accent">TV</span>
+            <span className="flex h-8 w-8 items-center justify-center border border-accent font-display text-xs font-bold text-accent">GS</span>
             <span className="hidden sm:block">
-              <span className="block font-display text-sm font-bold tracking-[0.2em]">TAVME</span>
+              <span className="block font-display text-sm font-bold tracking-[0.2em]">GEOSYM</span>
               <span className="block text-[10px] text-muted">Earth analogs for Moon &amp; Mars</span>
             </span>
           </a>

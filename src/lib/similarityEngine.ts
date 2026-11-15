@@ -124,7 +124,7 @@ export function computeCosineSimilarity(v1: number[], v2: number[], weights: num
 /**
  * Weighted similarity on normalized [0,1] features: 1 - weighted mean absolute difference.
  * Unlike cosine similarity, this respects magnitude: [0.1, 0.1] vs [0.9, 0.9] is NOT a match.
- * (AI-assisted change: written with Claude, reviewed by team TAVME.)
+ * (AI-assisted change: written with Claude, reviewed by Team TAVME.)
  */
 export function computeWeightedSimilarity(v1: number[], v2: number[], weights: number[]): number {
   let num = 0;

@@ -2,7 +2,7 @@
  * Procedural Moon / Mars surfaces for the canvas globe (no image textures needed).
  * Feature positions follow real maria, basins and caps; small craters are seeded-random.
  * AI-assisted code: written with Claude (Anthropic) during NASA Space Apps 2026,
- * reviewed and integrated by team TAVME.
+ * reviewed and integrated by Team TAVME.
  */
 import * as d3 from "d3";
 

@@ -1,6 +1,6 @@
 {
-  "name": "tavme",
-  "description": "TAVME: Terrestrial Analog Vector Matching Engine",
+  "name": "geosym",
+  "description": "GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics",
   "version": "1.0.0",
   "private": true,
   "license": "MIT",

@@ -1,5 +1,5 @@
 """
-TAVME: Terrestrial Analog Vector Matching Engine - End-to-End Smoke Test & Diagnostic Suite
+GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics - End-to-End Smoke Test & Diagnostic Suite
 Validates:
 1. Microsoft Planetary Computer STAC API & Asset Keys
 2. Windowed COG Streaming & Rasterio Elevation Derivatives
@@ -353,7 +353,7 @@ Schema:
 
 def main():
     print("=" * 75)
-    print(" 🚀 TAVME: Terrestrial Analog Vector Matching Engine - DIAGNOSTIC SUITE")
+    print(" 🚀 GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics - DIAGNOSTIC SUITE")
     print("=" * 75)
 
     results = {

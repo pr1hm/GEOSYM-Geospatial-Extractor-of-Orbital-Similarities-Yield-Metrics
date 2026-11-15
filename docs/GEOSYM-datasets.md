@@ -1,6 +1,6 @@
-# TAVME Satellite Datasets & Ingestion Architecture
+# GEOSYM Satellite Datasets & Ingestion Architecture
 
-This document outlines the **upstream satellite constellations, datasets, STAC collections, and asset keys** utilized by the Terrestrial Analog Vector Matching Engine (TAVME) to ingest, extract, and match Earth analog environments with planetary sites on the Moon and Mars.
+This document outlines the **upstream satellite constellations, datasets, STAC collections, and asset keys** utilized by the Geospatial Extractor of Orbital Similarities & Yield Metrics (GEOSYM) to ingest, extract, and match Earth analog environments with planetary sites on the Moon and Mars.
 
 ---
 

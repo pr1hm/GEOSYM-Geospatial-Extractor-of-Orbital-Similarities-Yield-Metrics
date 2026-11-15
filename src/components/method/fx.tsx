@@ -1,7 +1,7 @@
 "use client";
 /**
  * Small animation helpers for the method page (scroll reveal, count-up).
- * AI-assisted code: written with Claude (Anthropic), reviewed by team TAVME.
+ * AI-assisted code: written with Claude (Anthropic), reviewed by Team TAVME.
  */
 import React, { useEffect, useRef, useState } from "react";
 

@@ -1,7 +1,7 @@
 # Molab Marimo GPU Pipeline & Live Satellite Extraction
 
 ## 1. Overview
-The TAVME Molab Marimo pipeline runs on cloud workstations powered by the NVIDIA RTX Pro 6000 (96GB VRAM) to ingest live Cloud-Optimized GeoTIFFs (COGs) from Microsoft Planetary Computer and extract deep neural terrain morphology representations using PyTorch (`torch.bfloat16`).
+The GEOSYM Molab Marimo pipeline runs on cloud workstations powered by the NVIDIA RTX Pro 6000 (96GB VRAM) to ingest live Cloud-Optimized GeoTIFFs (COGs) from Microsoft Planetary Computer and extract deep neural terrain morphology representations using PyTorch (`torch.bfloat16`).
 
 ## 2. Architecture & Execution Flow
 

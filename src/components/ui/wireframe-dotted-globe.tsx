@@ -2,10 +2,10 @@
 
 /**
  * Wireframe dotted globe with analog-site score spikes (d3 + canvas, no WebGL).
- * Based on a public "wireframe dotted globe" design, adapted for TAVME:
+ * Based on a public "wireframe dotted globe" design, adapted for GEOSYM:
  * local land data, score spikes, click/hover, fly-to, touch support.
  * AI-assisted code: written with Claude (Anthropic) during NASA Space Apps 2026,
- * reviewed and integrated by team TAVME. See README "AI use" section.
+ * reviewed and integrated by Team TAVME. See README "AI use" section.
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";

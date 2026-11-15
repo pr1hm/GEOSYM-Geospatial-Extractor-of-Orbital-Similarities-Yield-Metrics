@@ -1,10 +1,10 @@
 "use client";
 
 /**
- * TAVME method page: animated pipeline, interactive "try the math" playground,
+ * GEOSYM method page: animated pipeline, interactive "try the math" playground,
  * flip cards for the 8 features, Earth's limits, AI use and credits.
  * AI-assisted code: written with Claude (Anthropic) during NASA Space Apps 2026,
- * reviewed and integrated by team TAVME. See README "AI use" section.
+ * reviewed and integrated by Team TAVME. See README "AI use" section.
  */
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -59,8 +59,8 @@ function Nav() {
     <nav className="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-[1280px] items-center justify-between gap-3 px-4">
         <a href="/" className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center border border-accent font-display text-xs font-bold text-accent">TV</span>
-          <span className="block font-display text-sm font-bold tracking-[0.2em]">TAVME</span>
+          <span className="flex h-8 w-8 items-center justify-center border border-accent font-display text-xs font-bold text-accent">GS</span>
+          <span className="block font-display text-sm font-bold tracking-[0.2em]">GEOSYM</span>
         </a>
         <div className="flex items-center gap-4 font-mono text-[11px] uppercase tracking-wider text-muted sm:gap-5">
           <a href="/" className="hover:text-accent">Explore</a>
@@ -318,7 +318,7 @@ export default function MethodPage() {
         <div className="relative mx-auto max-w-[1280px] px-4 py-16 sm:py-24">
           <Reveal>
             <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
-              How TAVME works <span className="blink">▍</span>
+              How GEOSYM works <span className="blink">▍</span>
             </div>
             <h1 className="mt-2 max-w-3xl font-display text-3xl font-bold leading-tight sm:text-5xl">
               Finding Earth&apos;s twins of the <span className="text-[#C9CCD2]">Moon</span> and <span className="text-[#E2552D]">Mars</span>, with numbers you can check.

@@ -1,6 +1,6 @@
-# TAVME Data Processing, Site Extraction & Algorithms Guide
+# GEOSYM Data Processing, Site Extraction & Algorithms Guide
 
-This document describes the end-to-end data processing lifecycle, algorithms, machine learning models, and analytical procedures used in **TAVME (Terrestrial Analog Vector Matching Engine)** to discover, extract, and match new Earth analog sites to planetary exploration targets on the Moon and Mars.
+This document describes the end-to-end data processing lifecycle, algorithms, machine learning models, and analytical procedures used in **GEOSYM (Geospatial Extractor of Orbital Similarities & Yield Metrics)** to discover, extract, and match new Earth analog sites to planetary exploration targets on the Moon and Mars.
 
 ---
 

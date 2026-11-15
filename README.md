@@ -1,8 +1,8 @@
-# TAVME: Terrestrial Analog Vector Matching Engine
+# GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics
 
 **2026 NASA Space Apps Challenge** · Challenge: *Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars*
 
-TAVME scores Earth sites against Moon and Mars mission targets on 8 physical features, shows the best matches on an interactive globe, flags **new candidate sites** that are not on NASA's analog list, and says openly where every analogy breaks down.
+GEOSYM scores Earth sites against Moon and Mars mission targets on 8 physical features, shows the best matches on an interactive globe, flags **new candidate sites** that are not on NASA's analog list, and says openly where every analogy breaks down.
 
 - **63 Earth sites** (15 known NASA analogs as a validation check + 48 new candidates, including sites in India)
 - **10 targets** (5 Moon incl. Artemis south-pole regions, 5 Mars incl. Jezero and Arcadia Planitia)
@@ -15,8 +15,8 @@ TAVME scores Earth sites against Moon and Mars mission targets on 8 physical fea
 **Requirements:** Node.js **18.17 or newer** (20 LTS recommended, see `.nvmrc`) and **pnpm 9+** (or npm).
 
 ```bash
-git clone https://github.com/pr1hm/TAVME--Terrestrial-Analog-Vector-Matching-Engine.git tavme
-cd tavme
+git clone https://github.com/pr1hm/TAVME--Terrestrial-Analog-Vector-Matching-Engine.git geosym
+cd geosym
 
 # install pnpm once if you don't have it
 npm install -g pnpm
@@ -83,7 +83,7 @@ Weights come from the selected mission mode (or the sliders). This weighted dist
 ## Repository structure
 
 ```text
-tavme/
+geosym/
 ├── src/
 │   ├── app/
 │   │   ├── page.tsx                  # Explorer (globe-first dashboard)

@@ -4,7 +4,7 @@ Hey team! Grab your favorite mug ☕ — today we took the 8 core physical metri
 
 ### What We Did Today
 1. **Documented All 8 Metrics in Plain English**:
-   - Updated and fleshed out [TAVME-analog-metrics.md](../../docs/TAVME-analog-metrics.md).
+   - Updated and fleshed out [GEOSYM-analog-metrics.md](../../docs/GEOSYM-analog-metrics.md).
    - Covered everything from topographic slopes and micro-crater ruggedness (TRI) down to radar backscatter, cryogenic night temperatures, and basaltic mineral absorption ratios.
    - Tied each metric directly to actual lunar/Martian testing missions (rover mobility, ISRU oxygen extraction, freeze endurance, and dust abrasion).
 2. **Linked into the Feature Ledger**:

@@ -1,8 +1,8 @@
-# TAVME: Terrestrial Analog Vector Matching Engine
+# GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics
 ### Technical Architecture & System Specification
 
 ## 1. Executive Summary & Challenge Objective
-Built for the **2026 NASA Space Apps Challenge** (*"Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars"*), **TAVME (Terrestrial Analog Vector Matching Engine)** provides an end-to-end Two-Stage Hybrid Architecture. It pairs high-throughput offline satellite ingestion and deep foundation model embeddings with a sub-5ms client-side weighted similarity engine and live Groq-powered engineering test protocol synthesis.
+Built for the **2026 NASA Space Apps Challenge** (*"Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars"*), **GEOSYM (Geospatial Extractor of Orbital Similarities & Yield Metrics)** provides an end-to-end Two-Stage Hybrid Architecture. It pairs high-throughput offline satellite ingestion and deep foundation model embeddings with a sub-5ms client-side weighted similarity engine and live Groq-powered engineering test protocol synthesis.
 
 ---
 
