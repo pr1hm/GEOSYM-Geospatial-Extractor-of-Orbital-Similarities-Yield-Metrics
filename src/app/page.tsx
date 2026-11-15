@@ -22,6 +22,7 @@ import {
 import { DEFAULT_WEIGHTS, PRESET_WEIGHTS, rankEarthAnalogs } from "@/lib/similarityEngine";
 import { earthProvenance, PROVENANCE_LABEL, Provenance, LIVE_EXTRACTION_FAILED } from "@/lib/provenance";
 import { Panel } from "@/components/hud/Panel";
+import { GithubButton, REPO_URL } from "@/components/GithubButton";
 import type { GlobeSpike } from "@/components/ui/wireframe-dotted-globe";
 
 const Globe = dynamic(() => import("@/components/ui/wireframe-dotted-globe"), {
@@ -368,12 +369,15 @@ export default function Page() {
               </button>
             ))}
           </div>
-          <div className="hidden items-center gap-5 font-mono text-[11px] uppercase tracking-wider text-muted md:flex">
-            <a href="#explore" className="hover:text-accent">Explore</a>
-            <a href="#discoveries" className="hover:text-accent">New sites</a>
-            <a href="#validation" className="hover:text-accent">Validation</a>
-            <a href="/method" className="hover:text-accent">Method</a>
-            <a href="/method#credits" className="hover:text-accent">About</a>
+          <div className="flex items-center gap-5">
+            <div className="hidden items-center gap-5 font-mono text-[11px] uppercase tracking-wider text-muted md:flex">
+              <a href="#explore" className="hover:text-accent">Explore</a>
+              <a href="#discoveries" className="hover:text-accent">New sites</a>
+              <a href="#validation" className="hover:text-accent">Validation</a>
+              <a href="/method" className="hover:text-accent">Method</a>
+              <a href="/method#credits" className="hover:text-accent">About</a>
+            </div>
+            <GithubButton />
           </div>
         </div>
       </nav>
@@ -805,7 +809,7 @@ export default function Page() {
 
       <footer className="border-t border-line px-4 py-4">
         <div className="mx-auto flex max-w-[1680px] flex-wrap justify-between gap-2 text-[11px] text-muted">
-          <span>Built for the 2026 NASA Space Apps Challenge · Team TAVME</span>
+          <span>Built for the 2026 NASA Space Apps Challenge · Team TAVME · <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Source code on GitHub ↗</a></span>
           <span>Built with AI assistance (Claude) · Data: ESA Copernicus, NASA, Microsoft Planetary Computer, Natural Earth</span>
         </div>
       </footer>

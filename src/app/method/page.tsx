@@ -12,6 +12,7 @@ import type { PlanetaryTarget, EarthAnalogSite, FeatureMetadataRegistry, Physica
 import { PRESET_WEIGHTS, rankEarthAnalogs } from "@/lib/similarityEngine";
 import { LIVE_FEATURES, PROVENANCE_LABEL } from "@/lib/provenance";
 import { Reveal, CountUp, useInView } from "@/components/method/fx";
+import { GithubButton } from "@/components/GithubButton";
 
 const FEATURE_KEYS: (keyof PhysicalVector8D)[] = [
   "mean_slope_deg",
@@ -60,14 +61,15 @@ function Nav() {
       <div className="mx-auto flex h-14 max-w-[1280px] items-center justify-between gap-3 px-4">
         <a href="/" className="flex items-center gap-2.5">
           <span className="flex h-8 w-8 items-center justify-center border border-accent font-display text-xs font-bold text-accent">GS</span>
-          <span className="block font-display text-sm font-bold tracking-[0.2em]">GEOSYM</span>
+          <span className="hidden font-display text-sm font-bold tracking-[0.2em] sm:block">GEOSYM</span>
         </a>
-        <div className="flex items-center gap-4 font-mono text-[11px] uppercase tracking-wider text-muted sm:gap-5">
+        <div className="flex items-center gap-3 whitespace-nowrap font-mono text-[11px] uppercase tracking-wider text-muted sm:gap-5">
           <a href="/" className="hover:text-accent">Explore</a>
           <a href="/#discoveries" className="hover:text-accent">New sites</a>
           <a href="/#validation" className="hidden hover:text-accent sm:inline">Validation</a>
           <span className="text-accent">Method</span>
           <a href="#credits" className="hover:text-accent">Credits</a>
+          <GithubButton />
         </div>
       </div>
     </nav>
