@@ -2,11 +2,26 @@
 
 **2026 NASA Space Apps Challenge** · Challenge: *Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars*
 
+**Live app: [geosym.vercel.app](https://geosym.vercel.app/)**
+
 GEOSYM scores Earth sites against Moon and Mars mission targets on 8 physical features, shows the best matches on an interactive globe, flags **new candidate sites** that are not on NASA's analog list, and says openly where every analogy breaks down.
 
 - **63 Earth sites** (15 known NASA analogs as a validation check + 48 new candidates, including sites in India)
 - **10 targets** (5 Moon incl. Artemis south-pole regions, 5 Mars incl. Jezero and Arcadia Planitia)
 - **5 mission modes** (Rover, Cryo, ISRU, Hazard, Balanced) that re-weight the features live
+
+[![GEOSYM explorer: globe with the top 10 Earth analogs for the Moon's Malapert Massif](docs/screenshots/explorer.jpg)](https://geosym.vercel.app/)
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/newsites.jpg" alt="New candidate sites with an open site card"></td>
+    <td width="50%"><img src="docs/screenshots/method.jpg" alt="Method page: how a score is built"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>New candidate sites and a site card</sub></td>
+    <td align="center"><sub>Method page: every score can be checked</sub></td>
+  </tr>
+</table>
 
 ---
 
@@ -127,7 +142,7 @@ python -m pipeline.export_artifacts --live           # live STAC extraction (net
 
 ## Credits
 
-Copernicus DEM GLO-30 and Sentinel-1 (ESA/Copernicus), MODIS and HLS (NASA/USGS), accessed via Microsoft Planetary Computer · ESA WorldCover · Natural Earth (map outlines, public domain) · LRO and MRO mission literature for Moon/Mars targets.
+Copernicus DEM GLO-30 and Sentinel-1 (ESA/Copernicus), MODIS and HLS (NASA/USGS), accessed via Microsoft Planetary Computer · ESA WorldCover · Natural Earth (map outlines, public domain) · LRO and MRO mission literature for Moon/Mars targets · Favicon globe glyph from [Lucide](https://lucide.dev) (ISC licence).
 
 ## License
 

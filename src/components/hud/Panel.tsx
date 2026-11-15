@@ -1,6 +1,6 @@
 /**
  * HUD panel with corner brackets (mission-control style).
- * AI-assisted code: written with Claude (Anthropic), reviewed by Team TAVME.
+ * AI-assisted code: written with Claude (Anthropic), reviewed by Dinoco Studios.
  */
 import React from "react";
 

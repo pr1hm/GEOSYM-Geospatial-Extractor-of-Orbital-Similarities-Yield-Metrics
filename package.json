@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
+  "homepage": "https://geosym.vercel.app/",
   "repository": {
     "type": "git",
     "url": "https://github.com/pr1hm/GEOSYM-Geospatial-Extractor-of-Orbital-Similarities-Yield-Metrics"
