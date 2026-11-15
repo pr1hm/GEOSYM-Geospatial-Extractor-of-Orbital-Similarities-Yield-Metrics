@@ -15,7 +15,7 @@ GEOSYM scores Earth sites against Moon and Mars mission targets on 8 physical fe
 **Requirements:** Node.js **18.17 or newer** (20 LTS recommended, see `.nvmrc`) and **pnpm 9+** (or npm).
 
 ```bash
-git clone https://github.com/pr1hm/TAVME--Terrestrial-Analog-Vector-Matching-Engine.git geosym
+git clone https://github.com/pr1hm/GEOSYM-Geospatial-Extractor-of-Orbital-Similarities-Yield-Metrics.git geosym
 cd geosym
 
 # install pnpm once if you don't have it

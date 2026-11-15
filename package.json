@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pr1hm/TAVME--Terrestrial-Analog-Vector-Matching-Engine"
+    "url": "https://github.com/pr1hm/GEOSYM-Geospatial-Extractor-of-Orbital-Similarities-Yield-Metrics"
   },
   "engines": {
     "node": ">=18.17.0",

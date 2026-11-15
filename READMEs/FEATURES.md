@@ -6,5 +6,6 @@
 - [GEOSYM Data Processing & Site Extraction Pipeline](../docs/GEOSYM-processing-pipeline.md) - Step-by-step procedures, models (Prithvi-EO, Llama 3.3 70B), and algorithms (UMAP, HDBSCAN, Weighted Cosine Similarity) used to discover and rank new Earth analogs.
 - [End-to-End Diagnostic & Verification Suite](../docs/planetary-analog-engine.md#6-end-to-end-smoke-test--diagnostic-suite-pipelinesmoke_testpy) - Automated 5-stage verification suite validating Microsoft Planetary Computer STAC collections, windowed COG streaming, hardware embeddings, JSON contracts, and live Groq LLM API.
 - [Molab Marimo GPU Pipeline & Live Satellite Extraction](../docs/molab-marimo-gpu-pipeline.md) - Cloud pipeline on NVIDIA RTX Pro 6000 (96GB VRAM) for streaming live Cloud-Optimized GeoTIFFs, computing PyTorch multi-spectral morphology embeddings, UMAP 3D clustering, and interactive Marimo tables.
+- [GitHub Repository Rebranding & URL Migration](../docs/github-repository-migration.md) - Migration of header navigation buttons, footer links, package metadata, git remotes, and molab runners to canonical GEOSYM repository.
 
 

@@ -20,8 +20,8 @@ def __():
     import json
     from pathlib import Path
 
-    REPO_URL = "https://github.com/pr1hm/TAVME--Terrestrial-Analog-Vector-Matching-Engine.git"
-    REPO_DIR = "TAVME--Terrestrial-Analog-Vector-Matching-Engine"
+    REPO_URL = "https://github.com/pr1hm/GEOSYM-Geospatial-Extractor-of-Orbital-Similarities-Yield-Metrics.git"
+    REPO_DIR = "GEOSYM-Geospatial-Extractor-of-Orbital-Similarities-Yield-Metrics"
 
     # 1. Clone or pull the latest code from GitHub
     if not os.path.exists(REPO_DIR):
