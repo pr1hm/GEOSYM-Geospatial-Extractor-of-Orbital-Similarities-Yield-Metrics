@@ -1,118 +1,136 @@
-# 🪐 TAVME: Terrestrial Analog Vector Matching Engine
-### 2026 NASA Space Apps Challenge: *"Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars"*
+# TAVME: Terrestrial Analog Vector Matching Engine
 
-[![TAVME](https://img.shields.io/badge/TAVME-v1.0-cyan?style=flat-square)](https://github.com/)
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
-[![STAC](https://img.shields.io/badge/STAC-Microsoft_Planetary_Computer-blue)](https://planetarycomputer.microsoft.com/)
-[![Groq](https://img.shields.io/badge/Groq-Llama_3.3_70B-orange)](https://groq.com/)
-[![License](https://img.shields.io/badge/License-MIT-emerald)](LICENSE)
+**2026 NASA Space Apps Challenge** · Challenge: *Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars*
 
-**TAVME (Terrestrial Analog Vector Matching Engine)** is a Two-Stage Hybrid Architecture pairing offline high-throughput satellite Earth observation and deep foundation model embeddings with a real-time, sub-5ms client-side weighted similarity engine and LLM-powered engineering test protocol synthesis.
+TAVME scores Earth sites against Moon and Mars mission targets on 8 physical features, shows the best matches on an interactive globe, flags **new candidate sites** that are not on NASA's analog list, and says openly where every analogy breaks down.
 
----
-
-## 🚀 Key Highlights & Architecture
-
-1. **Microsoft Planetary Computer STAC Ingestion (`pipeline/`):**
-   - Connects to `https://planetarycomputer.microsoft.com/api/stac/v1` with signed asset access.
-   - Streams windowed 5x5 km Cloud-Optimized GeoTIFFs (COGs) into memory using `WarpedVRT`, bypassing massive scene downloads.
-   - Enforces ESA WorldCover class 60 (bare ground) / 70 (snow/ice) masking and NDVI $\le 0.12$.
-   - Extracts 8 physical dimensions:
-     - **Copernicus DEM GLO-30:** `mean_slope_deg` and `terrain_ruggedness_tri` (TRI).
-     - **Sentinel-1 SAR RTC:** `sar_roughness_db` ($10\log_{10}(\text{vv})$) and `sar_depolarization_ratio` ($\text{vh}/\text{vv}$).
-     - **MODIS LST 8-Day:** `diurnal_delta_t_c` and `min_temp_c` ($5^{\text{th}}$ percentile cold floor).
-     - **Harmonized Landsat Sentinel-2 (HLS S30/L30):** `iron_oxide_index` (Red/Blue) and `basalt_mafic_index` (SWIR/NIR).
-
-2. **GPU Foundation Model Embeddings (`pipeline/gpu_embeddings.py`):**
-   - Extracts 64-dimensional latent terrain morphology vectors using `ibm-nasa-geospatial/Prithvi-EO-2.0-600M` in `torch.bfloat16` on an NVIDIA RTX Pro 6000 (96GB VRAM).
-   - Includes instant deterministic seed synthesis for local CPU execution.
-
-3. **Curated Ground Truth & Discovery Catalog (`pipeline/config_sites.py`):**
-   - **10 Planetary Targets:** Moon (Shackleton Rim, Malapert Massif, Marius Hills Lava Tube Pit, Aristarchus Plateau, Mare Tranquillitatis) & Mars (Jezero Crater, Arcadia Planitia, Mawrth Vallis, Elysium Planitia, Valles Marineris).
-   - **15 Known NASA Analogs:** Haughton Crater, Atacama Yungay, McMurdo Dry Valleys, Askja, Kilauea, Lava Beds, Pilot Valley, Meteor Crater, Lake Salda, Rio Tinto, Lonar Crater, Tso Kar Basin, Matanomadh Jarosite, Danakil Depression, Namib Sand Sea.
-   - **48 Unrecognized Discoveries:** High-altitude cold deserts (Spiti Valley, Changthang), volcanic necks (Dhinodhar), calderas (Tibesti, Waw an Namus), yardangs (Lut Desert, Qaidam Basin), and Andean salt flats (Puna de Atacama, Salar de Arizaro).
-
-4. **Sub-5ms Client-Side Similarity Engine (`src/lib/similarityEngine.ts`):**
-   - Weighted cosine similarity across normalized physical vectors and morphology embeddings.
-   - Dynamic mission objective presets (Rover Mobility, Cryo-Thermal Endurance, ISRU Prospecting, Optical Autonomy).
-   - Instant re-ranking and feature-by-feature delta calculations on every slider change.
-
-5. **Live Groq Mission Protocol Synthesis (`src/app/api/mission-brief/route.ts`):**
-   - Powered by `llama-3.3-70b-versatile` with JSON schema enforcement.
-   - Generates Executive Summaries, 3 concrete hardware subsystem test protocols, and critical **"Where the Analogy Breaks Down"** assessments (covering 1.0g vs 0.166g/0.38g gravity, vacuum, and soil moisture cohesion).
+- **63 Earth sites** (15 known NASA analogs as a validation check + 48 new candidates, including sites in India)
+- **10 targets** (5 Moon incl. Artemis south-pole regions, 5 Mars incl. Jezero and Arcadia Planitia)
+- **5 mission modes** (Rover, Cryo, ISRU, Hazard, Balanced) that re-weight the features live
 
 ---
 
-## 📦 Directory Structure
+## Quick start (any machine)
+
+**Requirements:** Node.js **18.17 or newer** (20 LTS recommended, see `.nvmrc`) and **pnpm 9+** (or npm).
+
+```bash
+git clone https://github.com/pr1hm/TAVME--Terrestrial-Analog-Vector-Matching-Engine.git tavme
+cd tavme
+
+# install pnpm once if you don't have it
+npm install -g pnpm
+
+pnpm install          # uses the committed pnpm-lock.yaml
+pnpm dev              # http://localhost:3000
+```
+
+No API keys are needed to run the app. The precomputed data lives in `public/data/`.
+
+Optional: copy `.env.example` to `.env.local` and set `GROQ_API_KEY` to enable the AI field-test brief. Without it, the button uses a built-in template.
+
+Other commands:
+
+| Command | What it does |
+| --- | --- |
+| `pnpm build` | Production build (also type-checks) |
+| `pnpm start` | Serve the production build |
+| `pnpm typecheck` | TypeScript check only |
+
+Using npm instead of pnpm also works: `npm install && npm run dev`.
+
+**Windows / PowerShell:** if you see *"running scripts is disabled"* after installing pnpm, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once.
+
+### Deploy
+
+Import the repo on [Vercel](https://vercel.com) (framework: Next.js, default settings). Add `GROQ_API_KEY` as an environment variable if you want live AI briefs.
+
+---
+
+## What's in the app
+
+| Page | Highlights |
+| --- | --- |
+| `/` Explorer | Moon/Mars switch in the navbar · target strip · dotted Earth globe where spike height = match score, top 10 glow, ★ = new candidate · mini Moon/Mars globe with the target's location · top matches · mission-mode bar · side drawer per site (Overview, Features, Breaks, Test brief) · **New candidate sites** showcase with each site's best Moon/Mars twin · validation panel · fine-tune feature weights |
+| `/method` | Animated pipeline · interactive "try the math" playground · flip cards for the 8 features · Earth's limits (gravity, atmosphere, radiation) · AI use & credits |
+
+### How a match is scored
+
+Every site and target is described by the same 8 features, each scaled to 0–1 with fixed physical bounds:
+
+```
+match = 1 − Σ wᵢ · |earthᵢ − targetᵢ| / Σ wᵢ
+```
+
+Weights come from the selected mission mode (or the sliders). This weighted distance respects magnitude, unlike cosine similarity. Code: `src/lib/similarityEngine.ts`.
+
+**Validation:** known NASA analogs (Haughton Crater, Atacama, McMurdo Dry Valleys, …) should rank high. The app shows how many land in the top half for the selected target.
+
+### Data provenance (shown as badges in the UI)
+
+| Feature | Source | Status in this build |
+| --- | --- | --- |
+| Mean slope, terrain ruggedness (TRI) | Copernicus DEM GLO-30 | **Satellite**: extracted live via Microsoft Planetary Computer STAC (54 of 63 sites) |
+| SAR roughness, SAR depolarization | Sentinel-1 RTC | **Satellite**: extracted live (54 of 63 sites) |
+| Diurnal thermal swing, minimum night temperature | MODIS LST | **Estimate**: calibrated values |
+| Iron-oxide index, basaltic mafic index | HLS (Landsat/Sentinel-2) | **Estimate**: calibrated values |
+| Moon / Mars target values | LRO, MRO mission literature | **Reference** values |
+
+9 sites where live extraction failed fall back to estimates for every feature (listed in `src/lib/provenance.ts`). The morphology-embedding experiment in the pipeline is **off** in the app, because the current pipeline feeds the model constant grids rather than real imagery.
+
+---
+
+## Repository structure
 
 ```text
 tavme/
-├── .env.example                 # GROQ_API_KEY template
-├── requirements.txt             # Python dependencies (STAC, rasterio, PyTorch, Marimo)
-├── package.json                 # Next.js 14, Tailwind CSS, Lucide icons
-├── README.md
-├── docs/
-│   └── planetary-analog-engine.md # Detailed technical specification
-├── READMEs/
-│   └── FEATURES.md              # Feature directory link index
-├── .dev/devlogs/
-│   └── 2026-11-14-planetary-analog-explorer.md
-├── pipeline/
-│   ├── __init__.py
-│   ├── stac_config.py           # STAC endpoint & verified collection registry
-│   ├── config_sites.py          # 10 Targets + 15 NASA Anchors + 48 Discoveries
-│   ├── ingest_earth.py          # Windowed COG reader (WarpedVRT)
-│   ├── ingest_planetary.py      # Moon (LOLA/Diviner) & Mars (MOLA/THEMIS) vectors
-│   ├── gpu_embeddings.py        # Prithvi-EO-2.0-600M / fast morphology embeddings
-│   ├── normalize_and_cluster.py # Unified scaling [0,1], UMAP 3D & HDBSCAN
-│   ├── export_artifacts.py      # Artifact generator (--seed & --live)
-│   └── marimo_molab_runner.py   # Reactive Marimo notebook for molab RTX Pro 6000
-├── public/data/
-│   ├── planetary_targets.json   # 10 Reference Targets (<35 KB)
-│   ├── earth_analogs.json       # 63 Earth Analogs (<200 KB)
-│   └── tiles.geojson            # 5x5 km polygon geometries (<100 KB)
-└── src/
-    ├── lib/
-    │   ├── types.ts             # Strict TypeScript schemas
-    │   ├── similarityEngine.ts  # Sub-5ms Weighted Cosine Similarity
-    │   └── groqBriefGenerator.ts# Groq prompt builder & fallback protocol
-    └── app/
-        ├── api/mission-brief/route.ts # Next.js API route for Groq Llama 3.3 70B
-        ├── layout.tsx
-        ├── globals.css
-        └── page.tsx             # Space-grade geometric dashboard
+├── src/
+│   ├── app/
+│   │   ├── page.tsx                  # Explorer (globe-first dashboard)
+│   │   ├── method/page.tsx           # Interactive method page
+│   │   ├── api/mission-brief/route.ts# Optional Groq field-test brief
+│   │   ├── layout.tsx, globals.css
+│   ├── components/
+│   │   ├── ui/wireframe-dotted-globe.tsx  # d3 canvas globe (Earth spikes, Moon/Mars variants)
+│   │   ├── ui/planetSurface.ts            # procedural Moon/Mars surfaces
+│   │   ├── hud/Panel.tsx                  # HUD panels
+│   │   └── method/fx.tsx                  # scroll-reveal + count-up helpers
+│   └── lib/
+│       ├── similarityEngine.ts       # weighted-distance scoring + mission presets
+│       ├── provenance.ts             # satellite / estimate / reference labels
+│       ├── types.ts, groqBriefGenerator.ts
+├── public/data/                      # precomputed artifacts used by the app
+│   ├── planetary_targets.json, earth_analogs.json, tiles.geojson
+│   └── land-110m.json                # Natural Earth land outlines (globe)
+├── pipeline/                         # Python: STAC ingestion, features, export
+├── docs/                             # technical docs (datasets, pipeline, metrics)
+├── requirements.txt                  # Python pipeline dependencies
+├── .env.example, .nvmrc, LICENSE
 ```
+
+### Python pipeline (optional, regenerates `public/data/`)
+
+```bash
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python -m pipeline.export_artifacts --live           # live STAC extraction (network + time)
+```
+
+`--seed` regenerates calibrated baseline values offline and **overwrites** the live data, so only use it for local testing. See `docs/` for details.
 
 ---
 
-## 🛠️ Quickstart Guide
+## AI use
 
-### 1. Python Pipeline (Seed Generation & Marimo GPU Runner)
-```bash
-# Generate static JSON artifacts immediately (Zero external network dependencies)
-python -m pipeline.export_artifacts --seed
+- Parts of the frontend (explorer UI, globes, method page, scoring update, provenance labels) were written with **Claude (Anthropic)** and reviewed and integrated by the team. Those files carry an "AI-assisted code" header.
+- The optional field-test brief in the app is generated by **Llama 3.3 via Groq** and labelled as AI output in the UI.
 
-# Launch interactive Marimo GPU notebook
-marimo edit pipeline/marimo_molab_runner.py
-```
+## Credits
 
-### 2. Next.js Web Application
-```bash
-# Install dependencies using pnpm
-pnpm install
+Copernicus DEM GLO-30 and Sentinel-1 (ESA/Copernicus), MODIS and HLS (NASA/USGS), accessed via Microsoft Planetary Computer · ESA WorldCover · Natural Earth (map outlines, public domain) · LRO and MRO mission literature for Moon/Mars targets.
 
-# Configure environment variables (optional for live Groq calls)
-cp .env.example .env
-# Edit .env and insert your GROQ_API_KEY
+## License
 
-# Start development server
-pnpm dev
-# Open http://localhost:3000 in your browser
-```
+MIT, see [LICENSE](LICENSE).
 
----
-
-## 🛰️ Testing & Verification
-- **Pipeline Artifacts Export:** Verified via `python -m pipeline.export_artifacts --seed` generating 10 planetary targets and 63 Earth tiles into `public/data/`.
-- **Next.js Production Build:** Verified via `pnpm build` generating optimized static pages and server routes with first-load JS under 99 kB.
-
+**Team TAVME** · Built for the 2026 NASA Space Apps Challenge

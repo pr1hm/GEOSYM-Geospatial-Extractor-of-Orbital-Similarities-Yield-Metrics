@@ -26,3 +26,10 @@ Thumbs.db
 *.swp
 .idea/
 .vscode/
+
+# Next.js / Vercel extras
+.vercel
+*.tsbuildinfo
+
+# Local patch files (applied, not part of the project)
+*.patch

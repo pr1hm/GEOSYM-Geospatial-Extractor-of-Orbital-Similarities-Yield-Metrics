@@ -63,9 +63,6 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
-      world-atlas:
-        specifier: ^2.0.2
-        version: 2.0.2
 
 packages:
 
@@ -969,9 +966,6 @@ packages:
   whatwg-url@5.0.0:
     resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
 
-  world-atlas@2.0.2:
-    resolution: {integrity: sha512-IXfV0qwlKXpckz1FhwXVwKRjiIhOnWttOskm5CtxMsjgE/MXAYRHWJqgXOpM8IkcPBoXnyTU5lFHcYa5ChG0LQ==}
-
 snapshots:
 
   '@alloc/quick-lru@5.3.0': {}
@@ -1858,5 +1852,3 @@ snapshots:
     dependencies:
       tr46: 0.0.3
       webidl-conversions: 3.0.1
-
-  world-atlas@2.0.2: {}
