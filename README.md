@@ -133,4 +133,4 @@ Copernicus DEM GLO-30 and Sentinel-1 (ESA/Copernicus), MODIS and HLS (NASA/USGS)
 
 MIT, see [LICENSE](LICENSE).
 
-**Team TAVME** · Built for the 2026 NASA Space Apps Challenge
+**Dinoco Studios** · Built for the 2026 NASA Space Apps Challenge
