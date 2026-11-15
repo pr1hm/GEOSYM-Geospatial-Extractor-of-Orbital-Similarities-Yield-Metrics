@@ -1,6 +1,6 @@
 /**
  * Navbar button that opens the project's GitHub repository in a new tab.
- * AI-assisted code: written with Claude (Anthropic), reviewed by Team TAVME.
+ * AI-assisted code: written with Claude (Anthropic), reviewed by Dinoco Studios.
  */
 export const REPO_URL = "https://github.com/pr1hm/GEOSYM-Geospatial-Extractor-of-Orbital-Similarities-Yield-Metrics";
 

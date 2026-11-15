@@ -1,6 +1,7 @@
 {
   "name": "geosym",
   "description": "GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics",
+  "author": "Dinoco Studios",
   "version": "1.0.0",
   "private": true,
   "license": "MIT",

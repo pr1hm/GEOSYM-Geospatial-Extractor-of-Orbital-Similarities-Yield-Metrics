@@ -1,6 +1,6 @@
 /**
  * Where each number comes from, shown as a badge on every feature.
- * AI-assisted code: written with Claude (Anthropic), reviewed by Team TAVME.
+ * AI-assisted code: written with Claude (Anthropic), reviewed by Dinoco Studios.
  *
  * - Terrain + radar (slope, TRI, SAR) were extracted live from Microsoft Planetary
  *   Computer STAC (Copernicus DEM GLO-30, Sentinel-1 RTC) for Earth sites.

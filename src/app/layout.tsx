@@ -4,6 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "GEOSYM: Geospatial Extractor of Orbital Similarities & Yield Metrics | 2026 NASA Space Apps Challenge",
   description: "GEOSYM: Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars via Microsoft Planetary Computer STAC and Real-Time ML Similarity Engine.",
+  authors: [{ name: "Dinoco Studios" }],
 };
 
 export default function RootLayout({

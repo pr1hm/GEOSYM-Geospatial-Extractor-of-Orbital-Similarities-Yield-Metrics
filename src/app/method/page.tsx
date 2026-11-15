@@ -4,7 +4,7 @@
  * GEOSYM method page: animated pipeline, interactive "try the math" playground,
  * flip cards for the 8 features, Earth's limits, AI use and credits.
  * AI-assisted code: written with Claude (Anthropic) during NASA Space Apps 2026,
- * reviewed and integrated by Team TAVME. See README "AI use" section.
+ * reviewed and integrated by Dinoco Studios. See README "AI use" section.
  */
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -437,7 +437,7 @@ export default function MethodPage() {
             {[
               {
                 h: "Team",
-                b: "Team TAVME · 2026 NASA Space Apps Challenge. Challenge: Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars.",
+                b: "Dinoco Studios · 2026 NASA Space Apps Challenge. Challenge: Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars.",
               },
               {
                 h: "AI use",
@@ -464,7 +464,7 @@ export default function MethodPage() {
         </section>
       </main>
 
-      <footer className="border-t border-line px-4 py-4 text-center text-[11px] text-muted">Built for the 2026 NASA Space Apps Challenge · Team TAVME · Built with AI assistance (Claude)</footer>
+      <footer className="border-t border-line px-4 py-4 text-center text-[11px] text-muted">Built for the 2026 NASA Space Apps Challenge · Dinoco Studios · Built with AI assistance (Claude)</footer>
     </div>
   );
 }

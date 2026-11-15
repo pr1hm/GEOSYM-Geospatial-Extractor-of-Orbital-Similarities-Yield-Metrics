@@ -5,7 +5,7 @@
  * Navbar (Moon/Mars) -> target strip -> hero globe with floating panels ->
  * site drawer -> validation, weights, method, credits.
  * AI-assisted code: written with Claude (Anthropic) during NASA Space Apps 2026,
- * reviewed and integrated by Team TAVME. See README "AI use" section.
+ * reviewed and integrated by Dinoco Studios. See README "AI use" section.
  */
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -809,7 +809,7 @@ export default function Page() {
 
       <footer className="border-t border-line px-4 py-4">
         <div className="mx-auto flex max-w-[1680px] flex-wrap justify-between gap-2 text-[11px] text-muted">
-          <span>Built for the 2026 NASA Space Apps Challenge · Team TAVME · <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Source code on GitHub ↗</a></span>
+          <span>Built for the 2026 NASA Space Apps Challenge · Dinoco Studios · <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Source code on GitHub ↗</a></span>
           <span>Built with AI assistance (Claude) · Data: ESA Copernicus, NASA, Microsoft Planetary Computer, Natural Earth</span>
         </div>
       </footer>
