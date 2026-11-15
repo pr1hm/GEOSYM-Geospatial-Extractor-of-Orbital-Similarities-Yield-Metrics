@@ -4,6 +4,12 @@
 
 **Live app: [geosym.vercel.app](https://geosym.vercel.app/)**
 
+### 🎬 Demo video (30 s)
+
+[![Watch the 30-second GEOSYM demo](docs/screenshots/demo-poster.jpg)](https://geosym.vercel.app/demo/geosym-demo-30s.mp4)
+
+**[▶ Play the demo](https://geosym.vercel.app/demo/geosym-demo-30s.mp4)** · 1080p, English subtitles · file in the repo: [`public/demo/geosym-demo-30s.mp4`](public/demo/geosym-demo-30s.mp4) · subtitles: [`geosym-demo-30s-en.srt`](public/demo/geosym-demo-30s-en.srt)
+
 GEOSYM scores Earth sites against Moon and Mars mission targets on 8 physical features, shows the best matches on an interactive globe, flags **new candidate sites** that are not on NASA's analog list, and says openly where every analogy breaks down.
 
 - **63 Earth sites** (15 known NASA analogs as a validation check + 48 new candidates, including sites in India)
